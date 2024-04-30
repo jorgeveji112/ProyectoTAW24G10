@@ -21,7 +21,7 @@ public class RutinaPredefinidaEntity {
     @Column(name = "usuario_id")
     private int usuarioId;
     @Basic
-    @Column(name = "tipoEntrenamiento_id")
+    @Column(name = "tipoentrenamiento_id")
     private int tipoEntrenamientoId;
 
     public int getId() {

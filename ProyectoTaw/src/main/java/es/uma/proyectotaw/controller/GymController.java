@@ -1,10 +1,11 @@
-package es.uma.proyectotaw;
+package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.RolEnum;
 import es.uma.proyectotaw.entity.TrolEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
 import es.uma.proyectotaw.repository.TrolRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Controller
-public class GymController {
+public class GymController extends BaseController{
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -42,10 +43,12 @@ public class GymController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request) {
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password,
+                        Model model, HttpSession session) {
         UsuarioEntity usuario = usuarioRepository.findByNombreUsuarioAndContraseña(username, password);
         if (usuario != null) {
             RolEnum rol = usuario.getRol().getRol();
+            session.setAttribute("usuario", usuario);
             if(rol == RolEnum.admin) {
                 return "redirect:/adminMain";
             }else if(rol == RolEnum.entrenador) {
@@ -54,7 +57,7 @@ public class GymController {
                     return "redirect:/clienteMain";
             }
         }
-        request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
+        model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
         return "acceso"; // Reenvía al mismo formulario de inicio de sesión
     }
 
@@ -69,11 +72,7 @@ public class GymController {
         return "mainAdmin"; // Retorna el nombre de la vista de administrador
     }
 
-    @GetMapping("/entrenadorMain")
-    public String doEntrenadorMain() {
-        // Aquí puedes agregar lógica para obtener datos necesarios para la vista de entrenador
-        return "mainEntrenador"; // Retorna el nombre de la vista de entrenador
-    }
+
 
     @GetMapping("/clienteMain")
     public String doClienteMain() {

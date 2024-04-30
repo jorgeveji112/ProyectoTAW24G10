@@ -12,9 +12,9 @@
     <nav>
         <div class="logo"><img src="/img/logoGym.png"></div>
         <ul class="enlaces">
-            <li><a href="inicio" id="activo">Inicio</a></li>
-            <li><a href="trabaja">Trabaja con Nosotros</a></li>
-            <li><a href="acceso" class="acceso">Acceso</a></li>
+            <li><a href="/inicio" id="activo">Inicio</a></li>
+            <li><a href="/trabaja">Trabaja con Nosotros</a></li>
+            <li><a href="/acceso" class="acceso">Acceso</a></li>
         </ul>
     </nav>
     <div class="imagen-fondo">

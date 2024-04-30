@@ -39,7 +39,7 @@
                 </div>
                 <button type="submit">INICIAR SESIÓN</button>
             </form>
-            <p id="mensaje-error">${not empty error ? error : ''}</p>
+            <p id="mensaje-error">${error}</p>
             <p>¿Aún no tienes cuenta? <a href="registro" id="enlace-registrarse">Registrarse</a></p>
         </div>
     </div>
