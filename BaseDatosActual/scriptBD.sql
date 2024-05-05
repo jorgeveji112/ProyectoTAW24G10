@@ -14,6 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema bdgym
 -- -----------------------------------------------------
+
 CREATE SCHEMA IF NOT EXISTS `bdgym` DEFAULT CHARACTER SET latin1 ;
 USE `bdgym` ;
 
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`trol` (
   `rol` ENUM('admin', 'entrenador', 'cliente') NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`tipoentrenamiento` (
   `tipo` ENUM('body-building', 'cross-training') NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -59,13 +60,15 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`usuario` (
   `validado` TINYINT(4) NOT NULL,
   `tipoentrenamiento_id` INT(11) NOT NULL,
   `trol_id` INT(11) NOT NULL,
+  `usuario_id` INT(11) NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE,
-  UNIQUE INDEX `telefono_UNIQUE` (`telefono` ASC) VISIBLE,
-  UNIQUE INDEX `dni_UNIQUE` (`dni` ASC) VISIBLE,
-  UNIQUE INDEX `nombreUsuario_UNIQUE` (`nombre_usuario` ASC) VISIBLE,
-  INDEX `fk_usuario_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) VISIBLE,
-  INDEX `fk_usuario_tRol1_idx` (`trol_id` ASC) VISIBLE,
+  UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) ,
+  UNIQUE INDEX `telefono_UNIQUE` (`telefono` ASC) ,
+  UNIQUE INDEX `dni_UNIQUE` (`dni` ASC) ,
+  UNIQUE INDEX `nombreUsuario_UNIQUE` (`nombre_usuario` ASC) ,
+  INDEX `fk_usuario_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) ,
+  INDEX `fk_usuario_tRol1_idx` (`trol_id` ASC) ,
+  INDEX `fk_usuario_usuario1_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_usuario_tRol1`
     FOREIGN KEY (`trol_id`)
     REFERENCES `bdgym`.`trol` (`id`)
@@ -75,9 +78,14 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`usuario` (
     FOREIGN KEY (`tipoentrenamiento_id`)
     REFERENCES `bdgym`.`tipoentrenamiento` (`id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuario_usuario1`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `bdgym`.`usuario` (`id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -89,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`cliente` (
   `peso` FLOAT NULL DEFAULT NULL,
   `altura` FLOAT NULL DEFAULT NULL,
   `objetivos` VARCHAR(250) NULL DEFAULT NULL,
-  INDEX `fk_cliente_usuario1_idx` (`usuario_id` ASC) VISIBLE,
+  INDEX `fk_cliente_usuario1_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_cliente_usuario1`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `bdgym`.`usuario` (`id`)
@@ -133,9 +141,9 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`ejercicio` (
   `tipoejerciciobodybuilding_id` INT(11) NULL DEFAULT NULL,
   `tipoejerciciocrosstraining_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_ejercicio_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) VISIBLE,
-  INDEX `fk_ejercicio_tipoEjercicioBodyBuilding1_idx` (`tipoejerciciobodybuilding_id` ASC) VISIBLE,
-  INDEX `fk_ejercicio_tipoEjercicioCrossTraining1_idx` (`tipoejerciciocrosstraining_id` ASC) VISIBLE,
+  INDEX `fk_ejercicio_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) ,
+  INDEX `fk_ejercicio_tipoEjercicioBodyBuilding1_idx` (`tipoejerciciobodybuilding_id` ASC) ,
+  INDEX `fk_ejercicio_tipoEjercicioCrossTraining1_idx` (`tipoejerciciocrosstraining_id` ASC) ,
   CONSTRAINT `fk_ejercicio_tipoEjercicioBodyBuilding1`
     FOREIGN KEY (`tipoejerciciobodybuilding_id`)
     REFERENCES `bdgym`.`tipoejerciciobodybuilding` (`id`)
@@ -165,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`rutina_predefinida` (
   `usuario_id` INT(11) NOT NULL,
   `tipoentrenamiento_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_rutina_predefinida_usuario1_idx` (`usuario_id` ASC) VISIBLE,
-  INDEX `fk_rutina_predefinida_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) VISIBLE,
+  INDEX `fk_rutina_predefinida_usuario1_idx` (`usuario_id` ASC) ,
+  INDEX `fk_rutina_predefinida_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) ,
   CONSTRAINT `fk_rutina_predefinida_tipoEntrenamiento1`
     FOREIGN KEY (`tipoentrenamiento_id`)
     REFERENCES `bdgym`.`tipoentrenamiento` (`id`)
@@ -178,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`rutina_predefinida` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -190,8 +198,8 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`rutina_asignada` (
   `rutina_predefinida_id` INT(11) NOT NULL,
   `usuario_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_rutina_asignada_rutina_predefinida1_idx` (`rutina_predefinida_id` ASC) VISIBLE,
-  INDEX `fk_rutina_asignada_usuario1_idx` (`usuario_id` ASC) VISIBLE,
+  INDEX `fk_rutina_asignada_rutina_predefinida1_idx` (`rutina_predefinida_id` ASC) ,
+  INDEX `fk_rutina_asignada_usuario1_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_rutina_asignada_rutina_predefinida1`
     FOREIGN KEY (`rutina_predefinida_id`)
     REFERENCES `bdgym`.`rutina_predefinida` (`id`)
@@ -215,14 +223,14 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`sesionentrenamiento` (
   `descripcion` VARCHAR(250) NULL DEFAULT NULL,
   `usuario_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_sesionentrenamiento_usuario1_idx` (`usuario_id` ASC) VISIBLE,
+  INDEX `fk_sesionentrenamiento_usuario1_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_sesionentrenamiento_usuario1`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `bdgym`.`usuario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 8
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -234,8 +242,8 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`rutina_sesionentrenamiento` (
   `rutina_predefinida_id` INT(11) NOT NULL,
   `posicion` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`sesionentrenamiento_id`, `rutina_predefinida_id`),
-  INDEX `fk_rutina_sesionentrenamiento_sesionentrenamiento1_idx` (`sesionentrenamiento_id` ASC) VISIBLE,
-  INDEX `fk_rutina_sesionentrenamiento_rutina_predefinida1_idx` (`rutina_predefinida_id` ASC) VISIBLE,
+  INDEX `fk_rutina_sesionentrenamiento_sesionentrenamiento1_idx` (`sesionentrenamiento_id` ASC) ,
+  INDEX `fk_rutina_sesionentrenamiento_rutina_predefinida1_idx` (`rutina_predefinida_id` ASC) ,
   CONSTRAINT `fk_rutina_sesionentrenamiento_rutina_predefinida1`
     FOREIGN KEY (`rutina_predefinida_id`)
     REFERENCES `bdgym`.`rutina_predefinida` (`id`)
@@ -260,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`sesionejercicio` (
   `duracion` INT(11) NULL DEFAULT NULL,
   `ejercicio_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_sesionejercicio_ejercicio1_idx` (`ejercicio_id` ASC) VISIBLE,
+  INDEX `fk_sesionejercicio_ejercicio1_idx` (`ejercicio_id` ASC),
   CONSTRAINT `fk_sesionejercicio_ejercicio1`
     FOREIGN KEY (`ejercicio_id`)
     REFERENCES `bdgym`.`ejercicio` (`id`)
@@ -278,8 +286,8 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`sesionentrenamiento_has_sesionejercicio` (
   `sesionejercicio_id` INT(11) NOT NULL,
   `posicion` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`sesionentrenamiento_id`, `sesionejercicio_id`),
-  INDEX `fk_sesionentrenamiento_has_sesionejercicio_sesionejercicio1_idx` (`sesionejercicio_id` ASC) VISIBLE,
-  INDEX `fk_sesionentrenamiento_has_sesionejercicio_sesionentrenamie_idx` (`sesionentrenamiento_id` ASC) VISIBLE,
+  INDEX `fk_sesionentrenamiento_has_sesionejercicio_sesionejercicio1_idx` (`sesionejercicio_id` ASC),
+  INDEX `fk_sesionentrenamiento_has_sesionejercicio_sesionentrenamie_idx` (`sesionentrenamiento_id` ASC),
   CONSTRAINT `fk_sesionentrenamiento_has_sesionejercicio_sesionejercicio1`
     FOREIGN KEY (`sesionejercicio_id`)
     REFERENCES `bdgym`.`sesionejercicio` (`id`)
@@ -304,9 +312,9 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`valoracion` (
   `sesionejercicio_id` INT(11) NOT NULL,
   `rutina_asignada_id` INT(11) NOT NULL,
   PRIMARY KEY (`usuario_id`, `sesionejercicio_id`, `rutina_asignada_id`),
-  INDEX `fk_valoracion_usuario1_idx` (`usuario_id` ASC) VISIBLE,
-  INDEX `fk_valoracion_sesionejercicio1_idx` (`sesionejercicio_id` ASC) VISIBLE,
-  INDEX `fk_valoracion_rutina_asignada1_idx` (`rutina_asignada_id` ASC) VISIBLE,
+  INDEX `fk_valoracion_usuario1_idx` (`usuario_id` ASC),
+  INDEX `fk_valoracion_sesionejercicio1_idx` (`sesionejercicio_id` ASC),
+  INDEX `fk_valoracion_rutina_asignada1_idx` (`rutina_asignada_id` ASC),
   CONSTRAINT `fk_valoracion_rutina_asignada1`
     FOREIGN KEY (`rutina_asignada_id`)
     REFERENCES `bdgym`.`rutina_asignada` (`id`)
@@ -329,3 +337,5 @@ DEFAULT CHARACTER SET = latin1;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+

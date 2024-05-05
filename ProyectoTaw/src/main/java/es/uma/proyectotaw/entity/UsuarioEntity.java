@@ -52,6 +52,13 @@ public class UsuarioEntity {
     @JoinColumn(name = "trol_id")
     private TrolEntity rol;
 
+
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity entrenador;
+
+
     public int getId() {
         return id;
     }
@@ -164,6 +171,14 @@ public class UsuarioEntity {
         this.rol = rol;
     }
 
+    public UsuarioEntity getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(UsuarioEntity entrenador) {
+        this.entrenador = entrenador;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -176,4 +191,5 @@ public class UsuarioEntity {
     public int hashCode() {
         return Objects.hash(id, nombre, apellidos, fechaNacimiento, dni, genero, correo, telefono, fechaIngreso, nombreUsuario, contraseña, validado, tipoEntrenamientoId, rol);
     }
+
 }

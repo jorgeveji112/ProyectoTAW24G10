@@ -27,6 +27,7 @@ public class TrolEntity {
     public RolEnum getRol() {
         return rol;
     }
+
     public void setRol(RolEnum rol) {
         this.rol = rol;
     }

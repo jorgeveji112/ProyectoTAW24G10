@@ -24,6 +24,7 @@ public class RutinaPredefinidaEntity {
     @Column(name = "tipoentrenamiento_id")
     private int tipoEntrenamientoId;
 
+
     public int getId() {
         return id;
     }
@@ -76,4 +77,5 @@ public class RutinaPredefinidaEntity {
     public int hashCode() {
         return Objects.hash(id, nombre, objetivos, usuarioId, tipoEntrenamientoId);
     }
+
 }

@@ -21,14 +21,15 @@ public class EjercicioEntity {
     @Column(name = "video")
     private String video;
     @Basic
-    @Column(name = "tipoEntrenamiento_id")
+    @Column(name = "tipoentrenamiento_id")
     private Integer tipoEntrenamientoId;
+
     @Basic
-    @Column(name = "tipoEjercicioBodyBuilding_id")
-    private Integer tipoEjercicioBodyBuildingId;
+    @Column(name = "tipoejerciciobodybuilding_id")
+    private Integer tipoejerciciobodybuildingId;
     @Basic
-    @Column(name = "tipoEjercicioCrossTraining_id")
-    private Integer tipoEjercicioCrossTrainingId;
+    @Column(name = "tipoejerciciocrosstraining_id")
+    private Integer tipoejerciciocrosstrainingId;
 
     public int getId() {
         return id;
@@ -70,32 +71,42 @@ public class EjercicioEntity {
         this.tipoEntrenamientoId = tipoEntrenamientoId;
     }
 
-    public Integer getTipoEjercicioBodyBuildingId() {
-        return tipoEjercicioBodyBuildingId;
-    }
 
-    public void setTipoEjercicioBodyBuildingId(Integer tipoEjercicioBodyBuildingId) {
-        this.tipoEjercicioBodyBuildingId = tipoEjercicioBodyBuildingId;
-    }
-
-    public Integer getTipoEjercicioCrossTrainingId() {
-        return tipoEjercicioCrossTrainingId;
-    }
-
-    public void setTipoEjercicioCrossTrainingId(Integer tipoEjercicioCrossTrainingId) {
-        this.tipoEjercicioCrossTrainingId = tipoEjercicioCrossTrainingId;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EjercicioEntity that = (EjercicioEntity) o;
-        return id == that.id && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion) && Objects.equals(video, that.video) && Objects.equals(tipoEntrenamientoId, that.tipoEntrenamientoId) && Objects.equals(tipoEjercicioBodyBuildingId, that.tipoEjercicioBodyBuildingId) && Objects.equals(tipoEjercicioCrossTrainingId, that.tipoEjercicioCrossTrainingId);
+        return id == that.id && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion) && Objects.equals(video, that.video) && Objects.equals(tipoEntrenamientoId, that.tipoEntrenamientoId) && Objects.equals(tipoejerciciobodybuildingId, that.tipoejerciciobodybuildingId) && Objects.equals(tipoejerciciocrosstrainingId, that.tipoejerciciocrosstrainingId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, video, tipoEntrenamientoId, tipoEjercicioBodyBuildingId, tipoEjercicioCrossTrainingId);
+        return Objects.hash(id, nombre, descripcion, video, tipoEntrenamientoId, tipoejerciciobodybuildingId, tipoejerciciocrosstrainingId);
+    }
+
+    public Integer getTipoentrenamientoId() {
+        return tipoEntrenamientoId;
+    }
+
+    public void setTipoentrenamientoId(Integer tipoentrenamientoId) {
+        this.tipoEntrenamientoId = tipoentrenamientoId;
+    }
+
+    public Integer getTipoejerciciobodybuildingId() {
+        return tipoejerciciobodybuildingId;
+    }
+
+    public void setTipoejerciciobodybuildingId(Integer tipoejerciciobodybuildingId) {
+        this.tipoejerciciobodybuildingId = tipoejerciciobodybuildingId;
+    }
+
+    public Integer getTipoejerciciocrosstrainingId() {
+        return tipoejerciciocrosstrainingId;
+    }
+
+    public void setTipoejerciciocrosstrainingId(Integer tipoejerciciocrosstrainingId) {
+        this.tipoejerciciocrosstrainingId = tipoejerciciocrosstrainingId;
     }
 }
