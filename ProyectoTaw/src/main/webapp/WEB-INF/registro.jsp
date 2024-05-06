@@ -57,7 +57,7 @@
         ><div class="home-container06"
         ><div class="home-container07"
         ><label class="home-text01">Sexo:&nbsp;</label
-        ><select
+        ><select name ="sexo"
         ><option value="Hombre">Hombre</option
         ><option value="Mujer">Mujer</option
         ><option value="Otro">Otro</option></select
@@ -112,7 +112,7 @@
         ><div class="home-container14"
         ><div class="home-container15"
         ><label class="home-text08">Tipo de Entrenamiento:</label
-        ><select
+        ><select name="tipoEntrenamiento"
         ><option value="Fuerza">Fuerza (bodybuilding)</option
         ><option value="Cross">Cross - Training</option></select
         ></div
@@ -120,7 +120,7 @@
         ><div class="home-container16"
         ><div class="home-container17"
         ><label>Objetivos:</label
-        ><textarea
+        ><textarea name="objetivos"
                 class="home-textarea textarea"
         ></textarea></div></div></div></div
         ><h1 class="home-text10">Datos de Acceso</h1

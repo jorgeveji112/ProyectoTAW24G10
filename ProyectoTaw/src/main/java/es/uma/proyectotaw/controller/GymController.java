@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.entity.ClienteEntity;
 import es.uma.proyectotaw.entity.RolEnum;
 import es.uma.proyectotaw.entity.TrolEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
@@ -14,6 +15,9 @@ import es.uma.proyectotaw.repository.UsuarioRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -63,7 +67,31 @@ public class GymController extends BaseController{
 
 
     @GetMapping("/registro")
-    public String doRegistro(Model model) {
+    public String doRegistro(@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos,
+                             @RequestParam("Fecha_nacimiento") String FechaNac,@RequestParam("DNI") String DNI,
+                             @RequestParam("eMail") String eMail,@RequestParam("telefono") String telefono,@RequestParam("altura") String altura,
+                             @RequestParam("peso") String peso,@RequestParam("sexo") String sexo,
+                             @RequestParam("tipoEntrenamiento") String tipoEntrenamiento,@RequestParam("objetivos") String objetivos,
+                             @RequestParam("usuario") String nombre_usuario,@RequestParam("contraseña") String contraseña,Model model) throws ParseException {
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setNombre(nombre);
+        usuario.setApellidos(apellidos);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date fecha = (Date) formato.parse(FechaNac);
+        usuario.setFechaNacimiento(fecha);
+        usuario.setDni(DNI);
+        usuario.setCorreo(eMail);
+        usuario.setTelefono(telefono);
+        usuario.setNombreUsuario(nombre_usuario);
+        usuario.setContraseña(contraseña);
+        usuario.setGenero(sexo);
+        usuario.setRol();
+
+
+
+        ClienteEntity cliente = new ClienteEntity();
+
+
         return "registro";
     }
     @GetMapping("/adminMain")
