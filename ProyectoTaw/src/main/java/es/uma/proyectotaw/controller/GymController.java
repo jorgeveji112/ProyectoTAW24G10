@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class GymController extends BaseController{
@@ -70,7 +72,7 @@ public class GymController extends BaseController{
     }
 
 
-    @PostMapping("/register")
+    @GetMapping("/register")
     public String register(@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos,
                              @RequestParam("Fecha_nacimiento") String FechaNac,@RequestParam("DNI") String DNI,
                              @RequestParam("eMail") String eMail,@RequestParam("telefono") String telefono,@RequestParam("altura") String altura,
@@ -80,9 +82,10 @@ public class GymController extends BaseController{
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setNombre(nombre);
         usuario.setApellidos(apellidos);
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date fecha = (Date) formato.parse(FechaNac);
-        usuario.setFechaNacimiento(fecha);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = LocalDate.parse(FechaNac, formato);
+        java.sql.Date fechaSql = java.sql.Date.valueOf(fecha);
+        usuario.setFechaNacimiento(fechaSql);
         usuario.setDni(DNI);
         usuario.setCorreo(eMail);
         usuario.setTelefono(telefono);

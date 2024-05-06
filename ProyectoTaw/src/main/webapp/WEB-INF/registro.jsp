@@ -26,12 +26,12 @@ contentType="text/html;charset=UTF-8" language="java" %>
         <div class="imagen-fondo">
             <div class="capa-gris"></div>
             <div class="contenido">
-                <form action="/register" method="post" id="form" name="form" enctype="text/plain" class="home-form">
+                <form action="/register" method="get" id="form" name="form" enctype="text/plain" class="home-form">
                     <h1 class="home-text">Datos personales</h1>
                     <div id="DatosPersonales" class="home-container01">
                         <div class="home-container02">
                             <div class="home-container03">
-                                <input type="text" id="nombre" name= "nombre" required placeholder="Nombre" class="home-textinput"/>
+                                <input type="text" id="nombre" name="nombre" required placeholder="Nombre" class="home-textinput"/>
                                 <input type="text" id="apellidos" name="apellidos" required placeholder="Apellidos" class="home-textinput01"/>
                             </div>
 
@@ -71,7 +71,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
                     <div id="Objetivos" class="home-container11">
                         <div class="home-container12">
                             <div class="home-container13">
-                                <input type="text" id="altura" name="altrua" required placeholder="Altura (en cm)" class="home-textinput06"/>
+                                <input type="text" id="altura" name="altura" required placeholder="Altura (en cm)" class="home-textinput06"/>
                                 <input type="text" id="peso" name="peso" required placeholder="Peso (en kg)" class="home-textinput07"/>
                             </div>
                             <div class="home-container14">
