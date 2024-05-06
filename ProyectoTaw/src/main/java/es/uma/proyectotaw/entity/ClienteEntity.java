@@ -2,46 +2,56 @@ package es.uma.proyectotaw.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-
 @Entity
-@Table(name = "cliente", schema = "bdgym", catalog = "")
+@Table(name = "cliente")
 public class ClienteEntity {
     @Id
-    @Basic
-    @Column(name = "usuario_id")
-    private int usuarioId;
-    @Basic
+    @Column(name = "usuario_id", nullable = false)
+    private Integer id;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioEntity usuario;
+
     @Column(name = "peso")
-    private Double peso;
-    @Basic
+    private Float peso;
+
     @Column(name = "altura")
-    private Double altura;
-    @Basic
-    @Column(name = "objetivos")
+    private Float altura;
+
+    @Column(name = "objetivos", length = 250)
     private String objetivos;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Double getPeso() {
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    public Float getPeso() {
         return peso;
     }
 
-    public void setPeso(Double peso) {
+    public void setPeso(Float peso) {
         this.peso = peso;
     }
 
-    public Double getAltura() {
+    public Float getAltura() {
         return altura;
     }
 
-    public void setAltura(Double altura) {
+    public void setAltura(Float altura) {
         this.altura = altura;
     }
 
@@ -53,16 +63,4 @@ public class ClienteEntity {
         this.objetivos = objetivos;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ClienteEntity that = (ClienteEntity) o;
-        return usuarioId == that.usuarioId && Objects.equals(peso, that.peso) && Objects.equals(altura, that.altura) && Objects.equals(objetivos, that.objetivos);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(usuarioId, peso, altura, objetivos);
-    }
 }

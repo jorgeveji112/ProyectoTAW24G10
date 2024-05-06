@@ -2,10 +2,9 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.ClienteEntity;
 import es.uma.proyectotaw.entity.RolEnum;
-import es.uma.proyectotaw.entity.TrolEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
+import es.uma.proyectotaw.repository.ClienteRepository;
 import es.uma.proyectotaw.repository.TrolRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,14 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 public class GymController extends BaseController{
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @Autowired
     private TrolRepository trolRepository;
@@ -44,6 +44,10 @@ public class GymController extends BaseController{
     @GetMapping("/acceso")
     public String doAcceso(Model model) {
         return "acceso";
+    }
+    @GetMapping("/registro")
+    public String doRegistro(Model model) {
+        return "registro";
     }
 
     @PostMapping("/login")
@@ -66,8 +70,8 @@ public class GymController extends BaseController{
     }
 
 
-    @GetMapping("/registro")
-    public String doRegistro(@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos,
+    @PostMapping("/register")
+    public String register(@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos,
                              @RequestParam("Fecha_nacimiento") String FechaNac,@RequestParam("DNI") String DNI,
                              @RequestParam("eMail") String eMail,@RequestParam("telefono") String telefono,@RequestParam("altura") String altura,
                              @RequestParam("peso") String peso,@RequestParam("sexo") String sexo,
@@ -85,14 +89,19 @@ public class GymController extends BaseController{
         usuario.setNombreUsuario(nombre_usuario);
         usuario.setContraseña(contraseña);
         usuario.setGenero(sexo);
-        usuario.setRol();
-
-
+        usuario.setRol(this.trolRepository.findById(2).get());
+        usuario.setTipoEntrenamientoId(2);
 
         ClienteEntity cliente = new ClienteEntity();
 
+        cliente.setAltura(Float.parseFloat(altura));
+        cliente.setPeso(Float.parseFloat(peso));
+        cliente.setObjetivos(objetivos);
+        cliente.setUsuario(usuario);
 
-        return "registro";
+        this.clienteRepository.save(cliente);
+
+        return "inicio";
     }
     @GetMapping("/adminMain")
     public String doAdminMain() {
