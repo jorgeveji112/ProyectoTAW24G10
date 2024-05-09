@@ -20,9 +20,9 @@ public class SesionejercicioEntity {
     @Basic
     @Column(name = "duracion")
     private Integer duracion;
-    @Basic
-    @Column(name = "ejercicio_id")
-    private int ejercicioId;
+    @ManyToOne
+    @JoinColumn(name = "ejercicio_id")
+    private EjercicioEntity ejercicio;
 
     public int getId() {
         return id;
@@ -56,12 +56,12 @@ public class SesionejercicioEntity {
         this.duracion = duracion;
     }
 
-    public int getEjercicioId() {
-        return ejercicioId;
+    public EjercicioEntity getEjercicio() {
+        return ejercicio;
     }
 
-    public void setEjercicioId(int ejercicioId) {
-        this.ejercicioId = ejercicioId;
+    public void setEjercicio(EjercicioEntity ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
     @Override
@@ -69,11 +69,11 @@ public class SesionejercicioEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SesionejercicioEntity that = (SesionejercicioEntity) o;
-        return id == that.id && ejercicioId == that.ejercicioId && Objects.equals(series, that.series) && Objects.equals(repeticiones, that.repeticiones) && Objects.equals(duracion, that.duracion);
+        return id == that.id && Objects.equals(series, that.series) && Objects.equals(repeticiones, that.repeticiones) && Objects.equals(duracion, that.duracion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, series, repeticiones, duracion, ejercicioId);
+        return Objects.hash(id, series, repeticiones, duracion);
     }
 }

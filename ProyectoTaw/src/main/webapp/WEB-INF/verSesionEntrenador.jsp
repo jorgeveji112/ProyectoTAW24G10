@@ -50,7 +50,7 @@
                 <form method="post" action="/entrenadorMain/sesiones/guardar">
                     <label id="label-nombre">
                         Nombre:
-                        <input type="text" name="nombre" value="<%=nombre%>">
+                        <input type="text" name="nombre" value="<%=nombre%>" class="nombre">
                     </label>
                     <label id="label-descripcion">
                         Descripción:
@@ -63,13 +63,38 @@
                                 for (SesionentrenamientoHasSesionejercicioEntity sesionHasSesion : listaSesionHasSesion) {
                             %>
                             <div class="ejercicio">
-                                <p><%=sesionHasSesion.getSesionejercicio().getSeries()%> series</p>
-                                <p><%=sesionHasSesion.getSesionejercicio().getRepeticiones()%> repeticiones</p>
-                                <p><%=sesionHasSesion.getSesionejercicio().getDuracion()%> min</p>
+                                <p class="nombre-ejercicio"><%=sesionHasSesion.getSesionejercicio().getEjercicio().getNombre()%></p>
+                                <button class="btn-ver-ejercicio">Ver ejercicio</button>
+                                <%
+                                    if(sesionHasSesion.getSesionejercicio().getSeries() == null){
+                                %>
+                                <p><input type="text" value="-" class="intensidad">series</p>
+                                <%}else{%>
+                                <p><input type="text" value="<%=sesionHasSesion.getSesionejercicio().getSeries()%>" class="intensidad">series</p>
+                                <%}
+                                    if(sesionHasSesion.getSesionejercicio().getRepeticiones() == null){
+                                %>
+                                <p><input type="text" value="-" class="intensidad">repeticiones</p>
+                                <%}else{%>
+                                <p><input type="text" value="<%=sesionHasSesion.getSesionejercicio().getRepeticiones()%>" class="intensidad">repeticiones</p>
+                                <%}
+                                    if(sesionHasSesion.getSesionejercicio().getDuracion() == null){
+                                %>
+                                <p><input type="text" value="-" class="intensidad">min</p>
+                                <%}else{%>
+                                <p><input type="text" value="<%=sesionHasSesion.getSesionejercicio().getDuracion()%>" class="intensidad">min</p>
+                                <%}%>
+                                    <div class="contenedor-iconos">
+                                        <img src="/img/flecha-arriba.png" alt="Icono Subir" class="img-icono">
+                                        <img src="/img/flecha-abajo.png" alt="Icono Bajar" class="img-icono">
+                                        <img src="/img/borrar.png" alt="Icono Borrar" class="img-icono">
+                                    </div>
+
                             </div>
                             <%
                                 }
                             %>
+
                         </div>
                     </div>
                     <input type="hidden" name="id" value="<%=sesion.getId()%>">

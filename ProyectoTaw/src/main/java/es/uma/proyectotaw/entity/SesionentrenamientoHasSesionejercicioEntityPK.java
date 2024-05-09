@@ -9,26 +9,24 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class SesionentrenamientoHasSesionejercicioEntityPK implements Serializable {
-    @Column(name = "sesionentrenamiento_id")
-    @Id
-    private int sesionentrenamiento;
-    @Column(name = "sesionejercicio_id")
-    @Id
-    private int sesionejercicio;
 
-    public int getSesionentrenamientoId() {
+    private SesionentrenamientoEntity sesionentrenamiento;
+
+    private SesionejercicioEntity sesionejercicio;
+
+    public SesionentrenamientoEntity getSesionentrenamiento() {
         return sesionentrenamiento;
     }
 
-    public void setSesionentrenamientoId(int sesionentrenamiento) {
+    public void setSesionentrenamiento(SesionentrenamientoEntity sesionentrenamiento) {
         this.sesionentrenamiento = sesionentrenamiento;
     }
 
-    public int getSesionejercicioId() {
+    public SesionejercicioEntity getSesionejercicio() {
         return sesionejercicio;
     }
 
-    public void setSesionejercicioId(int sesionejercicio) {
+    public void setSesionejercicio(SesionejercicioEntity sesionejercicio) {
         this.sesionejercicio = sesionejercicio;
     }
 
@@ -37,7 +35,7 @@ public class SesionentrenamientoHasSesionejercicioEntityPK implements Serializab
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SesionentrenamientoHasSesionejercicioEntityPK that = (SesionentrenamientoHasSesionejercicioEntityPK) o;
-        return sesionentrenamiento == that.sesionentrenamiento && sesionejercicio == that.sesionejercicio;
+        return Objects.equals(sesionentrenamiento, that.sesionentrenamiento) && Objects.equals(sesionejercicio, that.sesionejercicio);
     }
 
     @Override
