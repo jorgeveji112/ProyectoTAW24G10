@@ -36,86 +36,66 @@
         <div class="capa-gris"></div>
         <div class="contenedor-cliente-titulo">
             <h1>Clientes</h1>
-            <div class="contenedor-cliente ">
-                <div class="cliente-encabezado grid-container">
-                    <div class="info-cliente">
-                        <p class="cliente-nombre"><b>Nombre</b></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><b>Apellidos</b></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><b>Fecha de Nacimiento</b></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><b>Correo</b></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><b>Teléfono</b></p>
-                    </div>
-                    <div class="botones-cliente"></div>
-                </div>
-                <div class="lista-clientes">
+            <div class="tabla">
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th></th>
+                    <th></th>
                 <%
                     for (UsuarioEntity cliente: listaClientes) {
                 %>
-                <div class="cliente-item">
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><%= cliente.getNombre()%></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><%= cliente.getApellidos()%></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><%= cliente.getFechaNacimiento()%></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><%= cliente.getCorreo()%></p>
-                    </div>
-                    <div class="info-cliente">
-                        <p class="cliente-detalle"><%= cliente.getTelefono()%></p>
-                    </div>
-                    <div class="botones-cliente">
-                        <form action="ver-cliente" method="post">
-                            <input type="hidden" name="cliente" value="<%= cliente %>">
-                            <button type="submit">Info. Cliente</button>
-                        </form>
-                        <form action="ver-entrenamiento" method="post">
-                            <input type="hidden" name="cliente" value="<%= cliente %>">
-                            <button type="submit">Entrenamiento</button>
-                        </form>
-                    </div>
-                </div>
-                    <div class="cliente-item">
-                        <div class="info-cliente">
-                            <p class="cliente-detalle"><%= cliente.getNombre()%></p>
-                        </div>
-                        <div class="info-cliente">
-                            <p class="cliente-detalle"><%= cliente.getApellidos()%></p>
-                        </div>
-                        <div class="info-cliente">
-                            <p class="cliente-detalle"><%= cliente.getFechaNacimiento()%></p>
-                        </div>
-                        <div class="info-cliente">
-                            <p class="cliente-detalle"><%= cliente.getCorreo()%></p>
-                        </div>
-                        <div class="info-cliente">
-                            <p class="cliente-detalle"><%= cliente.getTelefono()%></p>
-                        </div>
-                        <div class="botones-cliente">
+
+                    <tr>
+                        <td><%= cliente.getNombre()%></td>
+                        <td><%= cliente.getApellidos()%></td>
+                        <td><%= cliente.getFechaNacimiento()%></td>
+                        <td><%= cliente.getCorreo()%></td>
+                        <td><%= cliente.getTelefono()%></td>
+                        <td>
                             <form action="ver-cliente" method="post">
                                 <input type="hidden" name="cliente" value="<%= cliente %>">
                                 <button type="submit">Info. Cliente</button>
                             </form>
+                        </td>
+                        <td>
                             <form action="ver-entrenamiento" method="post">
                                 <input type="hidden" name="cliente" value="<%= cliente %>">
                                 <button type="submit">Entrenamiento</button>
                             </form>
-                        </div>
-                    </div>
+                        </td>
+
+                    </tr>
+                  <tr>
+                        <td><%= cliente.getNombre()%></td>
+                        <td><%= cliente.getApellidos()%></td>
+                        <td><%= cliente.getFechaNacimiento()%></td>
+                        <td><%= cliente.getCorreo()%></td>
+                        <td><%= cliente.getTelefono()%></td>
+                        <td>
+                            <form action="ver-cliente" method="post">
+                                <input type="hidden" name="cliente" value="<%= cliente %>">
+                                <button type="submit">Info. Cliente</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="ver-entrenamiento" method="post">
+                                <input type="hidden" name="cliente" value="<%= cliente %>">
+                                <button type="submit">Entrenamiento</button>
+                            </form>
+                        </td>
+
+                    </tr>
+
                 <%
                     }
                 %>
+                </table>
+                </div>
                 </div>
         </div>
         </div>

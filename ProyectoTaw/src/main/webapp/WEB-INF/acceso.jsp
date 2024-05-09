@@ -5,7 +5,9 @@
   Time: 11:36
   To change this template use File | Settings | File Templates.
 --%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>TrainingGym</title>
@@ -28,17 +30,17 @@
         <div class="capa-gris"></div>
         <div class="contenido">
             <h2>Inicio de Sesión</h2>
-            <form action="/login" method="post">
+            <form:form action="/login" modelAttribute="usuario" method="post" class="formulario">
                 <div>
                     <label for="username">Nombre de usuario:</label>
-                    <input type="text" id="username" name="username" required>
+                    <form:input type="text" id="username" path="user" />
                 </div>
                 <div>
                     <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
+                    <form:password id="password" path="password" />
                 </div>
-                <button type="submit">INICIAR SESIÓN</button>
-            </form>
+                <form:button type="submit">INICIAR SESIÓN</form:button>
+            </form:form>
             <p id="mensaje-error">${error}</p>
             <p>¿Aún no tienes cuenta? <a href="registro" id="enlace-registrarse">Registrarse</a></p>
         </div>

@@ -11,27 +11,25 @@ import java.util.Objects;
 public class SesionentrenamientoHasSesionejercicioEntityPK implements Serializable {
     @Column(name = "sesionentrenamiento_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sesionentrenamientoId;
+    private int sesionentrenamiento;
     @Column(name = "sesionejercicio_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sesionejercicioId;
+    private int sesionejercicio;
 
     public int getSesionentrenamientoId() {
-        return sesionentrenamientoId;
+        return sesionentrenamiento;
     }
 
-    public void setSesionentrenamientoId(int sesionentrenamientoId) {
-        this.sesionentrenamientoId = sesionentrenamientoId;
+    public void setSesionentrenamientoId(int sesionentrenamiento) {
+        this.sesionentrenamiento = sesionentrenamiento;
     }
 
     public int getSesionejercicioId() {
-        return sesionejercicioId;
+        return sesionejercicio;
     }
 
-    public void setSesionejercicioId(int sesionejercicioId) {
-        this.sesionejercicioId = sesionejercicioId;
+    public void setSesionejercicioId(int sesionejercicio) {
+        this.sesionejercicio = sesionejercicio;
     }
 
     @Override
@@ -39,11 +37,11 @@ public class SesionentrenamientoHasSesionejercicioEntityPK implements Serializab
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SesionentrenamientoHasSesionejercicioEntityPK that = (SesionentrenamientoHasSesionejercicioEntityPK) o;
-        return sesionentrenamientoId == that.sesionentrenamientoId && sesionejercicioId == that.sesionejercicioId;
+        return sesionentrenamiento == that.sesionentrenamiento && sesionejercicio == that.sesionejercicio;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sesionentrenamientoId, sesionejercicioId);
+        return Objects.hash(sesionentrenamiento, sesionejercicio);
     }
 }

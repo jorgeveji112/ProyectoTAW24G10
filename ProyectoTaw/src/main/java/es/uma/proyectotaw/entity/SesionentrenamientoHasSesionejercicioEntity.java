@@ -8,32 +8,35 @@ import java.util.Objects;
 @Table(name = "sesionentrenamiento_has_sesionejercicio", schema = "bdgym", catalog = "")
 @IdClass(SesionentrenamientoHasSesionejercicioEntityPK.class)
 public class SesionentrenamientoHasSesionejercicioEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "sesionentrenamiento_id")
-    private int sesionentrenamientoId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ManyToOne
+    @JoinColumn(name = "sesionentrenamiento_id")
+    private SesionentrenamientoEntity sesionentrenamiento;
+
     @Id
-    @Column(name = "sesionejercicio_id")
-    private int sesionejercicioId;
+    @ManyToOne
+    @JoinColumn(name = "sesionejercicio_id")
+    private SesionejercicioEntity sesionejercicio;
+
+
     @Basic
     @Column(name = "posicion")
     private Integer posicion;
 
-    public int getSesionentrenamientoId() {
-        return sesionentrenamientoId;
+    public SesionentrenamientoEntity getSesionentrenamiento() {
+        return sesionentrenamiento;
     }
 
-    public void setSesionentrenamientoId(int sesionentrenamientoId) {
-        this.sesionentrenamientoId = sesionentrenamientoId;
+    public void setSesionentrenamiento(SesionentrenamientoEntity sesionentrenamiento) {
+        this.sesionentrenamiento = sesionentrenamiento;
     }
 
-    public int getSesionejercicioId() {
-        return sesionejercicioId;
+    public SesionejercicioEntity getSesionejercicio() {
+        return sesionejercicio;
     }
 
-    public void setSesionejercicioId(int sesionejercicioId) {
-        this.sesionejercicioId = sesionejercicioId;
+    public void setSesionejercicio(SesionejercicioEntity sesionejercicio) {
+        this.sesionejercicio = sesionejercicio;
     }
 
     public Integer getPosicion() {
@@ -49,11 +52,11 @@ public class SesionentrenamientoHasSesionejercicioEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SesionentrenamientoHasSesionejercicioEntity that = (SesionentrenamientoHasSesionejercicioEntity) o;
-        return sesionentrenamientoId == that.sesionentrenamientoId && sesionejercicioId == that.sesionejercicioId && Objects.equals(posicion, that.posicion);
+        return Objects.equals(sesionentrenamiento, that.sesionentrenamiento) && Objects.equals(sesionejercicio, that.sesionejercicio) && Objects.equals(posicion, that.posicion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sesionentrenamientoId, sesionejercicioId, posicion);
+        return Objects.hash(sesionentrenamiento, sesionejercicio, posicion);
     }
 }

@@ -1,16 +1,13 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.repository.RutinaPredefinidaRepository;
-import es.uma.proyectotaw.repository.SesionentrenamientoRepository;
-import es.uma.proyectotaw.repository.TrolRepository;
+import es.uma.proyectotaw.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import es.uma.proyectotaw.repository.UsuarioRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +22,9 @@ public class SesionEntrenadorController extends BaseController{
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
 
+    @Autowired
+    private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+
 
     @GetMapping("/entrenadorMain/sesiones")
     public String doRutinas(Model model, HttpSession session) {
@@ -33,5 +33,17 @@ public class SesionEntrenadorController extends BaseController{
         List<SesionentrenamientoEntity> sesiones = sesionentrenamientoRepository.findByUsuarioId(usuario.getId());
         model.addAttribute("sesiones", sesiones);
         return "sesionesEntrenador";
+    }
+
+    @GetMapping("/entrenadorMain/sesiones/ver")
+    public String doVerSesion(Model model, HttpSession session, @RequestParam("id") Integer id) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(id).get();
+        List<SesionentrenamientoHasSesionejercicioEntity> listaSesionHasSesion = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
+
+        model.addAttribute("listaSesionHasSesion", listaSesionHasSesion);
+        model.addAttribute("sesion", sesion);
+
+        return "verSesionEntrenador";
     }
 }

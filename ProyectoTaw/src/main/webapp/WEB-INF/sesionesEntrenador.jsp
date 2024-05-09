@@ -42,8 +42,8 @@
             %>
             <div class="sesion-item">
                 <p class="sesion-nombre"><%= sesion.getNombre()%></p>
-                <button class="ver-sesion">Ver Sesión</button>
-                <button class="borrar-sesion">Borrar Sesión</button>
+                <button class="ver-sesion" onclick="window.location.href='/entrenadorMain/sesiones/ver?id=<%= sesion.getId() %>'">Ver Sesión</button>
+                <button class="borrar-sesion" onclick="window.location.href='/entrenadorMain/sesiones/borrar?id=<%= sesion.getId() %>'">Borrar Sesión</button>
             </div>
             <%
                 }

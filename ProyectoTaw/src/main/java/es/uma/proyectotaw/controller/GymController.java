@@ -5,12 +5,14 @@ import es.uma.proyectotaw.entity.RolEnum;
 import es.uma.proyectotaw.entity.UsuarioEntity;
 import es.uma.proyectotaw.repository.ClienteRepository;
 import es.uma.proyectotaw.repository.TrolRepository;
+import es.uma.proyectotaw.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import es.uma.proyectotaw.repository.UsuarioRepository;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,6 +47,7 @@ public class GymController extends BaseController{
     }
     @GetMapping("/acceso")
     public String doAcceso(Model model) {
+        model.addAttribute("usuario", new Usuario());
         return "acceso";
     }
     @GetMapping("/registro")
@@ -53,9 +56,9 @@ public class GymController extends BaseController{
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password,
+    public String login(@ModelAttribute("usuario") Usuario user,
                         Model model, HttpSession session) {
-        UsuarioEntity usuario = usuarioRepository.findByNombreUsuarioAndContraseña(username, password);
+        UsuarioEntity usuario = usuarioRepository.findByNombreUsuarioAndContraseña(user.getUser(), user.getPassword());
         if (usuario != null) {
             RolEnum rol = usuario.getRol().getRol();
             session.setAttribute("usuario", usuario);

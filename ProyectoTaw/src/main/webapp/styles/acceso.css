@@ -77,7 +77,7 @@ nav {
     padding: 30px;
 
 }
-.contenido form {
+.contenido form.formulario {
     display: inline-block;
     text-align: center;
     border: 2px solid #ccc;
@@ -87,26 +87,26 @@ nav {
     margin: 0 auto;
 }
 
-.contenido form div {
+.contenido form.formlario div {
     margin-bottom: 15px;
 }
 
-.contenido form label {
+.contenido form.formulario label {
     display: block;
     text-align: left;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.contenido form input[type="text"],
-.contenido form input[type="password"] {
+.contenido form.formulario input[type="text"],
+.contenido form.formulario input[type="password"] {
     width: calc(100% - 10px);
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.contenido form button[type="submit"] {
+.contenido form.formulario button[type="submit"] {
     width: 70%;
     padding: 10px;
     background-color: #2B2B2B;
@@ -114,9 +114,10 @@ nav {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
-.contenido form button[type="submit"]:hover {
+.contenido form.formulario button[type="submit"]:hover {
     background-color: #000;
 }
 

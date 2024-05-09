@@ -63,54 +63,86 @@ nav {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7); /* Color grisáceo con transparencia */
 }
-.contenedor-cliente-titulo{
-    width: 85%;
+.contenedor-sesion-titulo{
+    width: 65%;
     height: 70%;
     position: absolute;
-    top: 15%;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
     flex-direction: column;
     display: flex;
+    justify-content: center;
     align-items: flex-start;
 }
-.contenedor-cliente-titulo h1{
+.contenedor-sesion-titulo h1{
     color: #fff
 }
-
-
-table {
-    border-collapse: collapse;
-    border-radius: 5px;
-
-}
-.tabla{
-    height: 80%;
-    overflow-y: auto;
-    scrollbar-width: thin; /* Ancho del scrollbar */
-}
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-}
-
-table th {
-    background-color: #f2f2f2;
-}
-table td{
-    text-align: center;
+.contenido {
+    width: 100%;
+    height: 70%;
     background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 5;
+}
 
+#label-nombre{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 20px;
 }
-form{
-    margin: 0;
+#label-descripcion{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 20px;
 }
-form button {
+
+form input[type="text"] {
+    width: 50%;
+    margin-left: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 20px; /* Tamaño de fuente más grande */
+}
+
+form textarea {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+}
+#div-ejercicios{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+#div-ejercicios p{
+   font-size: 20px;
+}
+form input[type="submit"] {
     margin: 0; /* Añade un margen a los botones */
-    font-size: 15px;
-    padding: 5px 10px;
+    font-size: 18px;
+    padding: 7px 12px;
     cursor: pointer;
     border: none;
     border-radius: 5px;
     background: linear-gradient(#B10028, #D55005);
     vertical-align: middle;
     color: #fff;
+}
+
+form input[type="submit"]:hover {
+    background:linear-gradient(#A00017, #C44004);
 }
