@@ -24,8 +24,24 @@
     </nav>
     <div class="imagen-fondo">
         <div class="capa-gris"></div>
+        <h1>Bienvenido Administrador! ¿Qué quieres hacer?</h1>
         <div class="contenido">
-            <h1>Hola soy admin</h1>
+            <div class="entrenadores" onclick="window.location='/adminMain/entrenadores'">
+                <img src="/img/entrenadoresIcono.png" alt="Entrenador Icono">
+                <h2>Entrenadores</h2>
+            </div>
+            <div class="clientes" onclick="window.location='/adminMain/clientes'">
+                <img src="/img/clienteIcono.png" alt="Cliente Icono">
+                <h2>Clientes</h2>
+            </div>
+            <div class="solicitudes" onclik="window.location='/adminMain/solicitudes'">
+                <img src="/img/solicitudesIcono.png" alt="Solicitud Icono">
+                <h2>Solicitudes</h2>
+            </div>
+            <div class="ejercicios" onclick="window.location='/adminMain/ejercicios'">
+                <img src="/img/ejercicioIcono.png" alt="Ejercicio Icono">
+                <h2>Ejercicios</h2>
+            </div>
         </div>
     </div>
 </body>
