@@ -46,7 +46,7 @@ public class UsuarioEntity {
     @Column(name = "validado")
     private byte validado;
     @Basic
-    @Column(name = "tipoentrenamiento_id")
+    @Column(name = "tipoentrenamiento_id") // 1 bodybuilding, 2 cross-training
     private int tipoEntrenamientoId;
     @ManyToOne
     @JoinColumn(name = "trol_id")
