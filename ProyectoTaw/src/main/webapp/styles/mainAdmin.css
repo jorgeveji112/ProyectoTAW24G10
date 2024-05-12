@@ -21,10 +21,10 @@ nav {
 }
 
 .enlaces li {
-    margin-left: 90px;
+    margin-left: 75px;
 }
 .enlaces li a{
-    font-size: 20px;
+    font-size: 15px;
     text-decoration: none;
     color: #fff;
 }
@@ -39,6 +39,9 @@ nav {
 }
 .enlaces li a.cerrar-sesion:hover{
     background: #D4560A;
+}
+#activo{
+    text-decoration: underline;
 }
 
 .imagen-fondo {

@@ -18,6 +18,11 @@ public class AdminController extends BaseController{
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @GetMapping("/adminMain/inicio")
+    public String doAdminMain() {
+        return "mainAdmin";
+    }
+
     @GetMapping("adminMain/entrenadores")
     public String doEntrenadores(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";

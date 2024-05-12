@@ -23,29 +23,55 @@
 <nav>
     <div class="logo"><img src="/img/logoGym.png"></div>
     <ul class="enlaces">
-        <li><a href="inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
+        <li><a href="/adminMain/inicio">Inicio</a></li>
+        <li><a href="/adminMain/entrenadores" id="activo">Entrenadores</a></li>
+        <li><a href="/adminMain/clientes">Clientes</a></li>
+        <li><a href="/adminMain/solicitudes">Solicitudes</a></li>
+        <li><a href="/adminMain/ejercicios">Ejercicios</a></li>
+        <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
     <h1>Lista de Entrenadores</h1>
     <div class="contenido">
-        <div class="bodyBuilding" onclick="window.location='/'">
-            <%if(entrenadoresBodyBuilding.size() > 0){
-                for(UsuarioEntity entrenador : entrenadoresBodyBuilding){ %>
-                    <h2><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></h2>
-                    <br>
-                <%}
-            }%>
-        </div>
-        <div class="CrossTraining" onclick="window.location='/'">
+        <table class="tabla">
+            <tbody>
+                <%if(entrenadoresBodyBuilding.size() > 0){
+                    for(UsuarioEntity entrenador : entrenadoresBodyBuilding){ %>
+                        <tr>
+                            <td><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></td>
+                            <td>
+                                <button class="boton" onclick="window.location='adminMain/clientesAsignados?id=<%= entrenador.getId()%>'">Clientes Asignados</button>
+                            </td>
+                            <td>
+                                <button class="boton" onclick="window.location='adminMain/borrarEntrenador?id=<%= entrenador.getId()%>'">Borrar</button>
+                            </td>
+                        </tr>
+                    <%}
+                }%>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="contenido">
+        <table class="tabla">
+            <tbody>
             <%if(entrenadoresCrossTraining.size() > 0){
-                    for(UsuarioEntity entrenador : entrenadoresCrossTraining){ %>
-                        <h2><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></h2>
-                        <br>
+                for(UsuarioEntity entrenador : entrenadoresCrossTraining){ %>
+                    <tr>
+                        <td><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></td>
+                        <td>
+                            <button class="boton" onclick="window.location='adminMain/clientesAsignados?id=<%= entrenador.getId()%>'">Clientes Asignados</button>
+                        </td>
+                        <td>
+                            <button class="boton" onclick="window.location='adminMain/borrarEntrenador?id=<%= entrenador.getId()%>'">Borrar</button>
+                        </td>
+                    </tr>
                 <%}
             }%>
-        </div>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

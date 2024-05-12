@@ -21,10 +21,10 @@ nav {
 }
 
 .enlaces li {
-    margin-left: 90px;
+    margin-left: 75px;
 }
 .enlaces li a{
-    font-size: 20px;
+    font-size: 15px;
     text-decoration: none;
     color: #fff;
 }
@@ -39,6 +39,9 @@ nav {
 }
 .enlaces li a.cerrar-sesion:hover{
     background: #D4560A;
+}
+#activo{
+    text-decoration: underline;
 }
 
 .imagen-fondo {
@@ -63,37 +66,43 @@ nav {
 
 .contenido {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     height: 100vh;
     z-index: 4;
+    background: #ffffff;
+    color: #000;
+    border-radius: 10px;
+    margin: 15px;
+    width: 85%;
+    height: 75%;
 }
 
-.contenido div {
-    background: #fff;
+.boton {
+    background: linear-gradient(#B10028, #D55005);
     display : flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     position: relative;
     border-radius: 10px;
-    color: #000;
-    width: 45%;
-    height: 45%;
-    max-height: 215px;
+    color: #fff;
     cursor: pointer;
     text-align: center;
-    margin: 20px;
+    box-shadow: none;
 }
+
+.contenido table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: 10px;
+}
+
 .contenido div:hover{
     transform: scale(1.05);
 }
-.contenido > div img {
-    width: 40%;
-    height: auto;
-    margin-bottom: 10px;
-}
-.contenido > div h2 {
+
+.contenido h2 {
     margin: 0;
     font-weight: 400;
 }

@@ -19,7 +19,12 @@
     <nav>
         <div class="logo"><img src="/img/logoGym.png"></div>
         <ul class="enlaces">
-            <li><a href="inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
+            <li><a href="/adminMain/inicio"  id="activo">Inicio</a></li>
+            <li><a href="/adminMain/entrenadores">Entrenadores</a></li>
+            <li><a href="/adminMain/clientes">Clientes</a></li>
+            <li><a href="/adminMain/solicitudes">Solicitudes</a></li>
+            <li><a href="/adminMain/ejercicios">Ejercicios</a></li>
+            <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
         </ul>
     </nav>
     <div class="imagen-fondo">
