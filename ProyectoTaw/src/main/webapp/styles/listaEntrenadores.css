@@ -66,13 +66,19 @@ nav {
 
 .contenido {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     height: 100vh;
     z-index: 4;
+    background: #ffffff;
+    color: #000;
+    border-radius: 10px;
+    margin: 15px;
+    width: 85%;
+    height: 75%;
 }
 
-.contenido div {
+.boton {
     background: linear-gradient(#B10028, #D55005);
     display : flex;
     justify-content: center;
@@ -81,22 +87,22 @@ nav {
     position: relative;
     border-radius: 10px;
     color: #fff;
-    width: 180px;
-    height: 30%;
-    max-height: 215px;
     cursor: pointer;
     text-align: center;
-    margin: 0 40px;
+    box-shadow: none;
 }
+
+.contenido table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: 10px;
+}
+
 .contenido div:hover{
     transform: scale(1.05);
 }
-.contenido > div img {
-    width: 40%;
-    height: auto;
-    margin-bottom: 10px;
-}
-.contenido > div h2 {
+
+.contenido h2 {
     margin: 0;
     font-weight: 400;
 }
