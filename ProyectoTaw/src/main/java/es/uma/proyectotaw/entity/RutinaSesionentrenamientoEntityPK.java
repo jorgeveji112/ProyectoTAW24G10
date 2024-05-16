@@ -9,29 +9,25 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class RutinaSesionentrenamientoEntityPK implements Serializable {
-    @Column(name = "sesionentrenamiento_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sesionentrenamientoId;
-    @Column(name = "rutina_predefinida_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rutinaPredefinidaId;
 
-    public int getSesionentrenamientoId() {
-        return sesionentrenamientoId;
+    private SesionentrenamientoEntity sesionentrenamiento;
+
+    private RutinaPredefinidaEntity rutinaPredefinida;
+
+    public SesionentrenamientoEntity getSesionentrenamiento() {
+        return sesionentrenamiento;
     }
 
-    public void setSesionentrenamientoId(int sesionentrenamientoId) {
-        this.sesionentrenamientoId = sesionentrenamientoId;
+    public void setSesionentrenamiento(SesionentrenamientoEntity sesionentrenamiento) {
+        this.sesionentrenamiento = sesionentrenamiento;
     }
 
-    public int getRutinaPredefinidaId() {
-        return rutinaPredefinidaId;
+    public RutinaPredefinidaEntity getRutinaPredefinida() {
+        return rutinaPredefinida;
     }
 
-    public void setRutinaPredefinidaId(int rutinaPredefinidaId) {
-        this.rutinaPredefinidaId = rutinaPredefinidaId;
+    public void setRutinaPredefinida(RutinaPredefinidaEntity rutinaPredefinida) {
+        this.rutinaPredefinida = rutinaPredefinida;
     }
 
     @Override
@@ -39,11 +35,11 @@ public class RutinaSesionentrenamientoEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RutinaSesionentrenamientoEntityPK that = (RutinaSesionentrenamientoEntityPK) o;
-        return sesionentrenamientoId == that.sesionentrenamientoId && rutinaPredefinidaId == that.rutinaPredefinidaId;
+        return Objects.equals(sesionentrenamiento, that.sesionentrenamiento) && Objects.equals(rutinaPredefinida, that.rutinaPredefinida);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sesionentrenamientoId, rutinaPredefinidaId);
+        return Objects.hash(sesionentrenamiento, rutinaPredefinida);
     }
 }

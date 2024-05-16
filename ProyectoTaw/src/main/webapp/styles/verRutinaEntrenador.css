@@ -63,7 +63,7 @@ nav {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7); /* Color grisáceo con transparencia */
 }
-.contenedor-sesion-titulo{
+.contenedor-rutina-titulo{
     width: 85%;
     height: 90%;
     position: absolute;
@@ -75,7 +75,7 @@ nav {
     justify-content: center;
     align-items: flex-start;
 }
-.contenedor-sesion-titulo h1{
+.contenedor-rutina-titulo h1{
     color: #fff
 }
 .contenido {
@@ -96,7 +96,7 @@ nav {
     margin-bottom: 10px;
     font-size: 20px;
 }
-#label-descripcion{
+#label-objetivos{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -129,18 +129,18 @@ form textarea {
     font-weight: 600;
     background: #ddd;
 }
-#div-ejercicios{
+#div-sesiones{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 10px;
     font-size: 20px;
 }
-#div-ejercicios > p{
+#div-sesiones > p{
     margin-top: 0;
     margin-bottom: 10px;
 }
-#lista-ejercicios{
+#lista-sesiones{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -148,10 +148,10 @@ form textarea {
     font-size: 20px;
     width: 100%;
 }
-#div-ejercicios p{
-   font-size: 20px;
+#div-sesiones p{
+    font-size: 20px;
 }
-.ejercicio{
+.sesion{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -161,11 +161,11 @@ form textarea {
     width: 100%;
     height: fit-content;
 }
-.ejercicio p{
+.sesion p{
     display: inline-block;
     margin: 0 10px 0 20px;
 }
-.nombre-ejercicio{
+.nombre-sesion{
     width: 20%;
 }
 input.intensidad{
@@ -180,7 +180,7 @@ input.intensidad{
     font-weight: 600;
     text-align: center;
 }
-.btn-ver-ejercicio{
+.btn-ver-sesion{
     margin: 0; /* Añade un margen a los botones */
     font-size: 18px;
     padding: 7px 12px;
@@ -191,7 +191,7 @@ input.intensidad{
     vertical-align: middle;
     color: #fff;
 }
-.btn-ver-ejercicio:hover {
+.btn-ver-sesion:hover {
     background:linear-gradient(#A00017, #C44004);
 }
 
@@ -229,7 +229,7 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
     background:linear-gradient(#A00017, #C44004);
 }
-#btn-add-ejercicio{
+#btn-add-sesion{
     margin: 0; /* Añade un margen a los botones */
     margin-bottom: -30px;
     justify-self: flex-end;
@@ -243,7 +243,7 @@ form input[type="submit"]:hover {
     color: #fff;
     z-index: 5;
 }
-#btn-add-ejercicio:hover {
+#btn-add-sesion:hover {
     background:linear-gradient(#A00017, #C44004);
 }
 .modal {
@@ -272,7 +272,7 @@ form input[type="submit"]:hover {
     margin-top: 40px;
     height: 55%;
 }
-.lista-ejercicios-modal {
+.lista-sesiones-modal {
     display: flex;
     flex-direction: column;
     max-height: 80%; /* Altura máxima */
@@ -280,7 +280,7 @@ form input[type="submit"]:hover {
     scrollbar-width: thin;
 }
 
-.ejercicio-modal {
+.sesion-modal {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -288,7 +288,7 @@ form input[type="submit"]:hover {
     border-bottom: 1px solid #ccc;
     font-size: 20px;
 }
-.ejercicio-modal button{
+.sesion-modal button{
     margin: 0; /* Añade un margen a los botones */
     font-size: 18px;
     padding: 7px 12px;
@@ -299,13 +299,13 @@ form input[type="submit"]:hover {
     vertical-align: middle;
     color: #fff;
 }
-.ejercicio-modal button:hover {
+.sesion-modal button:hover {
     background:linear-gradient(#A00017, #C44004);
 }
-.form-añadir-ejercicio{
-   margin: 0;
+.form-añadir-sesion{
+    margin: 0;
 }
-#input-añadir-ejercicio{
+#input-añadir-sesion{
     margin-right: 20px;
     font-size: 18px;
     padding: 7px 12px;
@@ -318,6 +318,6 @@ form input[type="submit"]:hover {
     z-index: 5;
 }
 
-#input-añadir-ejercicio:hover {
+#input-añadir-sesion:hover {
     background:linear-gradient(#A00017, #C44004);
 }

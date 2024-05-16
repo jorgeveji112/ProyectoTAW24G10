@@ -35,7 +35,8 @@
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
     <div class="contenedor-crear-sesion">
-        <button class="crear-sesion">Crear Sesión</button>
+        <h1>Estas son tus Sesiones de Entrenamiento creadas</h1>
+        <button class="crear-sesion" onclick="window.location.href='/entrenadorMain/sesiones/crear'">Crear Sesión</button>
         <div class="contenedor-sesion">
             <%
                 for (SesionentrenamientoEntity sesion: listaSesiones) {

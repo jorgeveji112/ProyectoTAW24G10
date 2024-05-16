@@ -17,9 +17,9 @@ public class SesionentrenamientoEntity {
     @Basic
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic
-    @Column(name = "usuario_id")
-    private int usuarioId;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
 
     public int getId() {
         return id;
@@ -45,12 +45,12 @@ public class SesionentrenamientoEntity {
         this.descripcion = descripcion;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -58,11 +58,11 @@ public class SesionentrenamientoEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SesionentrenamientoEntity that = (SesionentrenamientoEntity) o;
-        return id == that.id && usuarioId == that.usuarioId && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion);
+        return id == that.id && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, usuarioId);
+        return Objects.hash(id, nombre, descripcion);
     }
 }

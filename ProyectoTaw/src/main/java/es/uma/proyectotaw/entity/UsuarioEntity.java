@@ -45,9 +45,9 @@ public class UsuarioEntity {
     @Basic
     @Column(name = "validado")
     private byte validado;
-    @Basic
-    @Column(name = "tipoentrenamiento_id")
-    private int tipoEntrenamientoId;
+    @ManyToOne
+    @JoinColumn(name = "tipoentrenamiento_id")
+    private TipoentrenamientoEntity tipoEntrenamiento;
     @ManyToOne
     @JoinColumn(name = "trol_id")
     private TrolEntity rol;
@@ -155,12 +155,12 @@ public class UsuarioEntity {
         this.validado = validado;
     }
 
-    public int getTipoEntrenamientoId() {
-        return tipoEntrenamientoId;
+    public TipoentrenamientoEntity getTipoEntrenamiento() {
+        return tipoEntrenamiento;
     }
 
-    public void setTipoEntrenamientoId(int tipoEntrenamientoId) {
-        this.tipoEntrenamientoId = tipoEntrenamientoId;
+    public void setTipoEntrenamiento(TipoentrenamientoEntity tipoEntrenamiento) {
+        this.tipoEntrenamiento = tipoEntrenamiento;
     }
 
     public TrolEntity getRol() {
@@ -184,12 +184,11 @@ public class UsuarioEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UsuarioEntity that = (UsuarioEntity) o;
-        return id == that.id && validado == that.validado && tipoEntrenamientoId == that.tipoEntrenamientoId && Objects.equals(nombre, that.nombre) && Objects.equals(apellidos, that.apellidos) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(dni, that.dni) && Objects.equals(genero, that.genero) && Objects.equals(correo, that.correo) && Objects.equals(telefono, that.telefono) && Objects.equals(fechaIngreso, that.fechaIngreso) && Objects.equals(nombreUsuario, that.nombreUsuario) && Objects.equals(contraseña, that.contraseña) && Objects.equals(rol, that.rol);
+        return id == that.id && validado == that.validado && Objects.equals(nombre, that.nombre) && Objects.equals(apellidos, that.apellidos) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(dni, that.dni) && Objects.equals(genero, that.genero) && Objects.equals(correo, that.correo) && Objects.equals(telefono, that.telefono) && Objects.equals(fechaIngreso, that.fechaIngreso) && Objects.equals(nombreUsuario, that.nombreUsuario) && Objects.equals(contraseña, that.contraseña) && Objects.equals(tipoEntrenamiento, that.tipoEntrenamiento) && Objects.equals(rol, that.rol) && Objects.equals(entrenador, that.entrenador);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellidos, fechaNacimiento, dni, genero, correo, telefono, fechaIngreso, nombreUsuario, contraseña, validado, tipoEntrenamientoId, rol);
+        return Objects.hash(id, nombre, apellidos, fechaNacimiento, dni, genero, correo, telefono, fechaIngreso, nombreUsuario, contraseña, validado, tipoEntrenamiento, rol, entrenador);
     }
-
 }

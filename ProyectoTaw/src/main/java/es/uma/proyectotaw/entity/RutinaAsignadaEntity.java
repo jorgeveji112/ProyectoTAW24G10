@@ -2,6 +2,7 @@ package es.uma.proyectotaw.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -11,12 +12,16 @@ public class RutinaAsignadaEntity {
     @Id
     @Column(name = "id")
     private int id;
+    @ManyToOne
+    @JoinColumn(name = "rutina_predefinida_id")
+    private RutinaPredefinidaEntity rutinaPredefinida;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
     @Basic
-    @Column(name = "rutina_predefinida_id")
-    private int rutinaPredefinidaId;
-    @Basic
-    @Column(name = "usuario_id")
-    private int usuarioId;
+    @Column(name = "fecha")
+    private Date fecha;
 
     public int getId() {
         return id;
@@ -26,32 +31,40 @@ public class RutinaAsignadaEntity {
         this.id = id;
     }
 
-    public int getRutinaPredefinidaId() {
-        return rutinaPredefinidaId;
+    public RutinaPredefinidaEntity getRutinaPredefinida() {
+        return rutinaPredefinida;
     }
 
-    public void setRutinaPredefinidaId(int rutinaPredefinidaId) {
-        this.rutinaPredefinidaId = rutinaPredefinidaId;
+    public void setRutinaPredefinida(RutinaPredefinidaEntity rutinaPredefinida) {
+        this.rutinaPredefinida = rutinaPredefinida;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof RutinaAsignadaEntity)) return false;
         RutinaAsignadaEntity that = (RutinaAsignadaEntity) o;
-        return id == that.id && rutinaPredefinidaId == that.rutinaPredefinidaId && usuarioId == that.usuarioId;
+        return id == that.id && Objects.equals(rutinaPredefinida, that.rutinaPredefinida) && Objects.equals(usuario, that.usuario) && Objects.equals(fecha, that.fecha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, rutinaPredefinidaId, usuarioId);
+        return Objects.hash(id, rutinaPredefinida, usuario, fecha);
     }
 }

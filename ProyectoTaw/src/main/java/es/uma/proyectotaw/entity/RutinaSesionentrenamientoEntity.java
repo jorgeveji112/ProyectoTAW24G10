@@ -8,32 +8,33 @@ import java.util.Objects;
 @Table(name = "rutina_sesionentrenamiento", schema = "bdgym", catalog = "")
 @IdClass(RutinaSesionentrenamientoEntityPK.class)
 public class RutinaSesionentrenamientoEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "sesionentrenamiento_id")
-    private int sesionentrenamientoId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ManyToOne
+    @JoinColumn(name = "sesionentrenamiento_id")
+    private SesionentrenamientoEntity sesionentrenamiento;
+
     @Id
-    @Column(name = "rutina_predefinida_id")
-    private int rutinaPredefinidaId;
+    @ManyToOne
+    @JoinColumn(name = "rutina_predefinida_id")
+    private RutinaPredefinidaEntity rutinaPredefinida;
     @Basic
     @Column(name = "posicion")
     private Integer posicion;
 
-    public int getSesionentrenamientoId() {
-        return sesionentrenamientoId;
+    public SesionentrenamientoEntity getSesionentrenamiento() {
+        return sesionentrenamiento;
     }
 
-    public void setSesionentrenamientoId(int sesionentrenamientoId) {
-        this.sesionentrenamientoId = sesionentrenamientoId;
+    public void setSesionentrenamiento(SesionentrenamientoEntity sesionentrenamiento) {
+        this.sesionentrenamiento = sesionentrenamiento;
     }
 
-    public int getRutinaPredefinidaId() {
-        return rutinaPredefinidaId;
+    public RutinaPredefinidaEntity getRutinaPredefinida() {
+        return rutinaPredefinida;
     }
 
-    public void setRutinaPredefinidaId(int rutinaPredefinidaId) {
-        this.rutinaPredefinidaId = rutinaPredefinidaId;
+    public void setRutinaPredefinida(RutinaPredefinidaEntity rutinaPredefinida) {
+        this.rutinaPredefinida = rutinaPredefinida;
     }
 
     public Integer getPosicion() {
@@ -49,11 +50,12 @@ public class RutinaSesionentrenamientoEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RutinaSesionentrenamientoEntity that = (RutinaSesionentrenamientoEntity) o;
-        return sesionentrenamientoId == that.sesionentrenamientoId && rutinaPredefinidaId == that.rutinaPredefinidaId && Objects.equals(posicion, that.posicion);
+        return Objects.equals(sesionentrenamiento, that.sesionentrenamiento) && Objects.equals(rutinaPredefinida, that.rutinaPredefinida) && Objects.equals(posicion, that.posicion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sesionentrenamientoId, rutinaPredefinidaId, posicion);
+        return Objects.hash(sesionentrenamiento, rutinaPredefinida, posicion);
     }
+
 }

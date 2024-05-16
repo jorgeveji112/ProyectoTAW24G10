@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface SesionentrenamientoHasSesionejercicioRepository extends JpaRepository<SesionentrenamientoHasSesionejercicioEntity, SesionentrenamientoHasSesionejercicioEntityPK> {
     List<SesionentrenamientoHasSesionejercicioEntity> findBySesionentrenamientoOrderByPosicion(SesionentrenamientoEntity sesionEntrenamiento);
+
+    void deleteBySesionentrenamientoId(Integer id);
 }

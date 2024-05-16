@@ -34,16 +34,18 @@
     </nav>
     <div class="imagen-fondo">
         <div class="capa-gris"></div>
+
         <div class="contenedor-crear-rutina">
-            <button class="crear-rutina">Crear Rutina</button>
+            <h1>Estas son tus Rutinas Semanales creadas</h1>
+            <button class="crear-rutina" onclick="window.location.href='/entrenadorMain/rutinas/crear'">Crear Rutina</button>
             <div class="contenedor-rutinas">
             <%
                 for (RutinaPredefinidaEntity rutina: listaRutinas) {
             %>
                 <div class="rutina-item">
                     <p class="rutina-nombre"><%= rutina.getNombre()%></p>
-                    <button class="ver-rutina" onclick="verRutina('<%= rutina.getId() %>')">Ver Rutina</button>
-                    <button class="borrar-rutina" onclick="borrarRutina('<%= rutina.getId() %>')">Borrar Rutina</button>
+                    <button class="ver-rutina" onclick="window.location.href='/entrenadorMain/rutinas/ver?id=<%= rutina.getId() %>'">Ver Rutina</button>
+                    <button class="borrar-rutina" onclick="window.location.href='/entrenadorMain/rutinas/borrar?id=<%= rutina.getId() %>'">Borrar Rutina</button>
                 </div>
             <%
                 }

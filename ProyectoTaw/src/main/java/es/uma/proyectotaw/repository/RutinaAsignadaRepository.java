@@ -1,0 +1,15 @@
+package es.uma.proyectotaw.repository;
+
+import es.uma.proyectotaw.entity.RutinaAsignadaEntity;
+import es.uma.proyectotaw.entity.UsuarioEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Optional;
+
+@Repository
+public interface RutinaAsignadaRepository extends JpaRepository<RutinaAsignadaEntity, Integer>{
+    Optional<RutinaAsignadaEntity> findByUsuarioAndFecha(UsuarioEntity cliente, Date lunesDeEstaSemana);
+}

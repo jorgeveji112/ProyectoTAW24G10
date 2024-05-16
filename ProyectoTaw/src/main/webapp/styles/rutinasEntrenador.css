@@ -79,7 +79,7 @@ nav {
     width: 40%;
     height: 70%;
     position: absolute;
-    top: 15%;
+    top: 10%;
     left: 20%;
     flex-direction: column;
     display: flex;
@@ -119,4 +119,10 @@ nav {
     border-radius: 5px;
     background: linear-gradient(#B10028, #D55005);
     color: #fff;
+}
+h1{
+    color: #fff;
+    margin: 0;
+    margin-bottom: 15px;
+    white-space: nowrap;
 }

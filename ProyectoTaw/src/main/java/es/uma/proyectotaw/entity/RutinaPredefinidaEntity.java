@@ -2,6 +2,7 @@ package es.uma.proyectotaw.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,12 +18,12 @@ public class RutinaPredefinidaEntity {
     @Basic
     @Column(name = "objetivos")
     private String objetivos;
-    @Basic
-    @Column(name = "usuario_id")
-    private int usuarioId;
-    @Basic
-    @Column(name = "tipoentrenamiento_id")
-    private int tipoEntrenamientoId;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+    @ManyToOne
+    @JoinColumn(name = "tipoentrenamiento_id")
+    private  TipoentrenamientoEntity tipoEntrenamiento;
 
 
     public int getId() {
@@ -49,20 +50,20 @@ public class RutinaPredefinidaEntity {
         this.objetivos = objetivos;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
-    public int getTipoEntrenamientoId() {
-        return tipoEntrenamientoId;
+    public TipoentrenamientoEntity getTipoEntrenamiento() {
+        return tipoEntrenamiento;
     }
 
-    public void setTipoEntrenamientoId(int tipoEntrenamientoId) {
-        this.tipoEntrenamientoId = tipoEntrenamientoId;
+    public void setTipoEntrenamiento(TipoentrenamientoEntity tipoEntrenamiento) {
+        this.tipoEntrenamiento = tipoEntrenamiento;
     }
 
     @Override
@@ -70,12 +71,12 @@ public class RutinaPredefinidaEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RutinaPredefinidaEntity that = (RutinaPredefinidaEntity) o;
-        return id == that.id && usuarioId == that.usuarioId && tipoEntrenamientoId == that.tipoEntrenamientoId && Objects.equals(nombre, that.nombre) && Objects.equals(objetivos, that.objetivos);
+        return id == that.id && Objects.equals(nombre, that.nombre) && Objects.equals(objetivos, that.objetivos) && Objects.equals(usuario, that.usuario) && Objects.equals(tipoEntrenamiento, that.tipoEntrenamiento);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, objetivos, usuarioId, tipoEntrenamientoId);
+        return Objects.hash(id, nombre, objetivos, usuario, tipoEntrenamiento);
     }
 
 }

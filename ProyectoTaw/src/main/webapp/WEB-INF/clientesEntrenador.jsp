@@ -1,7 +1,9 @@
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.DayOfWeek" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -10,6 +12,9 @@
 --%>
 <%
     List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("clientes");
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -57,39 +62,18 @@
                         <td><%= cliente.getCorreo()%></td>
                         <td><%= cliente.getTelefono()%></td>
                         <td>
-                            <form action="ver-cliente" method="post">
-                                <input type="hidden" name="cliente" value="<%= cliente %>">
+                            <div class="btn-cliente">
                                 <button type="submit">Info. Cliente</button>
-                            </form>
+                            </div>
                         </td>
                         <td>
-                            <form action="ver-entrenamiento" method="post">
-                                <input type="hidden" name="cliente" value="<%= cliente %>">
-                                <button type="submit">Entrenamiento</button>
-                            </form>
+                            <div class="btn-cliente">
+                                <button onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=fechaLunes%>'">Entrenamiento</button>
+                            </div>
                         </td>
 
                     </tr>
-                  <tr>
-                        <td><%= cliente.getNombre()%></td>
-                        <td><%= cliente.getApellidos()%></td>
-                        <td><%= cliente.getFechaNacimiento()%></td>
-                        <td><%= cliente.getCorreo()%></td>
-                        <td><%= cliente.getTelefono()%></td>
-                        <td>
-                            <form action="ver-cliente" method="post">
-                                <input type="hidden" name="cliente" value="<%= cliente %>">
-                                <button type="submit">Info. Cliente</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="ver-entrenamiento" method="post">
-                                <input type="hidden" name="cliente" value="<%= cliente %>">
-                                <button type="submit">Entrenamiento</button>
-                            </form>
-                        </td>
 
-                    </tr>
 
                 <%
                     }

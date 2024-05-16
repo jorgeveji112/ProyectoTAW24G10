@@ -1,6 +1,7 @@
 package es.uma.proyectotaw.repository;
 
 import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
+import es.uma.proyectotaw.entity.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RutinaPredefinidaRepository extends JpaRepository<RutinaPredefinidaEntity, Integer> {
-    List<RutinaPredefinidaEntity> findByUsuarioId(int id);
+    List<RutinaPredefinidaEntity> findByUsuario(UsuarioEntity usuario);
 }

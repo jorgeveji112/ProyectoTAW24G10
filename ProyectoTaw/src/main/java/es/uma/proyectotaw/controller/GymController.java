@@ -96,7 +96,8 @@ public class GymController extends BaseController{
         usuario.setContraseña(contraseña);
         usuario.setGenero(sexo);
         usuario.setRol(this.trolRepository.findById(2).get());
-        usuario.setTipoEntrenamientoId(2);
+
+        //usuario.setTipoEntrenamiento(tipoEntrenamiento);
 
         ClienteEntity cliente = new ClienteEntity();
 

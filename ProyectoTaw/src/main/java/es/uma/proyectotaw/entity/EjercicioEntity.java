@@ -20,9 +20,9 @@ public class EjercicioEntity {
     @Basic
     @Column(name = "video")
     private String video;
-    @Basic
-    @Column(name = "tipoentrenamiento_id")
-    private Integer tipoEntrenamientoId;
+    @ManyToOne
+    @JoinColumn(name = "tipoentrenamiento_id")
+    private TipoentrenamientoEntity tipoEntrenamiento;
 
     @Basic
     @Column(name = "tipoejerciciobodybuilding_id")
@@ -63,35 +63,12 @@ public class EjercicioEntity {
         this.video = video;
     }
 
-    public Integer getTipoEntrenamientoId() {
-        return tipoEntrenamientoId;
+    public TipoentrenamientoEntity getTipoEntrenamiento() {
+        return tipoEntrenamiento;
     }
 
-    public void setTipoEntrenamientoId(Integer tipoEntrenamientoId) {
-        this.tipoEntrenamientoId = tipoEntrenamientoId;
-    }
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EjercicioEntity that = (EjercicioEntity) o;
-        return id == that.id && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion) && Objects.equals(video, that.video) && Objects.equals(tipoEntrenamientoId, that.tipoEntrenamientoId) && Objects.equals(tipoejerciciobodybuildingId, that.tipoejerciciobodybuildingId) && Objects.equals(tipoejerciciocrosstrainingId, that.tipoejerciciocrosstrainingId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, video, tipoEntrenamientoId, tipoejerciciobodybuildingId, tipoejerciciocrosstrainingId);
-    }
-
-    public Integer getTipoentrenamientoId() {
-        return tipoEntrenamientoId;
-    }
-
-    public void setTipoentrenamientoId(Integer tipoentrenamientoId) {
-        this.tipoEntrenamientoId = tipoentrenamientoId;
+    public void setTipoEntrenamiento(TipoentrenamientoEntity tipoEntrenamiento) {
+        this.tipoEntrenamiento = tipoEntrenamiento;
     }
 
     public Integer getTipoejerciciobodybuildingId() {
@@ -108,5 +85,18 @@ public class EjercicioEntity {
 
     public void setTipoejerciciocrosstrainingId(Integer tipoejerciciocrosstrainingId) {
         this.tipoejerciciocrosstrainingId = tipoejerciciocrosstrainingId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EjercicioEntity that = (EjercicioEntity) o;
+        return id == that.id && Objects.equals(nombre, that.nombre) && Objects.equals(descripcion, that.descripcion) && Objects.equals(video, that.video) && Objects.equals(tipoEntrenamiento, that.tipoEntrenamiento) && Objects.equals(tipoejerciciobodybuildingId, that.tipoejerciciobodybuildingId) && Objects.equals(tipoejerciciocrosstrainingId, that.tipoejerciciocrosstrainingId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, descripcion, video, tipoEntrenamiento, tipoejerciciobodybuildingId, tipoejerciciocrosstrainingId);
     }
 }
