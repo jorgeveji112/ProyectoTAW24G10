@@ -28,6 +28,9 @@ public class RutinaEntrenadorController extends BaseController{
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
 
+    @Autowired
+    private RutinaAsignadaRepository rutinaAsignadaRepository;
+
     @GetMapping("/entrenadorMain")
     public String doEntrenadorMain(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -72,6 +75,10 @@ public class RutinaEntrenadorController extends BaseController{
         List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutina);
         for (RutinaSesionentrenamientoEntity rutinaSesion : rutinasSesiones) {
             rutinaSesionentrenamientoRepository.delete(rutinaSesion);
+        }
+        List<RutinaAsignadaEntity> rutinasAsignadas = rutinaAsignadaRepository.findByRutinaPredefinida(rutina);
+        for (RutinaAsignadaEntity rutinaAsignada : rutinasAsignadas) {
+            rutinaAsignadaRepository.delete(rutinaAsignada);
         }
         rutinaPredefinidaRepository.delete(rutina);
         return "redirect:/entrenadorMain/rutinas";

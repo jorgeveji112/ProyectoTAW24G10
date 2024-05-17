@@ -74,7 +74,7 @@
             %>
                     <div class="info-rutina">
                         <p id="label-nombre">
-                            Nombre de la Rutina:
+                            <span class="label"> Nombre de la Rutina:</span>
                             <span class="nombre"><%=rutinaAsignada.getRutinaPredefinida().getNombre()%></span>
                         </p>
                         <p id="label-objetivos">
@@ -94,9 +94,11 @@
                                     <button class="btn-ver-sesion">Ver Sesión</button>
 
                                     <div class="contenedor-iconos">
-                                        <img src="/img/flecha-arriba.png" alt="Icono Subir" class="img-icono" onclick="moverSesion(this, 'arriba')">
-                                        <img src="/img/flecha-abajo.png" alt="Icono Bajar" class="img-icono" onclick="moverSesion(this, 'abajo')">
-                                        <img src="/img/borrar.png" alt="Icono Borrar" class="img-icono" onclick="borrarSesion(this)">
+                                        <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
+                                        <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
+                                        <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
+                                        <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
+                                        <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
                                     </div>
 
                                 </div>

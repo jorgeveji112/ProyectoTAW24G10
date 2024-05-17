@@ -255,12 +255,9 @@ nav {
 .img-icono{
     height: 75%;
     width: auto;
-    cursor: pointer;
     margin-right: 10px;
 }
-.img-icono:hover{
-    transform: scale(1.1);
-}
+
 .contenedor-iconos{
     display: flex;
     height: 100%;
@@ -278,7 +275,7 @@ nav {
     margin-bottom: 10px;
     font-size: 20px;
     width: 100%;
-    margin-top: -55px;
+    margin-top: -45px;
 }
 
 #label-nombre{
@@ -287,17 +284,24 @@ nav {
     align-items: center;
     margin-bottom: 10px;
     font-size: 20px;
+    width: 50%;
+}
+.label{
+    width: fit-content;
+    white-space: nowrap;
 }
 #label-objetivos{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .nombre {
+    margin-left : 10px;
     width: 100%;
-    margin-left: 10px;
     padding: 10px;
     background: #ddd;
     border: 1px solid #000;
