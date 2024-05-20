@@ -33,7 +33,8 @@
 </nav>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
-    <h1>Lista de Entrenadores</h1>
+    <h1 class="body">Entrenadores Body-Building:</h1>
+    <h1 class="cross">Entrenadores Cross-Training:</h1>
     <div class="contenido">
         <table class="tabla">
             <tbody>
