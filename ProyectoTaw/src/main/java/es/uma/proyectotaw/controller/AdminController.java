@@ -31,7 +31,7 @@ public class AdminController extends BaseController{
         List<UsuarioEntity> entrenadoresCrossTraining = new ArrayList<>();
         for (UsuarioEntity usuario : listaUsuarios) {
             if(usuario.getRol().getRol() == RolEnum.entrenador){
-                if(usuario.getTipoEntrenamientoId() == 1) {
+                if(usuario.getTipoEntrenamiento().getId() == 1) {
                     entrenadoresBodyBuilding.add(usuario);
                 } else {
                     entrenadoresCrossTraining.add(usuario);

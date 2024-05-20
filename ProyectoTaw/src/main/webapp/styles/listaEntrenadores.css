@@ -90,12 +90,12 @@ nav {
     cursor: pointer;
     text-align: center;
     box-shadow: none;
-    font-size: 0.9em;
 }
 
 .contenido table{
     width: 100%;
     border-collapse: collapse;
+    margin-top: 15px ;
     margin-left: 10px;
 }
 
@@ -107,10 +107,12 @@ nav {
 .contenido table th,
 .contenido table td {
     font-size: 1.2em; /* Aumenta el tamaño de la fuente */
+    padding: 15px;
 }
 
 .contenido table td button {
-    padding: 10px 10px; /* Ajusta el tamaño del botón */
+    font-size: 1em;
+    padding: 2px 10px; /* Ajusta el tamaño del botón */
 }
 
 h1{
