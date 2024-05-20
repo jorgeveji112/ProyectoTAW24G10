@@ -13,7 +13,7 @@ public class TipoentrenamientoEntity {
     private int id;
     @Basic
     @Column(name = "tipo")
-    private Object tipo;
+    private TipoentrenamientoEnum tipo;
 
     public int getId() {
         return id;
@@ -23,11 +23,11 @@ public class TipoentrenamientoEntity {
         this.id = id;
     }
 
-    public Object getTipo() {
+    public TipoentrenamientoEnum getTipo() {
         return tipo;
     }
 
-    public void setTipo(Object tipo) {
+    public void setTipo(TipoentrenamientoEnum tipo) {
         this.tipo = tipo;
     }
 

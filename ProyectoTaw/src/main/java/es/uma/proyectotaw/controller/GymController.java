@@ -2,8 +2,10 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.ClienteEntity;
 import es.uma.proyectotaw.entity.RolEnum;
+import es.uma.proyectotaw.entity.TipoentrenamientoEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
 import es.uma.proyectotaw.repository.ClienteRepository;
+import es.uma.proyectotaw.repository.TipoentrenamientoRepository;
 import es.uma.proyectotaw.repository.TrolRepository;
 import es.uma.proyectotaw.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
@@ -21,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 public class GymController extends BaseController{
@@ -33,6 +36,10 @@ public class GymController extends BaseController{
 
     @Autowired
     private TrolRepository trolRepository;
+
+    @Autowired
+    private TipoentrenamientoRepository tipoentrenamientoRepository;
+
     @GetMapping("/")
     public String redirectToInicio(Model model) {
         return "redirect:/inicio";
@@ -52,6 +59,9 @@ public class GymController extends BaseController{
     }
     @GetMapping("/registro")
     public String doRegistro(Model model) {
+
+        List<TipoentrenamientoEntity> tiposEnt = this.tipoentrenamientoRepository.findAll();
+        model.addAttribute("tiposEnt",tiposEnt);
         return "registro";
     }
 
@@ -75,8 +85,8 @@ public class GymController extends BaseController{
     }
 
 
-    @GetMapping("/register")
-    public String register(@RequestParam("nombre") String nombre, @RequestParam("apellidos") String apellidos,
+    @PostMapping("/register")
+    public String register(@RequestParam(value = "nombre", required = false) String nombre, @RequestParam("apellidos") String apellidos,
                              @RequestParam("Fecha_nacimiento") String FechaNac,@RequestParam("DNI") String DNI,
                              @RequestParam("eMail") String eMail,@RequestParam("telefono") String telefono,@RequestParam("altura") String altura,
                              @RequestParam("peso") String peso,@RequestParam("sexo") String sexo,

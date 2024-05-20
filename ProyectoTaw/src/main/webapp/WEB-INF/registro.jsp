@@ -1,6 +1,11 @@
-<%-- Created by IntelliJ IDEA. User: BEEP Date: 26/04/2024 Time: 12:16 To change
+<%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEntity" %>
+<%@ page import="java.util.List" %><%-- Created by IntelliJ IDEA. User: BEEP Date: 26/04/2024 Time: 12:16 To change
 this template use File | Settings | File Templates. --%> <%@ page
 contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    List<TipoentrenamientoEntity> tiposEntr = (List<TipoentrenamientoEntity>)request.getAttribute("tiposEnt");
+%>
+
 <html>
     <head>
         <title>TrainingGym</title>
@@ -26,7 +31,8 @@ contentType="text/html;charset=UTF-8" language="java" %>
         <div class="imagen-fondo">
             <div class="capa-gris"></div>
             <div class="contenido">
-                <form action="/register" method="get" id="form" name="form" enctype="text/plain" class="home-form">
+                <form action="/register" method="post" id="form" name="form" class="home-form">
+
                     <h1 class="home-text">Datos personales</h1>
                     <div id="DatosPersonales" class="home-container01">
                         <div class="home-container02">
@@ -79,8 +85,15 @@ contentType="text/html;charset=UTF-8" language="java" %>
                                     <label class="home-text08"
                                         >Tipo de Entrenamiento:</label
                                     ><select name="tipoEntrenamiento">
-                                        <option value="Fuerza">Fuerza (bodybuilding)</option>
-                                        <option value="Cross">Cross - Training</option>
+                                        <%
+                                            for(TipoentrenamientoEntity tipo : tiposEntr){
+
+                                        %>
+                                        <option value=<%=tipo.getId()%>><%= tipo.getTipo()%></option>
+                                        <%
+                                            }
+                                        %>
+
                                     </select>
                                 </div>
                             </div>
