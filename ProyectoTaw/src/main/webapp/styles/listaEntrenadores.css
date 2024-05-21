@@ -96,7 +96,8 @@ nav {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px ;
-    margin-left: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 .contenido div:hover{
@@ -107,7 +108,7 @@ nav {
 .contenido table th,
 .contenido table td {
     font-size: 1.2em; /* Aumenta el tamaño de la fuente */
-    padding: 15px;
+    padding: 10px 0px;
 }
 
 .contenido table td button {

@@ -12,6 +12,7 @@ public class TipoentrenamientoEntity {
     @Column(name = "id")
     private int id;
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
     private TipoentrenamientoEnum tipo;
 
