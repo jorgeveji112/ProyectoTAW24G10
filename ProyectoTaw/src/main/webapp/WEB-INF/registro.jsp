@@ -32,7 +32,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
             <div class="contenido">
                 <form action="/register" method="post" id="form" name="form" class="home-form">
 
-                    <h1 class="home-text">Datos personales</h1>
+                    <h1 class="0">Datos personales</h1>
                     <div id="DatosPersonales" class="home-container01">
                         <div class="home-container02">
                             <div class="home-container03">
