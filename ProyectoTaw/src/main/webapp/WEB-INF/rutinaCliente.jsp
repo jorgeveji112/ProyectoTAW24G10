@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectotaw.entity.RutinaAsignadaEntity" %>
 
 <%
+    RutinaAsignadaEntity rutinaasignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
 %>
 
 <!DOCTYPE html>
@@ -28,10 +31,10 @@
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
-<h1>Sesion de entrenamiento</h1>
+<h1><%=rutinaasignada.getRutinaPredefinida().getNombre()%></h1>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
-    <main>
+    <div class="sesiones">
         <div class="session">
             <h2>Sesión número 1</h2>
             <button>Ver ejercicios sesión</button>
@@ -47,7 +50,7 @@
             <button>Ver ejercicios sesión</button>
             <label for="sesion 2"></label><input id="sesion 3" type="checkbox">
         </div>
-    </main>
+    </div>
 </div>
 </body>
 </html>

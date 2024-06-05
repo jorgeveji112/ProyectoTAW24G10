@@ -63,12 +63,14 @@ nav {
     background-color: rgba(0, 0, 0, 0.7); /* Color grisáceo con transparencia */
 }
 
-main {
-    padding: 2rem;
-}
-.session {
+.sesiones {
+
     background: linear-gradient(#B10028, #D55005);
     border-radius: 5px;
+
+}
+.session {
+
     padding: 1rem;
     margin-bottom: 1rem;
     /* Añade lo siguiente */
