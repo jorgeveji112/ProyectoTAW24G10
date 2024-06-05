@@ -17,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     @Query(value = "SELECT * FROM bdgym.usuario WHERE trol_id = :rol", nativeQuery = true)
     List<UsuarioEntity> findUsuariosByRol(@Param("rol") int rol);
 
+    @Query(value = "SELECT * FROM bdgym.usuario WHERE trol_id = 2 AND entrenador_id IS NULL AND tipoentrenamiento_id = :tipoEntrenamiento", nativeQuery = true)
+    List<UsuarioEntity> findUsuariosWithoutCoachByTipoEntrenamiento(@Param("tipoEntrenamiento") int tipoEntrenamiento);
 }
