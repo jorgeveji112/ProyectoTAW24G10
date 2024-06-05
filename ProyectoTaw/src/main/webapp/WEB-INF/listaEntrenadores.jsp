@@ -52,6 +52,7 @@
                     <%}}else{%>
                     <h3>No hay entrenadores Body Building disponibles</h3>
                 <%}%>
+
             </tbody>
         </table>
     </div>
