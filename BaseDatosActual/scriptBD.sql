@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`usuario` (
   `validado` TINYINT(4) NOT NULL,
   `tipoentrenamiento_id` INT(11) NOT NULL,
   `trol_id` INT(11) NOT NULL,
-  `usuario_id` INT(11) NULL DEFAULT NULL,
+  `entrenador_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE,
   UNIQUE INDEX `telefono_UNIQUE` (`telefono` ASC) VISIBLE,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`usuario` (
   UNIQUE INDEX `nombreUsuario_UNIQUE` (`nombre_usuario` ASC) VISIBLE,
   INDEX `fk_usuario_tipoEntrenamiento1_idx` (`tipoentrenamiento_id` ASC) VISIBLE,
   INDEX `fk_usuario_tRol1_idx` (`trol_id` ASC) VISIBLE,
-  INDEX `fk_usuario_usuario1_idx` (`usuario_id` ASC) VISIBLE,
+  INDEX `fk_usuario_usuario1_idx` (`entrenador_id` ASC) VISIBLE,
   CONSTRAINT `fk_usuario_tRol1`
     FOREIGN KEY (`trol_id`)
     REFERENCES `bdgym`.`trol` (`id`),
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `bdgym`.`usuario` (
     FOREIGN KEY (`tipoentrenamiento_id`)
     REFERENCES `bdgym`.`tipoentrenamiento` (`id`),
   CONSTRAINT `fk_usuario_usuario1`
-    FOREIGN KEY (`usuario_id`)
+    FOREIGN KEY (`entrenador_id`)
     REFERENCES `bdgym`.`usuario` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

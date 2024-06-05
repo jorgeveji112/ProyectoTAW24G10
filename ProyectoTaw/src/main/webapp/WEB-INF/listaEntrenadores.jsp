@@ -43,10 +43,10 @@
                         <tr>
                             <td><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></td>
                             <td>
-                                <button class="boton" onclick="window.location='adminMain/clientesAsignados?id=<%= entrenador.getId()%>'">Clientes Asignados</button>
+                                <button class="boton" onclick="window.location='/adminMain/clientesEntrenador/<%= entrenador.getId()%>'">Clientes Asignados</button>
                             </td>
                             <td>
-                                <button class="boton" onclick="window.location='adminMain/borrarEntrenador?id=<%= entrenador.getId()%>'">Borrar</button>
+                                <button class="boton" onclick="window.location='/adminMain/borrarEntrenador/<%= entrenador.getId()%>'">Borrar</button>
                             </td>
                         </tr>
                     <%}
@@ -63,10 +63,10 @@
                     <tr>
                         <td><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></td>
                         <td>
-                            <button class="boton" onclick="window.location='adminMain/clientesAsignados?id=<%= entrenador.getId()%>'">Clientes Asignados</button>
+                            <button class="boton" onclick="window.location='/adminMain/clientesEntrenador/<%= entrenador.getId()%>'">Clientes Asignados</button>
                         </td>
                         <td>
-                            <button class="boton" onclick="window.location='adminMain/borrarEntrenador?id=<%= entrenador.getId()%>'">Borrar</button>
+                            <button class="boton" onclick="window.location='/adminMain/borrarEntrenador/<%= entrenador.getId()%>'">Borrar</button>
                         </td>
                     </tr>
                 <%}
