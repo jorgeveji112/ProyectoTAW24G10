@@ -34,7 +34,7 @@
 </nav>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
-    <h1 class="encabezado">Clientes asignados de entrenador: <%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></h1> </br>
+    <h1 class="encabezado">Clientes asignados del entrenador: <%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></h1> </br>
 
     <div class="contenido">
         <table>
@@ -43,12 +43,22 @@
                 <th><%=u.getDni()%></th>
                 <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
                 <th><%=u.getGenero()%></th>
-                <th><a href="/adminMain/entrenador/desasignarCliente/<%=u.getId()%>">Desasignar entrenador</a></th>
+                <th><button class="boton" onclick="window.location='/adminMain/entrenador/desasignarCliente/<%=u.getId()%>'">Desasignar entrenador</button></th>
             </tr>
             <%}%>
         </table>
     </div>
-    <button class="boton" onclick="window.location='/adminMain/nuevosClientesEntrenador/<%= entrenador.getId()%>'">Asignar nuevos clientes</button>
+    <div class="contenido2">
+        <div class="filtro">
+            <form class="formulario" action="/adminMain/filtrar/clientesAsignados" method="post">
+                <p>Escribe nombre, apellidos o DNI</p>
+                <input type="hidden" name="idEntrenador" value="<%=entrenador.getId()%>">
+                <input class="entrada" name="filtro"> </br>
+                <input class="filtrar" type="submit" value="Filtrar">
+            </form>
+        </div>
+        <button class="boton2" onclick="window.location='/adminMain/nuevosClientesEntrenador/<%= entrenador.getId()%>'">Asignar nuevos </br>clientes</button>
+    </div>
 </div>
 </body>
 </html>

@@ -15,7 +15,7 @@
 <head>
     <title>TrainingGym</title>
     <link rel="stylesheet" href="/styles/general.css">
-    <link rel="stylesheet" href="/styles/clientesAsignadosEntrenador.css">
+    <link rel="stylesheet" href="/styles/clientesSinEntrenador.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -46,11 +46,21 @@
                 <th><%=u.getDni()%></th>
                 <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
                 <th><%=u.getGenero()%></th>
-                <th><a href="/adminMain/asignarClienteEntrenador?idCliente=<%=u.getId()%>&idEntrenador=<%=entrenador.getId()%>">Asignar</a></th>
+                <th><button class="boton" onclick="window.location='/adminMain/asignarClienteEntrenador?idCliente=<%=u.getId()%>&idEntrenador=<%=entrenador.getId()%>'">Asignar</button></th>
             </tr>
             <%}%>
         </table>
         <%}%>
+    </div>
+    <div class="contenido2">
+        <div class="filtro">
+            <form class="formulario" action="/adminMain/filtrar/clientesSinAsignar" method="post">
+                <p>Escribe nombre, apellidos o DNI</p>
+                <input type="hidden" name="idEntrenador" value="<%=entrenador.getId()%>">
+                <input class="entrada" name="filtro">
+                <input class="filtrar" type="submit" value="filtrar">
+            </form>
+        </div>
     </div>
 </div>
 </body>

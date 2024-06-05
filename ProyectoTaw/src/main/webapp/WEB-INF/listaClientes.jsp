@@ -9,6 +9,8 @@
 
 <%
     List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes");
+    List<UsuarioEntity> entrenadoresBodyBuilding = (List<UsuarioEntity>) request.getAttribute("entrenadoresBodyBuilding");
+    List<UsuarioEntity> entrenadoresCrossTraining = (List<UsuarioEntity>) request.getAttribute("entrenadoresCrossTraining");
 %>
 
 <html>
@@ -40,16 +42,33 @@
         <table>
             <%for(UsuarioEntity u : listaClientes){%>
             <tr>
-                <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
-                <th><%=u.getGenero()%></th>
-                <th>
-                    <%if(u.getEntrenador() == null){%>
-                        Sin entrenador asignado
-                    <%} else {%>
-                        Entrenador asignado
-                    <%}%>
-                </th>
-                <th><a href="/adminMain/cliente/borrar/<%=u.getId()%>">Borrar</a></th>
+                <form action="" method="post">
+                    <th><%=u.getDni()%></th>
+                    <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
+                    <th><%=u.getGenero()%></th>
+                    <th>entrenador
+                        <select name="idEntrenador">
+                            <option value="" >Sin Entrenador</option>
+                            <%if(u.getTipoEntrenamiento().getId() == 1){
+                                for(UsuarioEntity e : entrenadoresBodyBuilding){
+                                    String seleccionado = "";
+                                    if(u.getEntrenador() != null && e.equals(u.getEntrenador())) {
+                                        seleccionado="selected";
+                                    }%>
+                                    <option value="<%=e.getId()%>" <%=seleccionado%>><%=e.getNombre()%> <%=e.getApellidos()%></option>
+                                <%}
+                            } else {
+                                for(UsuarioEntity e : entrenadoresCrossTraining){
+                                    String seleccionado = "";
+                                    if(u.getEntrenador() != null && e.getId() == u.getEntrenador().getId())seleccionado="selected";%>
+                                    <option value="<%=e.getId()%>"><%=e.getNombre()%> <%=e.getApellidos()%></option>
+                                <%}
+                            }%>
+                        </select>
+                    </th>
+                    <th><input type="submit" value="Guardar"></th>
+                    <th><a href="/adminMain/cliente/borrar/<%=u.getId()%>">Borrar</a></th>
+                </form>
             </tr>
             <%}%>
         </table>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -52,6 +53,17 @@ public class AdminController extends BaseController{
         return "listaEntrenadores";
     }
 
+    @GetMapping("/adminMain/borrarEntrenador/{id}")
+    public String borrarEntrenador(@PathVariable("id") int id){
+        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(id);
+        for (UsuarioEntity cliente : listaClientes) {
+            cliente.setEntrenador(null);
+            usuarioRepository.save(cliente);
+        }
+        usuarioRepository.deleteById(id);
+        return "redirect:/adminMain/entrenadores";
+    }
+
     @GetMapping("/adminMain/clientesEntrenador/{id}")
     public String doClientesEntrenador(@PathVariable("id") int id, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -70,6 +82,27 @@ public class AdminController extends BaseController{
         cliente.setEntrenador(null);
         usuarioRepository.save(cliente);
         return "redirect:/adminMain/clientesEntrenador/"+idEntrenador;
+    }
+
+    @PostMapping("/adminMain/filtrar/clientesAsignados")
+    public String filtrarClientesAsignados(@RequestParam("idEntrenador") int idEntrenador, @RequestParam("filtro") String filtro, Model model, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
+        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(idEntrenador);
+        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
+        for (UsuarioEntity cliente : listaClientes) {
+            if(cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getDni().toLowerCase().contains(filtro.toLowerCase())){
+                listaFiltrada.add(cliente);
+            }
+        }
+        if(listaFiltrada.isEmpty()){
+            listaFiltrada = listaClientes;
+        }
+        model.addAttribute("entrenador", entrenador);
+        model.addAttribute("listaClientes", listaFiltrada);
+        return "clientesAsignadosEntrenador";
     }
 
     @GetMapping("/adminMain/nuevosClientesEntrenador/{id}")
@@ -92,11 +125,44 @@ public class AdminController extends BaseController{
         return "redirect:/adminMain/clientesEntrenador/"+entrenador.getId();
     }
 
+    @PostMapping("/adminMain/filtrar/clientesSinAsignar")
+    public String filtrarClientesSinAsignar(@RequestParam("idEntrenador") int idEntrenador, @RequestParam("filtro") String filtro, Model model, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
+        List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosWithoutCoachByTipoEntrenamiento(entrenador.getTipoEntrenamiento().getId());
+        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
+        for (UsuarioEntity cliente : listaClientes) {
+            if(cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getDni().toLowerCase().contains(filtro.toLowerCase())){
+                listaFiltrada.add(cliente);
+            }
+        }
+        if(listaFiltrada.isEmpty()){
+            listaFiltrada = listaClientes;
+        }
+        model.addAttribute("entrenador", entrenador);
+        model.addAttribute("listaClientes", listaFiltrada);
+        return "clientesSinEntrenador";
+    }
+
     // RAMA DE LISTA DE CLIENTES /////////////////////////
     @GetMapping("/adminMain/clientes")
     public String doClientes(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosByRol(2);
+        List<UsuarioEntity> listaEntrenadores = usuarioRepository.findUsuariosByRol(1);
+        List<UsuarioEntity> entrenadoresBodyBuilding = new ArrayList<>();
+        List<UsuarioEntity> entrenadoresCrossTraining = new ArrayList<>();
+        for(UsuarioEntity usuario : listaEntrenadores) {
+            if(usuario.getTipoEntrenamiento().getId() == 1) {
+                entrenadoresBodyBuilding.add(usuario);
+            } else {
+                entrenadoresCrossTraining.add(usuario);
+            }
+        }
+        model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
+        model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
         model.addAttribute("listaClientes", listaClientes);
         return "listaClientes";
     }
@@ -110,12 +176,15 @@ public class AdminController extends BaseController{
         return "redirect:/adminMain/clientes";
     }
 
+    // RAMA DE LISTA DE SOLICITUDES /////////////////////////
     @GetMapping("/adminMain/solicitudes")
     public String doSolicitudes(HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         return "mainAdmin";
     }
 
+
+    // RAMA DE LISTA DE EJERCICIOS /////////////////////////
     @GetMapping("/adminMain/ejercicios")
     public String doEjercicios(HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";

@@ -74,7 +74,7 @@ nav {
     color: #000;
     border-radius: 10px;
     margin: 15px;
-    width: 85%;
+    width: 75%;
     height: 75%;
 }
 
@@ -109,7 +109,7 @@ nav {
 .contenido table,
 .contenido table th,
 .contenido table td {
-    font-size: 1.1em; /* Aumenta el tamaño de la fuente */
+    font-size: 1.2em; /* Aumenta el tamaño de la fuente */
     padding: 5px 0px;
 }
 
@@ -164,21 +164,6 @@ h1 {
 }
 
 .filtrar{
-    background: linear-gradient(#B10028, #D55005);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    font-size: 1.1em;
-}
-
-.boton2{
     background: linear-gradient(#B10028, #D55005);
     display : flex;
     justify-content: center;
