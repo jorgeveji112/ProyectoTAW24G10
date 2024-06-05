@@ -49,8 +49,10 @@
                                 <button class="boton" onclick="window.location='/adminMain/borrarEntrenador/<%= entrenador.getId()%>'">Borrar</button>
                             </td>
                         </tr>
-                    <%}
-                }%>
+                    <%}}else{%>
+                    <h3>No hay entrenadores Body Building disponibles</h3>
+                <%}%>
+
             </tbody>
         </table>
     </div>
@@ -70,7 +72,9 @@
                         </td>
                     </tr>
                 <%}
-            }%>
+            }else{%>
+            <h3>No hay entrenadores Cross Training disponibles</h3>
+            <%}%>
             </tbody>
         </table>
     </div>

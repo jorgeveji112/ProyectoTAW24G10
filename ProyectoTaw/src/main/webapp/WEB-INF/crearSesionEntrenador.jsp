@@ -62,7 +62,7 @@
                     </label>
                     <label id="label-descripcion">
                         Descripción:
-                        <textarea name="descripcion"></textarea>
+                        <textarea maxlength="249" name="descripcion"></textarea>
                     </label>
                     <p id="btn-add-ejercicio" onclick="mostrarModal()">Añadir ejercicio</p>
                     <div id="div-ejercicios">
