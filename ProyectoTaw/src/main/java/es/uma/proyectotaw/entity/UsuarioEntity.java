@@ -3,6 +3,7 @@ package es.uma.proyectotaw.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -52,10 +53,8 @@ public class UsuarioEntity {
     @JoinColumn(name = "trol_id")
     private TrolEntity rol;
 
-
-
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "entrenador_id")
     private UsuarioEntity entrenador;
 
 
