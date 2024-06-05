@@ -1,10 +1,9 @@
 <%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEntity" %>
-<%@ page import="java.util.List" %><%-- Created by IntelliJ IDEA. User: BEEP Date: 26/04/2024 Time: 12:16 To change
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEnum" %><%-- Created by IntelliJ IDEA. User: BEEP Date: 26/04/2024 Time: 12:16 To change
 this template use File | Settings | File Templates. --%> <%@ page
 contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    List<TipoentrenamientoEntity> tiposEntr = (List<TipoentrenamientoEntity>)request.getAttribute("tiposEnt");
-%>
+
 
 <html>
     <head>
@@ -86,10 +85,10 @@ contentType="text/html;charset=UTF-8" language="java" %>
                                         >Tipo de Entrenamiento:</label
                                     ><select name="tipoEntrenamiento">
                                         <%
-                                            for(TipoentrenamientoEntity tipo : tiposEntr){
+                                            for(TipoentrenamientoEnum tipo : TipoentrenamientoEnum.values()){
 
                                         %>
-                                        <option value=<%=tipo.getId()%>><%= tipo.getTipo()%></option>
+                                        <option value=<%=tipo%>><%= tipo%></option>
                                         <%
                                             }
                                         %>

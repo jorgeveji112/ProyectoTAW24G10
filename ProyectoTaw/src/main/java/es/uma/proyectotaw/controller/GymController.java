@@ -1,9 +1,6 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.entity.ClienteEntity;
-import es.uma.proyectotaw.entity.RolEnum;
-import es.uma.proyectotaw.entity.TipoentrenamientoEntity;
-import es.uma.proyectotaw.entity.UsuarioEntity;
+import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.repository.ClienteRepository;
 import es.uma.proyectotaw.repository.TipoentrenamientoRepository;
 import es.uma.proyectotaw.repository.TrolRepository;
@@ -60,8 +57,6 @@ public class GymController extends BaseController{
     @GetMapping("/registro")
     public String doRegistro(Model model) {
 
-        List<TipoentrenamientoEntity> tiposEnt = this.tipoentrenamientoRepository.findAll();
-        model.addAttribute("tiposEnt",tiposEnt);
         return "registro";
     }
 
@@ -77,6 +72,8 @@ public class GymController extends BaseController{
             }else if(rol == RolEnum.entrenador) {
                 return "redirect:/entrenadorMain";
             }else if(rol == RolEnum.cliente){
+                ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
+                session.setAttribute("cliente", cliente);
                     return "redirect:/clienteMain";
             }
         }
@@ -87,17 +84,17 @@ public class GymController extends BaseController{
 
     @PostMapping("/register")
     public String register(@RequestParam(value = "nombre", required = false) String nombre, @RequestParam("apellidos") String apellidos,
-                             @RequestParam("Fecha_nacimiento") String FechaNac,@RequestParam("DNI") String DNI,
-                             @RequestParam("eMail") String eMail,@RequestParam("telefono") String telefono,@RequestParam("altura") String altura,
-                             @RequestParam("peso") String peso,@RequestParam("sexo") String sexo,
-                             @RequestParam("tipoEntrenamiento") String tipoEntrenamiento,@RequestParam("objetivos") String objetivos,
-                             @RequestParam("usuario") String nombre_usuario,@RequestParam("contraseña") String contraseña,Model model) throws ParseException {
+                           @RequestParam("Fecha_nacimiento") String FechaNac, @RequestParam("DNI") String DNI,
+                           @RequestParam("eMail") String eMail, @RequestParam("telefono") String telefono, @RequestParam("altura") String altura,
+                           @RequestParam("peso") String peso, @RequestParam("sexo") String sexo,
+                           @RequestParam("tipoEntrenamiento") TipoentrenamientoEnum tipoEntrenamiento, @RequestParam("objetivos") String objetivos,
+                           @RequestParam("usuario") String nombre_usuario, @RequestParam("contraseña") String contraseña, Model model) throws ParseException {
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setNombre(nombre);
         usuario.setApellidos(apellidos);
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse(FechaNac, formato);
-        java.sql.Date fechaSql = java.sql.Date.valueOf(fecha);
+        Date fechaSql = Date.valueOf(fecha);
         usuario.setFechaNacimiento(fechaSql);
         usuario.setDni(DNI);
         usuario.setCorreo(eMail);
@@ -107,18 +104,20 @@ public class GymController extends BaseController{
         usuario.setGenero(sexo);
         usuario.setRol(this.trolRepository.findById(2).get());
 
-        //usuario.setTipoEntrenamiento(tipoEntrenamiento);
+        TipoentrenamientoEntity tipoent = new TipoentrenamientoEntity();
+
+        tipoent.setTipo(tipoEntrenamiento);
+        this.tipoentrenamientoRepository.save(tipoent);
+        usuario.setTipoEntrenamiento(tipoent);
 
         ClienteEntity cliente = new ClienteEntity();
-
         cliente.setAltura(Float.parseFloat(altura));
         cliente.setPeso(Float.parseFloat(peso));
         cliente.setObjetivos(objetivos);
         cliente.setUsuario(usuario);
-
         this.clienteRepository.save(cliente);
 
-        return "inicio";
+        return "redirect:/";
     }
     @GetMapping("/adminMain")
     public String doAdminMain() {
@@ -128,11 +127,7 @@ public class GymController extends BaseController{
 
 
 
-    @GetMapping("/clienteMain")
-    public String doClienteMain() {
-        // Aquí puedes agregar lógica para obtener datos necesarios para la vista de cliente
-        return "mainCliente"; // Retorna el nombre de la vista de cliente
-    }
+
 
 
 }

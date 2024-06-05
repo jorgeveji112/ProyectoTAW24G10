@@ -1,6 +1,3 @@
-body {
-    overflow: hidden;
-}
 nav {
     display: flex;
     justify-content: space-between;
@@ -66,46 +63,40 @@ nav {
     background-color: rgba(0, 0, 0, 0.7); /* Color grisáceo con transparencia */
 }
 
-.contenido {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100vh;
-    z-index: 4;
+main {
+    padding: 2rem;
 }
-
-.contenido div{
+.session {
     background: linear-gradient(#B10028, #D55005);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    /* Añade lo siguiente */
     position: relative;
-    border-radius: 10px;
-    color: #fff;
-    width: 30%;
-    height: 30%;
-    max-height: 215px;
+    z-index: 1;
+}
+.session h2 {
+    color: #ffffff;
+}
+.session button {
+    background-color: #d3d3d3;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
     cursor: pointer;
+}
+footer {
+    background-color: #333;
+    color: #fff;
     text-align: center;
-    margin: 0 40px;
-}
-.contenido div:hover{
-    transform: scale(1.05);
-}
-.contenido > div img {
-    width: 40%;
-    height: auto;
-    margin-bottom: 10px;
-}
-.contenido > div h2 {
-    margin: 0;
-    font-weight: 400;
+    padding: 1rem;
 }
 
 h1{
-    top: 5%;
+    top: 15%;
     left: 10%;
     position: absolute;
-    color: #fff;
+    color: #ffffff;
+    z-index: 1;
 }
