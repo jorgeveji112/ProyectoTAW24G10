@@ -76,7 +76,7 @@
                         <div class="sesion">
                             <p class="nombre-sesion"><%=rutinaHasSesion.getSesionentrenamiento().getNombre()%></p>
                             <input type="hidden" name="sesiones" value="<%=rutinaHasSesion.getSesionentrenamiento().getId()%>">
-                            <button class="btn-ver-sesion">Ver Sesión</button>
+                            <input type="button" class="btn-ver-sesion" onclick="window.location.href='/entrenadorMain/sesiones/ver?id=<%=rutinaHasSesion.getSesionentrenamiento().getId()%>'" value="Ver Sesión"/>
 
                             <div class="contenedor-iconos">
                                 <img src="/img/flecha-arriba.png" alt="Icono Subir" class="img-icono" onclick="moverSesion(this, 'arriba')">
