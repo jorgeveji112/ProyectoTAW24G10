@@ -32,7 +32,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
             <div class="contenido">
                 <form action="/register" method="post" id="form" name="form" class="home-form">
 
-                    <h1 class="0">Datos personales</h1>
+                    <h1 class="home-text02">Datos personales</h1>
                     <div id="DatosPersonales" class="home-container01">
                         <div class="home-container02">
                             <div class="home-container03">
@@ -47,7 +47,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
                                     <div class="home-container06">
                                         <div class="home-container07">
                                             <label class="home-text01">Sexo:&nbsp;</label
-                                            ><select name="sexo">
+                                            ><select class="select" name="sexo">
                                                 <option value="Hombre">Hombre</option>
                                                 <option value="Mujer">Mujer</option>
                                                 <option value="Otro">Otro</option>
@@ -80,10 +80,10 @@ contentType="text/html;charset=UTF-8" language="java" %>
                                 <input type="text" id="peso" name="peso" required placeholder="Peso (en kg)" class="home-textinput07"/>
                             </div>
                             <div class="home-container14">
-                                <div class="home-container15">
+                                <div class="home-container15" style="margin-top: 15px; margin-bottom: 5px;" >
                                     <label class="home-text08"
                                         >Tipo de Entrenamiento:</label
-                                    ><select name="tipoEntrenamiento">
+                                    ><select class="select" name="tipoEntrenamiento">
                                         <%
                                             for(TipoentrenamientoEnum tipo : TipoentrenamientoEnum.values()){
 
@@ -97,7 +97,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
                                 </div>
                             </div>
                             <div class="home-container16">
-                                <div class="home-container17">
+                                <div class="home-container17" style="margin-top: 15px;">
                                     <label>Objetivos:</label>
                                     <textarea name="objetivos" class="home-textarea">
                                     </textarea>
@@ -108,7 +108,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
                     <h1 class="home-text10">Datos de Acceso</h1>
                     <div class="home-container18">
                         <input type="text" id="usuario" name="usuario" required placeholder="Nombre de Usuario" class="home-textinput08"/>
-                        <input type="text" id="contraseña" name="contraseña" required placeholder="Contraseña" class="home-textinput09"/>
+                        <input type="password" id="contraseña" name="contraseña" required placeholder="Contraseña" class="home-textinput09" style="margin-left: 30px !important;"/>
                     </div>
                     <button type="submit" id="validar" class="home-button">
                         <span

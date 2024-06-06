@@ -47,6 +47,8 @@ public class GymController extends BaseController{
     }
     @GetMapping("/trabaja")
     public String doTrabaja(Model model) {
+        List<TipoentrenamientoEntity> tiposEntrenamientos = tipoentrenamientoRepository.findAll();
+        model.addAttribute("tiposEntrenamientos", tiposEntrenamientos);
         return "trabaja";
     }
     @GetMapping("/acceso")
@@ -59,6 +61,38 @@ public class GymController extends BaseController{
 
         return "registro";
     }
+
+    @PostMapping("/registerEntrenador")
+    public String registerEntrenador(@RequestParam(value = "nombre", required = false) String nombre, @RequestParam("apellidos") String apellidos,
+                           @RequestParam("Fecha_nacimiento") String FechaNac, @RequestParam("DNI") String DNI,
+                           @RequestParam("eMail") String eMail, @RequestParam("telefono") String telefono, @RequestParam("sexo") String sexo,
+                           @RequestParam("tipoentrenamiento") TipoentrenamientoEnum tipoEntrenamiento,
+                           @RequestParam("usuario") String nombre_usuario, @RequestParam("contraseña") String contraseña, Model model) throws ParseException {
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setNombre(nombre);
+        usuario.setApellidos(apellidos);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = LocalDate.parse(FechaNac, formato);
+        Date fechaSql = Date.valueOf(fecha);
+        usuario.setFechaNacimiento(fechaSql);
+        usuario.setDni(DNI);
+        usuario.setCorreo(eMail);
+        usuario.setTelefono(telefono);
+        usuario.setNombreUsuario(nombre_usuario);
+        usuario.setContraseña(contraseña);
+        usuario.setGenero(sexo);
+        usuario.setRol(this.trolRepository.findById(3).get());
+
+        TipoentrenamientoEntity tipoent = new TipoentrenamientoEntity();
+
+        tipoent.setTipo(tipoEntrenamiento);
+        this.tipoentrenamientoRepository.save(tipoent);
+        usuario.setTipoEntrenamiento(tipoent);
+        this.usuarioRepository.save(usuario);
+
+        return "redirect:/";
+    }
+
 
     @PostMapping("/login")
     public String login(@ModelAttribute("usuario") Usuario user,
@@ -124,6 +158,7 @@ public class GymController extends BaseController{
         // Aquí puedes agregar lógica para obtener datos necesarios para la vista de administrador
         return "mainAdmin"; // Retorna el nombre de la vista de administrador
     }
+
 
 
 
