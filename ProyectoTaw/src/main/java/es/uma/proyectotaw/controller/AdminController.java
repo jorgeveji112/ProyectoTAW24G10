@@ -3,7 +3,6 @@ package es.uma.proyectotaw.controller;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.repository.*;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.sql.ast.tree.expression.ModifiedSubQueryExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -234,9 +233,36 @@ public class AdminController extends BaseController{
 
     // RAMA DE LISTA DE SOLICITUDES /////////////////////////
     @GetMapping("/adminMain/solicitudes")
-    public String doSolicitudes(HttpSession session) {
+    public String doSolicitudes(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        return "mainAdmin";
+        byte validado = 0;
+        List<UsuarioEntity> listaSolicitudes = usuarioRepository.findClientesByValidado(validado);
+        List<UsuarioEntity> listaEntrenadores = new ArrayList<>();
+        List<UsuarioEntity> listaClientes = new ArrayList<>();
+        for (UsuarioEntity usuario : listaSolicitudes) {
+            if(usuario.getRol().getRol().name().equals("entrenador")) {
+                listaEntrenadores.add(usuario);
+            } else {
+                listaClientes.add(usuario);
+            }
+        }
+        model.addAttribute("listaEntrenadores", listaEntrenadores);
+        model.addAttribute("listaClientes", listaClientes);
+        return "listaSolicitudes";
+    }
+
+    @GetMapping("/adminMain/solicitud/aceptar/{id}")
+    public String aceptarSolicitud(@PathVariable("id") int id){
+        UsuarioEntity usuario = usuarioRepository.findById(id).get();
+        usuario.setValidado((byte) 1); // validado
+        usuarioRepository.save(usuario);
+        return "redirect:/adminMain/solicitudes";
+    }
+
+    @GetMapping("/adminMain/solicitud/rechazar/{id}")
+    public String rechazarSolicitud(@PathVariable("id") int id){
+        usuarioRepository.deleteById(id);
+        return "redirect:/adminMain/solicitudes";
     }
 
 
