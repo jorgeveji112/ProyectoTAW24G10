@@ -17,12 +17,6 @@ import java.util.List;
 public class RutinaClienteController extends BaseController{
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
     private RutinaAsignadaRepository rutinaAsignadaRepository;
 
     @Autowired
@@ -33,6 +27,9 @@ public class RutinaClienteController extends BaseController{
 
     @Autowired
     private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+
+    @Autowired
+    private SesionejercicioRepository sesionejercicioRepository;
 
 
 
@@ -62,6 +59,16 @@ public class RutinaClienteController extends BaseController{
         model.addAttribute("sesion", sesionentrenamiento);
 
         return "sesionCliente"; // Retorna el nombre de la vista de cliente
+    }
+
+    @GetMapping("/clienteMain/rutina/sesion/ejercicio")
+    public String doEjercico(@RequestParam("id") Integer ejercicioId, Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        SesionejercicioEntity ejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
+        model.addAttribute("ejercicio", ejercicio);
+
+
+        return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 
 

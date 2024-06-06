@@ -4,7 +4,6 @@
 
 <%
     SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
 
     List<SesionentrenamientoHasSesionejercicioEntity> ejercicios  = (List<SesionentrenamientoHasSesionejercicioEntity>) request.getAttribute("ejercicios");
 %>
@@ -41,7 +40,7 @@
         %>
         <div class="session">
             <h2><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></h2>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion?id=<%=ejercicio.getSesionejercicio().getId()%>'"> Ver ejercicios sesión</button>
+            <button onclick="window.location.href='/clienteMain/rutina/sesion/ejercicio?id=<%=ejercicio.getSesionejercicio().getId()%>'"> Ver ejercicio </button>
             <label for="sesion <%=ejercicio.getSesionejercicio().getId()%>"></label><input id="sesion <%=ejercicio.getSesionejercicio().getId()%>" type="checkbox">
         </div>
         <%
