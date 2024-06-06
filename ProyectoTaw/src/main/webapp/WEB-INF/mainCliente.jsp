@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.DayOfWeek" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 26/04/2024
@@ -6,6 +7,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
+%>
+
 <html>
 <head>
     <title>TrainingGym</title>
@@ -34,7 +41,7 @@
                 <img src="/img/clienteIcono.png" alt="Cliente Icono">
                 <h2>Perfil Personal</h2>
             </div>
-            <div class="rutina" onclick="window.location='/clienteMain/rutina'">
+            <div class="rutina" onclick="window.location.href='/clienteMain/rutina?fecha=<%=fechaLunes%>'">
                 <img src="/img/rutinaIcono.png" alt="Rutina Icono">
                 <h2>Rutina Semanal</h2>
             </div>
