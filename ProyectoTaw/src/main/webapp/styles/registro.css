@@ -230,6 +230,35 @@ nav {
     padding-right: 24px;
     padding-bottom: 24px;
 }
+
+.select{
+    padding: 12px;
+    border-radius: 15px;
+    border-color: rgb(255, 122, 0);
+    border-style: solid;
+    border-width: 3px;
+    box-shadow: 3px 3px 3px rgba(255, 122, 0, 0.6);
+    background-color: #fffdfd;
+    color: rgb(255, 122, 0);
+    font-weight: bolder;
+}
+
+.select:focus-visible{
+    outline: none;
+}
+
+.home-text0007 {
+    color: rgb(9, 7, 6);
+    font-size: 35px;
+    align-self: flex-start;
+    font-weight: 800;
+    line-height: 1.15;
+    padding-top: 24px;
+    padding-left: 30px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+}
+
 .home-container08 {
     height: 95px;
     display: flex;
@@ -397,11 +426,11 @@ nav {
 .home-container18 {
     height: 52px;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    flex-direction: column;
+
 }
 .home-textinput08 {
-    width: 251px;
+    width: 250px;
     text-align: left;
     margin-left: 30px;
     padding-top: 8px;
@@ -417,7 +446,7 @@ nav {
     border-bottom-width: 1px;
 }
 .home-textinput09 {
-    width: 276px;
+    width: 250px;
     text-align: left;
     margin-left: 99px;
     padding-top: 8px;
