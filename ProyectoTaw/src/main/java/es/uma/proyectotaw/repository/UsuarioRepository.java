@@ -19,4 +19,5 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
             " WHERE r.rol = 'cliente' AND u.entrenador_id IS NULL AND t.tipo = :tipoEntrenamiento", nativeQuery = true)
     List<UsuarioEntity> findUsuariosWithoutCoachByTipoEntrenamiento(@Param("tipoEntrenamiento") String tipoEntrenamiento);
 
+    List<UsuarioEntity> findClientesByValidado(byte validado);
 }

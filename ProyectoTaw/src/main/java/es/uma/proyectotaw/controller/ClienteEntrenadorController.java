@@ -3,10 +3,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
 
-import es.uma.proyectotaw.repository.RutinaAsignadaRepository;
-import es.uma.proyectotaw.repository.RutinaPredefinidaRepository;
-import es.uma.proyectotaw.repository.RutinaSesionentrenamientoRepository;
-import es.uma.proyectotaw.repository.UsuarioRepository;
+import es.uma.proyectotaw.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +33,14 @@ public class ClienteEntrenadorController extends  BaseController{
     @Autowired
     private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
 
+    @Autowired
+    private SesionentrenamientoRepository sesionentrenamientoRepository;
+
+    @Autowired
+    private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+
+    @Autowired
+    private ValoracionRepository valoracionRepository;
     @GetMapping("/entrenadorMain/clientes")
     public String doClientes(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -76,4 +81,26 @@ public class ClienteEntrenadorController extends  BaseController{
         rutinaAsignadaRepository.save(rutinaAsignada);
         return "redirect:/entrenadorMain/clientes/entrenamiento?id="+usuarioId+"&fecha="+fecha.toString(); // Redirige a la página deseada después de asignar la rutina
     }
+
+    @GetMapping("/entrenadorMain/clientes/entrenamiento/sesion")
+    public String verValoracionSesion(@RequestParam("id") Integer clienteId, @RequestParam("rutina") Integer rutinaId ,@RequestParam("sesion") Integer sesionId,Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        UsuarioEntity cliente = usuarioRepository.findById(clienteId).get();
+        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(sesionId).get();
+        RutinaAsignadaEntity rutinaAsignada = rutinaAsignadaRepository.findById(rutinaId).get();
+        List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
+        List<SesionejercicioEntity> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
+        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
+        LocalDate fechaLocal = rutinaAsignada.getFecha().toLocalDate();
+        model.addAttribute("rutinaAsignada", rutinaAsignada);
+        model.addAttribute("semana", fechaLocal);
+        model.addAttribute("sesion", sesion);
+        model.addAttribute("valoraciones", valoraciones);
+        model.addAttribute("sesionesEjercicio", sesionesEjercicio);
+        model.addAttribute("cliente", cliente);
+        return "valoracionesSesionEntrenador";
+
+    }
+
 }
