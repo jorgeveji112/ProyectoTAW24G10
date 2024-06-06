@@ -11,6 +11,7 @@
     UsuarioEntity entrenador = (UsuarioEntity) request.getAttribute("entrenador");
 %>
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>TrainingGym</title>
@@ -38,9 +39,15 @@
 
     <div class="contenido">
         <%if(listaClientes.size() == 0){%>
-            <h3>No hay clientes para ser asignados</h3>
+            <h2>No hay clientes para ser asignados</h2>
         <%} else{%>
         <table>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Genero</th>
+                <th></th>
+            </tr>
             <%for(UsuarioEntity u : listaClientes){%>
             <tr>
                 <th><%=u.getDni()%></th>
