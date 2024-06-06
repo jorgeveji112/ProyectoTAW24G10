@@ -67,6 +67,8 @@ nav {
 
     background: linear-gradient(#B10028, #D55005);
     border-radius: 5px;
+    position: relative;
+    z-index: 1;
 
 }
 .session {

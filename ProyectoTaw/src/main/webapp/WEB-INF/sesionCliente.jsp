@@ -1,15 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.RutinaAsignadaEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.RutinaSesionentrenamientoEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.entity.*" %>
 
 <%
-    RutinaAsignadaEntity rutinaasignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
 
-    List<RutinaSesionentrenamientoEntity> sesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("sesiones");
+    List<SesionentrenamientoHasSesionejercicioEntity> ejercicios  = (List<SesionentrenamientoHasSesionejercicioEntity>) request.getAttribute("ejercicios");
 %>
 
 <!DOCTYPE html>
@@ -28,24 +25,24 @@
 <nav>
     <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" id="activo">Inicio</a></li>
+        <li><a href="/clienteMain/inicio" >Inicio</a></li>
         <li><a href="/clienteMain/perfil">Perfil</a></li>
-        <li><a href="/clienteMain/rutina">Rutina</a></li>
+        <li><a href="/clienteMain/rutina" id="activo">Rutina</a></li>
         <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
-<h1><%=rutinaasignada.getRutinaPredefinida().getNombre()%></h1>
+<h1><%=sesion.getNombre()%></h1>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
     <div class="sesiones">
         <%
-            for(RutinaSesionentrenamientoEntity sesion : sesiones){
+            for(SesionentrenamientoHasSesionejercicioEntity ejercicio : ejercicios){
         %>
         <div class="session">
-            <h2><%=sesion.getSesionentrenamiento().getNombre()%></h2>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion?id=<%=sesion.getSesionentrenamiento().getId()%>'"> Ver ejercicios sesión</button>
-            <label for="sesion <%=sesion.getSesionentrenamiento().getId()%>"></label><input id="sesion <%=sesion.getSesionentrenamiento().getId()%>" type="checkbox">
+            <h2><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></h2>
+            <button onclick="window.location.href='/clienteMain/rutina/sesion?id=<%=ejercicio.getSesionejercicio().getId()%>'"> Ver ejercicios sesión</button>
+            <label for="sesion <%=ejercicio.getSesionejercicio().getId()%>"></label><input id="sesion <%=ejercicio.getSesionejercicio().getId()%>" type="checkbox">
         </div>
         <%
             };
