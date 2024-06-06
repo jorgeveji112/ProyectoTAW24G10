@@ -47,17 +47,22 @@
     </div>
     <dialog id="ratingDialog">
         <h1>Ejercicio número 1</h1>
-        <div class="star-rating">
-            <span class="star" data-value="1">&#9733;</span>
-            <span class="star" data-value="2">&#9733;</span>
-            <span class="star" data-value="3">&#9733;</span>
-            <span class="star" data-value="4">&#9733;</span>
-            <span class="star" data-value="5">&#9733;</span>
-        </div>
-        <div>
-            <label for="comment">Comenta qué te ha parecido el ejercicio y si has podido completarlo:</label>
-            <textarea id="comment" class="comment"></textarea>
-        </div>
+        <form id="ratingForm" method="post">
+            <div class="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            <div>
+                <label for="comment">Comenta qué te ha parecido el ejercicio y si has podido completarlo:</label>
+                <textarea id="comment" class="comment" name="comentario"></textarea>
+            </div>
+            <input type="hidden" id="ejercicio" name="ejercicio" value="<%=ejercicio.getId()%>">
+            <input type="hidden" id="rating" name="rating" value="0">
+            <input type="submit" class="submit-button">
+        </form>
     </dialog>
 </div>
 <script>
@@ -66,6 +71,7 @@
         stars.forEach(star => {
             star.addEventListener('click', function() {
                 const rating = this.getAttribute('data-value');
+                document.getElementById('rating').value = rating;
                 stars.forEach((s, index) => {
                     if (index < rating) {
                         s.classList.add('filled');
@@ -74,6 +80,12 @@
                     }
                 });
             });
+        });
+
+        const ratingForm = document.getElementById('ratingForm');
+        ratingForm.addEventListener('submit', function(event) {
+            const filledStars = document.querySelectorAll('.star.filled').length;
+            document.getElementById('rating').value = filledStars;
         });
     });
 </script>

@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class RutinaClienteController extends BaseController{
 
     @Autowired
     private SesionejercicioRepository sesionejercicioRepository;
+
 
 
 
@@ -56,6 +59,7 @@ public class RutinaClienteController extends BaseController{
         List<SesionentrenamientoHasSesionejercicioEntity> ejercicios = this.sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesionentrenamiento);
 
         model.addAttribute("ejercicios", ejercicios);
+        session.setAttribute("sesion", sesionentrenamiento);
         model.addAttribute("sesion", sesionentrenamiento);
 
         return "sesionCliente"; // Retorna el nombre de la vista de cliente
@@ -67,9 +71,31 @@ public class RutinaClienteController extends BaseController{
         SesionejercicioEntity ejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
         model.addAttribute("ejercicio", ejercicio);
 
-
         return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 
+    @PostMapping("/clienteMain/rutina/sesion/ejercicio")
+    public String doEjercicoPost(@RequestParam("rating") Integer rating, @RequestParam("ejercicio") Integer ejercicioId,
+                                 @RequestParam("comentario") String comentario, Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        SesionejercicioEntity sesionejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
+        SesionentrenamientoEntity sesionentrenamiento = (SesionentrenamientoEntity )session.getAttribute("sesion");
 
+        ValoracionEntity valoracion = new ValoracionEntity();
+
+        valoracion.setDescripcion(comentario);
+        valoracion.setPuntuacion(rating);
+        LocalDate fecha = LocalDate.now();
+        LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+        Date fechafinal = Date.valueOf(lunes);
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario,fechafinal).orElse(null);
+        valoracion.setRutinaAsignadaId(rutinaAsignada.getId());
+        valoracion.setUsuarioId(usuario.getId());
+        valoracion.setSesionejercicioId(sesionejercicio.getId());
+
+        //this
+
+        return "redirect:/clienteMain/rutina/sesion?id=" + sesionentrenamiento.getId() ; // Retorna el nombre de la vista de cliente
+    }
 }
