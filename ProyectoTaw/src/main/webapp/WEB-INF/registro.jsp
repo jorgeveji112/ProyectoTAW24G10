@@ -31,7 +31,9 @@ contentType="text/html;charset=UTF-8" language="java" %>
             <div class="capa-gris"></div>
             <div class="contenido">
                 <form action="/register" method="post" id="form" name="form" class="home-form">
-
+                    <h1 style="margin-left: 29px; margin-bottom: -30px;">
+                        ¡Únete a TrainingGym!
+                    </h1>
                     <h1 class="home-text02">Datos personales</h1>
                     <div id="DatosPersonales" class="home-container01">
                         <div class="home-container02">

@@ -34,7 +34,7 @@
         <div class="contenido">
 
             <form action="/registerEntrenador" method="post" id="form" name="form" class="home-form">
-                <h1 style="margin-left: 20px; margin-bottom: -30px;">
+                <h1 style="margin-left: 29px; margin-bottom: -30px;">
                     ¡Buscamos entrenadores!
                 </h1>
                 <h1 class="home-text02">Datos personales</h1>

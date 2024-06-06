@@ -67,7 +67,12 @@ nav {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7); /* Color grisáceo con transparencia */
 }
-
+h1{
+    margin-bottom: -11px;
+}
+input:focus-visible{
+    outline: none;
+}
 .contenido {
     text-align: center;
     position: relative;
@@ -89,8 +94,9 @@ nav {
     justify-content: flex-start;
     background-color: #ffffff;
     margin: 10px auto;
-    height: 90%;
+    height: 83%;
     overflow: auto;
+    scrollbar-width: thin;
 }
 .home-text {
     color: rgb(255, 122, 0);
@@ -411,6 +417,7 @@ nav {
     width: 580px;
     height: 169px;
     margin-bottom: 1px;
+    resize: none;
 }
 .home-text10 {
     color: rgb(255, 122, 0);
@@ -462,16 +469,26 @@ nav {
     border-bottom-width: 1px;
 }
 .home-button {
-    color: rgb(255, 255, 255);
     height: 44px;
     font-size: 20px;
     align-self: center;
     margin-top: 64px;
-    border-color: #E5670B;
-    border-radius: 8px;
-    background-color: #E5670B;
+    background: #E5670B;
+    padding: 5px 11px;
+    border-radius: 5px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.home-button:hover {
+    background: #D4560A;
 }
 .home-text12 {
-    font-style: normal;
-    font-weight: 900;
+    font-size: 20px;
+}
+#enlace-registrarse{
+    color: #E5670B;
+}
+#enlace-registrarse:hover{
+    color: #D4560A;
 }
