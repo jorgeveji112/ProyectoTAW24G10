@@ -9,53 +9,47 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class ValoracionEntityPK implements Serializable {
-    @Column(name = "usuario_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int usuarioId;
-    @Column(name = "sesionejercicio_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sesionejercicioId;
-    @Column(name = "rutina_asignada_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rutinaAsignadaId;
 
-    public int getUsuarioId() {
-        return usuarioId;
+    private UsuarioEntity usuario;
+
+    private SesionejercicioEntity sesionejercicio;
+
+    private RutinaAsignadaEntity rutinaAsignada;
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
-    public int getSesionejercicioId() {
-        return sesionejercicioId;
+    public SesionejercicioEntity getSesionejercicio() {
+        return sesionejercicio;
     }
 
-    public void setSesionejercicioId(int sesionejercicioId) {
-        this.sesionejercicioId = sesionejercicioId;
+    public void setSesionejercicio(SesionejercicioEntity sesionejercicio) {
+        this.sesionejercicio = sesionejercicio;
     }
 
-    public int getRutinaAsignadaId() {
-        return rutinaAsignadaId;
+    public RutinaAsignadaEntity getRutinaAsignada() {
+        return rutinaAsignada;
     }
 
-    public void setRutinaAsignadaId(int rutinaAsignadaId) {
-        this.rutinaAsignadaId = rutinaAsignadaId;
+    public void setRutinaAsignada(RutinaAsignadaEntity rutinaAsignada) {
+        this.rutinaAsignada = rutinaAsignada;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ValoracionEntityPK)) return false;
         ValoracionEntityPK that = (ValoracionEntityPK) o;
-        return usuarioId == that.usuarioId && sesionejercicioId == that.sesionejercicioId && rutinaAsignadaId == that.rutinaAsignadaId;
+        return Objects.equals(getUsuario(), that.getUsuario()) && Objects.equals(getSesionejercicio(), that.getSesionejercicio()) && Objects.equals(getRutinaAsignada(), that.getRutinaAsignada());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(usuarioId, sesionejercicioId, rutinaAsignadaId);
+        return Objects.hash(getUsuario(), getSesionejercicio(), getRutinaAsignada());
     }
 }

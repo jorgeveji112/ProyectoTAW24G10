@@ -13,6 +13,7 @@
     UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("cliente");
     RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
     LocalDate semana = (LocalDate) request.getAttribute("semana");
+    String semanaString = semana.toString();
     List<RutinaPredefinidaEntity> rutinasEntrenador = (List<RutinaPredefinidaEntity>) request.getAttribute("rutinasEntrenador");
     LocalDate semanaAnterior = semana.minusDays(7);
     String semanaAnteriorString = semanaAnterior.toString();
@@ -90,8 +91,7 @@
                                 %>
                                 <div class="sesion">
                                     <p class="nombre-sesion"><%=rutinaHasSesion.getSesionentrenamiento().getNombre()%></p>
-                                    <input type="hidden" name="sesiones" value="<%=rutinaHasSesion.getSesionentrenamiento().getId()%>">
-                                    <button class="btn-ver-sesion">Ver Sesión</button>
+                                    <button class="btn-ver-sesion" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento/sesion?id=<%=cliente.getId()%>&rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Sesión</button>
 
                                     <div class="contenedor-iconos">
                                         <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">

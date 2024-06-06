@@ -14,18 +14,21 @@ public class ValoracionEntity {
     @Basic
     @Column(name = "descripcion")
     private String descripcion;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
-    @Column(name = "usuario_id")
-    private int usuarioId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
     @Id
-    @Column(name = "sesionejercicio_id")
-    private int sesionejercicioId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ManyToOne
+    @JoinColumn(name = "sesionejercicio_id")
+    private SesionejercicioEntity sesionejercicio;
+
     @Id
-    @Column(name = "rutina_asignada_id")
-    private int rutinaAsignadaId;
+    @ManyToOne
+    @JoinColumn(name = "rutina_asignada_id")
+    private RutinaAsignadaEntity rutinaAsignada;
 
     public Integer getPuntuacion() {
         return puntuacion;
@@ -43,40 +46,40 @@ public class ValoracionEntity {
         this.descripcion = descripcion;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public UsuarioEntity getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
-    public int getSesionejercicioId() {
-        return sesionejercicioId;
+    public SesionejercicioEntity getSesionejercicio() {
+        return sesionejercicio;
     }
 
-    public void setSesionejercicioId(int sesionejercicioId) {
-        this.sesionejercicioId = sesionejercicioId;
+    public void setSesionejercicio(SesionejercicioEntity sesionejercicio) {
+        this.sesionejercicio = sesionejercicio;
     }
 
-    public int getRutinaAsignadaId() {
-        return rutinaAsignadaId;
+    public RutinaAsignadaEntity getRutinaAsignada() {
+        return rutinaAsignada;
     }
 
-    public void setRutinaAsignadaId(int rutinaAsignadaId) {
-        this.rutinaAsignadaId = rutinaAsignadaId;
+    public void setRutinaAsignada(RutinaAsignadaEntity rutinaAsignada) {
+        this.rutinaAsignada = rutinaAsignada;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ValoracionEntity)) return false;
         ValoracionEntity that = (ValoracionEntity) o;
-        return usuarioId == that.usuarioId && sesionejercicioId == that.sesionejercicioId && rutinaAsignadaId == that.rutinaAsignadaId && Objects.equals(puntuacion, that.puntuacion) && Objects.equals(descripcion, that.descripcion);
+        return Objects.equals(getPuntuacion(), that.getPuntuacion()) && Objects.equals(getDescripcion(), that.getDescripcion()) && Objects.equals(getUsuario(), that.getUsuario()) && Objects.equals(getSesionejercicio(), that.getSesionejercicio()) && Objects.equals(getRutinaAsignada(), that.getRutinaAsignada());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(puntuacion, descripcion, usuarioId, sesionejercicioId, rutinaAsignadaId);
+        return Objects.hash(getPuntuacion(), getDescripcion(), getUsuario(), getSesionejercicio(), getRutinaAsignada());
     }
 }
