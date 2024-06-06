@@ -1,12 +1,9 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.entity.ClienteEntity;
-import es.uma.proyectotaw.entity.RolEnum;
-import es.uma.proyectotaw.entity.TipoentrenamientoEnum;
-import es.uma.proyectotaw.entity.UsuarioEntity;
-import es.uma.proyectotaw.repository.ClienteRepository;
-import es.uma.proyectotaw.repository.UsuarioRepository;
+import es.uma.proyectotaw.entity.*;
+import es.uma.proyectotaw.repository.*;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.sql.ast.tree.expression.ModifiedSubQueryExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +24,18 @@ public class AdminController extends BaseController{
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EjercicioRepository ejercicioRepository;
+
+    @Autowired
+    private TipoentrenamientoRepository tipoentrenamientoEntity;
+
+    @Autowired
+    private TipoejerciciobodubuildingRepository tipoejerciciobodubuildingRepository;
+
+    @Autowired
+    private TipoejerciciocrosstrainingRepository tipoejerciciocrosstrainingRepository;
 
     @GetMapping("/adminMain/inicio")
     public String doAdminMain() {
@@ -233,8 +242,71 @@ public class AdminController extends BaseController{
 
     // RAMA DE LISTA DE EJERCICIOS /////////////////////////
     @GetMapping("/adminMain/ejercicios")
-    public String doEjercicios(HttpSession session) {
+    public String doEjercicios(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        return "mainAdmin";
+        List<EjercicioEntity> listaEjercicios = ejercicioRepository.findAll();
+        model.addAttribute("listaEjercicios", listaEjercicios);
+        return "listaEjercicios";
     }
+
+    @PostMapping("/adminMain/filtrar/ejercicios")
+    public String filtrarEjercicios(@RequestParam("filtro") String filtro, Model model, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        List<EjercicioEntity> listaEjercicios = ejercicioRepository.findAll();
+        List<EjercicioEntity> listaFiltrada = new ArrayList<>();
+        for (EjercicioEntity ejercicio : listaEjercicios) {
+            if(ejercicio.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
+                    ejercicio.getTipoEntrenamiento().getTipo().name().toLowerCase().contains(filtro.toLowerCase())){
+                listaFiltrada.add(ejercicio);
+            }
+        }
+        if(listaFiltrada.isEmpty()){
+            listaFiltrada = listaEjercicios;
+        }
+        model.addAttribute("listaEjercicios", listaFiltrada);
+        return "listaEjercicios";
+    }
+
+    @GetMapping("/adminMain/borrarEjercicio/{id}")
+    public String borrarEjercicio(@PathVariable("id") int id){
+        ejercicioRepository.deleteById(id);
+        return "redirect:/adminMain/ejercicios";
+    }
+
+    @GetMapping("/adminMain/nuevoEjercicio")
+    public String doNuevoEjercicio(HttpSession session, Model model) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        List<TipoentrenamientoEntity> listaTiposEntrenamiento = tipoentrenamientoEntity.findAll();
+        List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = tipoejerciciobodubuildingRepository.findAll();
+        List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = tipoejerciciocrosstrainingRepository.findAll();
+        model.addAttribute("listaTiposEntrenamiento", listaTiposEntrenamiento);
+        model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);
+        model.addAttribute("listaTiposEjercicioCrossTraining", listaTiposEjercicioCrossTraining);
+        return "nuevoEjercicio";
+    }
+
+
+    @PostMapping("/adminMain/crearEjercicio")
+    public String crearEjercicio(@RequestParam("nombre") String nombre, @RequestParam("descripcion") String descripcion,
+                                 @RequestParam("video") String video, @RequestParam("tipoentrenamiento") int tipoentrenamiento,
+                                 @RequestParam("tipoejercicio") String tipoejercicio, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        EjercicioEntity nuevoEjercicio = new EjercicioEntity();
+        nuevoEjercicio.setNombre(nombre);
+        nuevoEjercicio.setDescripcion(descripcion);
+        nuevoEjercicio.setVideo(video);
+        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoEntity.findById(tipoentrenamiento).get());
+
+        String[] partes = tipoejercicio.split("_");
+        int idtipoejercicio = Integer.parseInt(partes[1]);
+        if (partes[0].equals("bb")) { // bodybuilding
+            nuevoEjercicio.setTipoejerciciobodybuildingId(idtipoejercicio);
+        } else{ // crosstraining
+            nuevoEjercicio.setTipoejerciciocrosstrainingId(idtipoejercicio);
+        }
+
+        ejercicioRepository.save(nuevoEjercicio);
+        return "redirect:/adminMain/ejercicios";
+    }
+
 }
