@@ -78,6 +78,12 @@ nav {
     height: 75%;
 }
 
+.contenido h2{
+    width: fit-content; /* Para que el ancho del elemento sea solo lo que necesita */
+    margin: 15px auto; /* Margen superior e inferior de 15px, y margen izquierdo y derecho automáticos */
+    font-family: "Tahoma", sans-serif;
+}
+
 .boton {
     background: linear-gradient(#B10028, #D55005);
     display : flex;
