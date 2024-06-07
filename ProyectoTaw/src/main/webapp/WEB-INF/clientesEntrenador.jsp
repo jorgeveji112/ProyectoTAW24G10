@@ -51,9 +51,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Apellidos</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
+                        <th>Dni</th>
                         <th></th>
                         <th></th>
                     <%
@@ -63,9 +61,8 @@
                         <tr>
                             <td><%= cliente.getNombre()%></td>
                             <td><%= cliente.getApellidos()%></td>
-                            <td><%= cliente.getFechaNacimiento()%></td>
-                            <td><%= cliente.getCorreo()%></td>
-                            <td><%= cliente.getTelefono()%></td>
+                            <td><%= cliente.getDni()%></td>
+
                             <td>
                                 <div class="btn-cliente">
                                     <button onclick="window.location.href='/entrenadorMain/clientes/perfil?id=<%=cliente.getId()%>'">Informacion del cliente</button>
