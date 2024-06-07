@@ -87,6 +87,7 @@ public class SesionEntrenadorController extends BaseController{
 
         return "verSesionEntrenador";
     }
+
     private List<Integer> convertirAEnteros(List<String> valores) {
         List<Integer> enteros = new ArrayList<>();
         for (String valor : valores) {

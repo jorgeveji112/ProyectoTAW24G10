@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,34 @@ public class ClienteEntrenadorController extends  BaseController{
         model.addAttribute("clientes", clientes);
         return "clientesEntrenador";
     }
+
+    @PostMapping("/entrenadorMain/clientes/filtrar")
+    public String doFiltrar(@RequestParam("filtro") String filtro, Model model, HttpSession session) {
+        if (!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(usuario.getId());
+        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
+
+        for (UsuarioEntity cliente : listaClientes) {
+            if (cliente.getNombre() != null && cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getApellidos() != null && cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getDni() != null && cliente.getDni().toLowerCase().contains(filtro.toLowerCase())) {
+                listaFiltrada.add(cliente);
+            }
+        }
+
+        if(filtro.isEmpty()){
+            listaFiltrada = listaClientes;
+        }
+
+        model.addAttribute("filtro", filtro);
+        model.addAttribute("clientes", listaFiltrada);
+        model.addAttribute("entrenador", usuario);
+        return "clientesEntrenador";
+    }
+
+
+
 
     @GetMapping("/entrenadorMain/clientes/entrenamiento")
     public String doClientesEntrenamiento(@RequestParam("id") Integer clienteId, @RequestParam("fecha") String fecha, Model model, HttpSession session) {
@@ -81,7 +110,7 @@ public class ClienteEntrenadorController extends  BaseController{
     public String mostrarPerfil(@RequestParam("id") Integer clienteId, Model model, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteEntity cliente = clienteRepository.findById(clienteId).get();
-        model.addAttribute("cliente",cliente);
+        model.addAttribute("cliente", cliente);
         return "perfilCliente";
     }
 }
