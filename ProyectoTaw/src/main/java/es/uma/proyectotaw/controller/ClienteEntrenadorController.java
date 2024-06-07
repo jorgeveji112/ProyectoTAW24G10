@@ -111,6 +111,6 @@ public class ClienteEntrenadorController extends  BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteEntity cliente = clienteRepository.findById(clienteId).get();
         model.addAttribute("cliente", cliente);
-        return "perfilCliente";
+        return "perfilClienteEntrenador";
     }
 }
