@@ -2,10 +2,14 @@
 <%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.RutinaAsignadaEntity" %>
+<%@ page import="es.uma.proyectotaw.entity.RutinaSesionentrenamientoEntity" %>
+<%@ page import="java.util.List" %>
 
 <%
     RutinaAsignadaEntity rutinaasignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
+
+    List<RutinaSesionentrenamientoEntity> sesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("sesiones");
 %>
 
 <!DOCTYPE html>
@@ -35,21 +39,17 @@
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
     <div class="sesiones">
+        <%
+            for(RutinaSesionentrenamientoEntity sesion : sesiones){
+        %>
         <div class="session">
-            <h2>Sesión número 1</h2>
-            <button>Ver ejercicios sesión</button>
-            <label for="sesion 1"></label><input id="sesion 1" type="checkbox">
+            <h2><%=sesion.getSesionentrenamiento().getNombre()%></h2>
+            <button onclick="window.location.href='/clienteMain/rutina/sesion?id=<%=sesion.getSesionentrenamiento().getId()%>'"> Ver ejercicios sesión</button>
+            <label for="sesion <%=sesion.getSesionentrenamiento().getId()%>"></label><input id="sesion <%=sesion.getSesionentrenamiento().getId()%>" type="checkbox">
         </div>
-        <div class="session">
-            <h2>Sesión número 2</h2>
-            <button>Ver ejercicios sesión</button>
-            <label for="sesion 2"></label><input id="sesion 2" type="checkbox">
-        </div>
-        <div class="session">
-            <h2>Sesión número 3</h2>
-            <button>Ver ejercicios sesión</button>
-            <label for="sesion 2"></label><input id="sesion 3" type="checkbox">
-        </div>
+        <%
+            };
+        %>
     </div>
 </div>
 </body>

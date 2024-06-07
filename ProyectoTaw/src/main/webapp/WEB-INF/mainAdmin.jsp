@@ -39,7 +39,7 @@
                 <img src="/img/clienteIcono.png" alt="Cliente Icono">
                 <h2>Clientes</h2>
             </div>
-            <div class="solicitudes" onclik="window.location='/adminMain/solicitudes'">
+            <div class="solicitudes" onclick="window.location='/adminMain/solicitudes'">
                 <img src="/img/solicitudesIcono.png" alt="Solicitud Icono">
                 <h2>Solicitudes</h2>
             </div>
