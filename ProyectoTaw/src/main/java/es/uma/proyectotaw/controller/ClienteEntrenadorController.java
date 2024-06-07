@@ -53,8 +53,10 @@ public class ClienteEntrenadorController extends  BaseController{
     @GetMapping("/entrenadorMain/clientes/entrenamiento")
     public String doClientesEntrenamiento(@RequestParam("id") Integer clienteId, @RequestParam("fecha") String fecha, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
+
         UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
         UsuarioEntity cliente = usuarioRepository.findById(clienteId).get();
+
         List<RutinaPredefinidaEntity> rutinasEntrenador = rutinaPredefinidaRepository.findByUsuario(usuario);
         model.addAttribute("rutinasEntrenador", rutinasEntrenador);
         model.addAttribute("cliente", cliente);
@@ -62,6 +64,7 @@ public class ClienteEntrenadorController extends  BaseController{
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
         Optional<RutinaAsignadaEntity> rutinaAsignada = rutinaAsignadaRepository.findByUsuarioAndFecha(cliente, fechaDate);
+
         if (rutinaAsignada.isPresent()) {
             model.addAttribute("rutinaAsignada", rutinaAsignada.get());
             List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.get().getRutinaPredefinida());
@@ -69,8 +72,10 @@ public class ClienteEntrenadorController extends  BaseController{
         } else {
             model.addAttribute("rutinaAsignada", null);
         }
+
         return "asignarRutinaEntrenador";
     }
+
     @PostMapping("/entrenadorMain/clientes/entrenamiento/asignarRutina")
     public String crearRutinaAsignada(@RequestParam("rutinaId") Integer rutinaId, @RequestParam("usuarioId") Integer usuarioId,@RequestParam("fecha") LocalDate fecha, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
