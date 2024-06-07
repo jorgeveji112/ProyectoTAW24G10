@@ -3,10 +3,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
 
-import es.uma.proyectotaw.repository.RutinaAsignadaRepository;
-import es.uma.proyectotaw.repository.RutinaPredefinidaRepository;
-import es.uma.proyectotaw.repository.RutinaSesionentrenamientoRepository;
-import es.uma.proyectotaw.repository.UsuarioRepository;
+import es.uma.proyectotaw.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +23,9 @@ public class ClienteEntrenadorController extends  BaseController{
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @Autowired
     private RutinaPredefinidaRepository rutinaPredefinidaRepository;
@@ -75,5 +75,13 @@ public class ClienteEntrenadorController extends  BaseController{
         rutinaAsignada.setFecha(Date.valueOf(fecha));
         rutinaAsignadaRepository.save(rutinaAsignada);
         return "redirect:/entrenadorMain/clientes/entrenamiento?id="+usuarioId+"&fecha="+fecha.toString(); // Redirige a la página deseada después de asignar la rutina
+    }
+
+    @GetMapping("/entrenadorMain/clientes/perfil")
+    public String mostrarPerfil(@RequestParam("id") Integer clienteId, Model model, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        ClienteEntity cliente = clienteRepository.findById(clienteId).get();
+        model.addAttribute("cliente",cliente);
+        return "perfilCliente";
     }
 }
