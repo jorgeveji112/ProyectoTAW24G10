@@ -1,9 +1,22 @@
+<%--
+  Creador: Jorge Velázquez Jiménez
+--%>
+
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="java.time.DayOfWeek" %>
+<%@ page import="java.time.LocalDate" %>
 
 <%
     SesionejercicioEntity ejercicio = (SesionejercicioEntity) request.getAttribute("ejercicio");
+    List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
+
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
 %>
 
 <!DOCTYPE html>
@@ -22,10 +35,10 @@
 <nav>
     <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" id="activo">Inicio</a></li>
+        <li><a href="/clienteMain/inicio" >Inicio</a></li>
         <li><a href="/clienteMain/perfil">Perfil</a></li>
-        <li><a href="/clienteMain/rutina">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
+        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>" id="activo">Rutina</a></li>
+        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
@@ -42,7 +55,24 @@
         </div>
         <div class="button-group">
             <button >Video ejercicio</button>
+            <%
+                Boolean valorado = false;
+                for (ValoracionEntity val : valoraciones) {
+                    if (val.getSesionejercicio().equals(ejercicio)) {
+                        valorado = true;
+                        break;
+                    }
+                }
+                if(!valorado){
+            %>
             <button onclick="document.getElementById('ratingDialog').showModal()">Completar ejercicio</button>
+            <%
+                }else{
+            %>
+            <button disabled>Ejercicio ya completado</button>
+            <%
+                }
+            %>
         </div>
     </div>
     <dialog id="ratingDialog">
@@ -62,6 +92,7 @@
             <input type="hidden" id="ejercicio" name="ejercicio" value="<%=ejercicio.getId()%>">
             <input type="hidden" id="rating" name="rating" value="0">
             <input type="submit" class="submit-button">
+            <button type="button" class="cancel-button" onclick="document.getElementById('ratingDialog').close()">Cancelar</button>
         </form>
     </dialog>
 </div>
