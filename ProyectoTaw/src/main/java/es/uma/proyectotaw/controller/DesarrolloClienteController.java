@@ -49,7 +49,7 @@ public class DesarrolloClienteController extends BaseController {
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
-        Optional<RutinaAsignadaEntity> rutinaAsignada = rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechaDate);
+        Optional<RutinaAsignadaEntity> rutinaAsignada = Optional.ofNullable(rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechaDate));
 
         if (rutinaAsignada.isPresent()) {
             model.addAttribute("rutinaAsignada", rutinaAsignada.get());
