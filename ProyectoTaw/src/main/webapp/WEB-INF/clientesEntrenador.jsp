@@ -63,7 +63,7 @@
                         <td><%= cliente.getTelefono()%></td>
                         <td>
                             <div class="btn-cliente">
-                                <button type="submit">Info. Cliente</button>
+                                <button onclick="window.location.href='/entrenadorMain/clientes/perfil?id=<%=cliente.getId()%>'">Informacion del cliente</button>
                             </div>
                         </td>
                         <td>

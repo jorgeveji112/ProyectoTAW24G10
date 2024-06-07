@@ -25,6 +25,9 @@ public class ClienteEntrenadorController extends  BaseController{
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
     private RutinaPredefinidaRepository rutinaPredefinidaRepository;
 
     @Autowired
@@ -108,4 +111,11 @@ public class ClienteEntrenadorController extends  BaseController{
 
     }
 
+    @GetMapping("/entrenadorMain/clientes/perfil")
+    public String mostrarPerfil(@RequestParam("id") Integer clienteId, Model model, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        ClienteEntity cliente = clienteRepository.findById(clienteId).get();
+        model.addAttribute("cliente",cliente);
+        return "perfilCliente";
+    }
 }
