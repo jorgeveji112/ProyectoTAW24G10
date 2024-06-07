@@ -68,7 +68,6 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -76,6 +75,9 @@ nav {
     margin: 15px;
     width: 85%;
     height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 }
 
 .boton {
@@ -108,7 +110,7 @@ nav {
 .contenido table,
 .contenido table th,
 .contenido table td {
-    font-size: 1.1em; /* Aumenta el tamaño de la fuente */
+    font-size: 1.05em; /* Aumenta el tamaño de la fuente */
     padding: 10px 0px;
 }
 

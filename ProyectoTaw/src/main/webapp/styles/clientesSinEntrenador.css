@@ -68,7 +68,6 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -76,6 +75,9 @@ nav {
     margin: 15px;
     width: 75%;
     height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 }
 
 .contenido h2{
@@ -116,7 +118,7 @@ nav {
 .contenido table th,
 .contenido table td {
     font-size: 1.2em; /* Aumenta el tamaño de la fuente */
-    padding: 5px 0px;
+    padding: 5px;
 }
 
 
@@ -140,7 +142,6 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;

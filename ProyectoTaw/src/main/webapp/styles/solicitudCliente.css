@@ -66,18 +66,16 @@ nav {
 
 .contenido {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
     border-radius: 10px;
     margin: 15px;
-    width: 85%;
+    width: 80%;
     height: 75%;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #aaa transparent;
 }
 
 .boton {
@@ -92,14 +90,17 @@ nav {
     cursor: pointer;
     text-align: center;
     box-shadow: none;
+    font-size: 1.1em;
 }
 
 .contenido table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px ;
-    margin-left: 25px;
-    margin-right: 25px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 25px; /* Margen interno alrededor de la tabla */
     font-family: "Tahoma", sans-serif;
 }
 
@@ -110,31 +111,29 @@ nav {
 .contenido table,
 .contenido table th,
 .contenido table td {
-    font-size: 1.05em; /* Aumenta el tamaño de la fuente */
-    padding: 10px;
+    font-size: 1.1em; /* Aumenta el tamaño de la fuente */
+    padding: 15px;
 }
 
-.contenido table td button {
-    font-size: 1em;
-    padding: 2px 10px; /* Ajusta el tamaño del botón */
-}
-
-h1{
-    position: absolute;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-}
-
-h1.body {
-    top: 2%;
-    left: 2%;
-    text-align: center;
-}
-
-h1.cross {
-    top: 2%;
-    left: 52%;
+.contenido table th{
     text-align: left;
 }
 
+.inputs {
+    width: 250px; /* Ajusta el ancho según tu preferencia */
+    height: 25px;
+}
+
+.inputs2 {
+    height: 25px;
+    width: 50px;
+}
+
+
+h1 {
+    position: absolute;
+    top: 0;
+    left: 15%;
+    color: #fff;
+    white-space: nowrap;
+}

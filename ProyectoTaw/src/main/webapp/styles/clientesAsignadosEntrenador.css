@@ -68,7 +68,6 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -76,6 +75,9 @@ nav {
     margin: 15px;
     width: 85%;
     height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 }
 
 .contenido h2{

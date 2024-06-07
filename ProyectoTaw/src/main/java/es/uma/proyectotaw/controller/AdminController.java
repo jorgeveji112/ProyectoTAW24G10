@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-// Carlos Gálvez Bravo 100%
+// Toda la parte de admin está hecha al 100% por Carlos Gálvez Bravo
 @Controller
 public class AdminController extends BaseController{
 
@@ -41,7 +42,8 @@ public class AdminController extends BaseController{
         return "mainAdmin";
     }
 
-    // RAMA DE LISTA DE ENTRENADORES /////////////////////////
+    // RAMA DE LISTA DE ENTRENADORES //////////////////////////////////////////////////////////////////
+
     @GetMapping("/adminMain/entrenadores")
     public String doEntrenadores(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -154,7 +156,8 @@ public class AdminController extends BaseController{
         return "clientesSinEntrenador";
     }
 
-    // RAMA DE LISTA DE CLIENTES /////////////////////////
+    // RAMA DE LISTA DE CLIENTES //////////////////////////////////////////////////////////////////////
+
     @GetMapping("/adminMain/clientes")
     public String doClientes(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -231,7 +234,8 @@ public class AdminController extends BaseController{
         return "listaClientes";
     }
 
-    // RAMA DE LISTA DE SOLICITUDES /////////////////////////
+    // RAMA DE LISTA DE SOLICITUDES /////////////////////////////////////////////////////////////////
+
     @GetMapping("/adminMain/solicitudes")
     public String doSolicitudes(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -255,6 +259,7 @@ public class AdminController extends BaseController{
     public String aceptarSolicitud(@PathVariable("id") int id){
         UsuarioEntity usuario = usuarioRepository.findById(id).get();
         usuario.setValidado((byte) 1); // validado
+        usuario.setFechaIngreso(new Date(System.currentTimeMillis()));
         usuarioRepository.save(usuario);
         return "redirect:/adminMain/solicitudes";
     }
@@ -265,8 +270,28 @@ public class AdminController extends BaseController{
         return "redirect:/adminMain/solicitudes";
     }
 
+    @GetMapping("/adminMain/solicitud/entrenador/{id}")
+    public String doSolicitudEntrenador(@PathVariable("id") int id, Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity usuario = usuarioRepository.findById(id).get();
+        model.addAttribute("usuario", usuario);
+        return "solicitudEntrenador";
+    }
 
-    // RAMA DE LISTA DE EJERCICIOS /////////////////////////
+    @GetMapping("/adminMain/solicitud/cliente/{id}")
+    public String doSolicitudCliente(@PathVariable("id") int id, Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity usuario = usuarioRepository.findById(id).get();
+        ClienteEntity cliente = clienteRepository.findById(id).get();
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("cliente", cliente);
+        return "solicitudCliente";
+    }
+
+
+    // RAMA DE LISTA DE EJERCICIOS /////////////////////////////////////////////////////////////////
+
+
     @GetMapping("/adminMain/ejercicios")
     public String doEjercicios(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
