@@ -170,3 +170,31 @@ dialog h1 {
     border-radius: 5px;
     font-size: 16px;
 }
+
+.submit-button, .cancel-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.submit-button {
+    background-color: #F26522;
+    color: white;
+}
+
+.submit-button:hover {
+    background-color: #e04e1f;
+}
+
+.cancel-button {
+    background-color: #cccccc;
+    color: black;
+    margin-left: 10px;
+}
+
+.cancel-button:hover {
+    background-color: #aaaaaa;
+}

@@ -1,3 +1,6 @@
+/*
+        Creador: Jorge Velázquez Jiménez
+*/
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
@@ -57,24 +60,35 @@ public class RutinaClienteController extends BaseController {
     }
 
     @GetMapping("/clienteMain/rutina/sesion")
-    public String doSesion(@RequestParam("id") Integer sesionId, Model model, HttpSession session) {
+    public String doSesion(@RequestParam("id") Integer sesionId, @RequestParam("rutinaId") Integer rutinaId, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(sesionId).orElse(null);
+        UsuarioEntity cliente = (UsuarioEntity) session.getAttribute("usuario");
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(rutinaId).orElse(null);
         List<SesionentrenamientoHasSesionejercicioEntity> ejercicios = this.sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesionentrenamiento);
-
+        List<SesionejercicioEntity> sesionesEjercicio = ejercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
+        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
+        model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("ejercicios", ejercicios);
         session.setAttribute("sesion", sesionentrenamiento);
         model.addAttribute("sesion", sesionentrenamiento);
+        model.addAttribute("rutinaAsignada", rutinaAsignada);
 
         return "sesionCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @GetMapping("/clienteMain/rutina/sesion/ejercicio")
-    public String doEjercico(@RequestParam("id") Integer ejercicioId, Model model, HttpSession session) {
+    public String doEjercico(@RequestParam("id") Integer ejercicioId, @RequestParam("rutinaId") Integer rutinaId, @RequestParam("sesionId") Integer sesionId, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionejercicioEntity ejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
         model.addAttribute("ejercicio", ejercicio);
-
+        UsuarioEntity cliente = (UsuarioEntity) session.getAttribute("usuario");
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(rutinaId).orElse(null);
+        SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(sesionId).orElse(null);
+        List<SesionentrenamientoHasSesionejercicioEntity> ejercicios = this.sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesionentrenamiento);
+        List<SesionejercicioEntity> sesionesEjercicio = ejercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
+        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
+        model.addAttribute("valoraciones", valoraciones);
         return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 

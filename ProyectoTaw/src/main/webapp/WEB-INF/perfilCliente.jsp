@@ -1,9 +1,20 @@
+<%--
+  Creador: Jorge Velázquez Jiménez
+--%>
+
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.DayOfWeek" %>
 
 <%  ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
     UsuarioEntity usuario = cliente.getUsuario();
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
 %>
 
 <!DOCTYPE html>
@@ -22,10 +33,10 @@
 <nav>
     <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" id="activo">Inicio</a></li>
-        <li><a href="/clienteMain/perfil">Perfil</a></li>
-        <li><a href="/clienteMain/rutina">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
+        <li><a href="/clienteMain/inicio" >Inicio</a></li>
+        <li><a href="/clienteMain/perfil" id="activo">Perfil</a></li>
+        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>">Rutina</a></li>
+        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>

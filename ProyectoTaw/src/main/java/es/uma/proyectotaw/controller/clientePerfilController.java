@@ -1,3 +1,6 @@
+/*
+        Creador: Jorge Velázquez Jiménez
+*/
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
@@ -23,7 +26,7 @@ public class clientePerfilController extends BaseController{
     public String doClienteMain(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
-        return "mainCliente"; // Retorna el nombre de la vista de cliente
+        return "redirect:/clienteMain/inicio";
     }
 
     @GetMapping("/clienteMain/inicio")

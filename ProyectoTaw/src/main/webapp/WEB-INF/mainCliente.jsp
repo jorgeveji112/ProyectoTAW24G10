@@ -1,3 +1,9 @@
+<%--
+  Creador: Jorge Velázquez Jiménez
+--%>
+
+
+
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.DayOfWeek" %><%--
   Created by IntelliJ IDEA.
@@ -28,8 +34,8 @@
         <ul class="enlaces">
             <li><a href="/clienteMain/inicio"  id="activo">Inicio</a></li>
             <li><a href="/clienteMain/perfil">Perfil</a></li>
-            <li><a href="/clienteMain/rutina">Rutina</a></li>
-            <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
+            <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>">Rutina</a></li>
+            <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
             <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
         </ul>
     </nav>
@@ -45,7 +51,7 @@
                 <img src="/img/rutinaIcono.png" alt="Rutina Icono">
                 <h2>Rutina Semanal</h2>
             </div>
-            <div class="desarrollo" onclick="window.location='/clienteMain/desarrollo'">
+            <div class="desarrollo" onclick="window.location='/clienteMain/desarrollo?fecha=<%=fechaLunes%>'">
                 <img src="/img/clienteIcono.png" alt="Cliente Icono">
                 <h2>Desarrollo y Evolución</h2>
             </div>
