@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>{
     UsuarioEntity findByNombreUsuarioAndContraseña(String nombreUsuario, String contraseña);
+
+    @Query("SELECT u FROM UsuarioEntity u WHERE u.entrenador.id = :id")
     List<UsuarioEntity> findClientesByEntrenadorId(int id);
 
     @Query(value = "SELECT u.* FROM bdgym.usuario u JOIN bdgym.trol r ON u.trol_id = r.id WHERE r.rol = :rol", nativeQuery = true)
