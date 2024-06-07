@@ -47,7 +47,7 @@ public class RutinaClienteController extends BaseController {
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
-        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(cliente.getUsuario(), fechaDate).orElse(null);
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(cliente.getUsuario(), fechaDate);
         List<RutinaSesionentrenamientoEntity> rutinaSesionentrenamiento = this.rutinasesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
 
         model.addAttribute("sesiones", rutinaSesionentrenamiento);
@@ -98,7 +98,7 @@ public class RutinaClienteController extends BaseController {
         // Reload the usuario entity from the repository to ensure it is managed
         usuario = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
-        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechafinal).orElse(null);
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechafinal);
 
         valoracion.setRutinaAsignada(rutinaAsignada);
         valoracion.setUsuario(usuario);
