@@ -9,7 +9,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.DayOfWeek" %><%--
+<%@ page import="java.time.DayOfWeek" %>
+<%@ page import="java.util.Map" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -27,6 +28,8 @@
     LocalDate semanaSiguiente = semana.plusDays(7);
     String semanaSiguienteString = semanaSiguiente.toString();
     List<RutinaSesionentrenamientoEntity> rutinasSesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("rutinasSesiones");
+    Map<Integer, Double> mediasValoraciones = (Map<Integer, Double>) request.getAttribute("mediasValoraciones");
+    List<Integer> sesionesSinValoracion = (List<Integer>) request.getAttribute("sesionesSinValoracion");
 
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
@@ -80,18 +83,25 @@
 
                     <div id="lista-sesiones">
                         <%
+                            int sesionId;
                             for (RutinaSesionentrenamientoEntity rutinaHasSesion : rutinasSesiones) {
+                                sesionId = rutinaHasSesion.getSesionentrenamiento().getId();
+                                double mediaValoracion = mediasValoraciones.getOrDefault(sesionId, 0.0);
+                                int estrellasAmarillas = (int) Math.round(mediaValoracion);
                         %>
                         <div class="sesion">
                             <p class="nombre-sesion"><%=rutinaHasSesion.getSesionentrenamiento().getNombre()%></p>
-                            <button class="btn-ver-sesion" onclick="window.location.href='/clienteMain/desarrollo/sesion?rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Sesión</button>
-
+                            <button class="btn-ver-sesion" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento/sesion?id=<%=cliente.getId()%>&rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Valoración</button>
+                            <% if (sesionesSinValoracion.contains(sesionId)) { %>
+                            <p>(No ha sido valorada todavía)</p>
+                            <% } %>
                             <div class="contenedor-iconos">
+                                <% for (int i = 0; i < estrellasAmarillas; i++) { %>
                                 <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
-                                <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
-                                <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
+                                <% } %>
+                                <% for (int i = estrellasAmarillas; i < 5; i++) { %>
                                 <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
-                                <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
+                                <% } %>
                             </div>
 
                         </div>
