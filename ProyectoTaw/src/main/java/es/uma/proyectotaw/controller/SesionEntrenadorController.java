@@ -35,6 +35,8 @@ public class SesionEntrenadorController extends BaseController{
     @Autowired
     private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
 
+
+
     @GetMapping("/entrenadorMain/sesiones")
     public String doRutinas(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -86,6 +88,15 @@ public class SesionEntrenadorController extends BaseController{
         model.addAttribute("listaEjercicios", listaEjercicios);
 
         return "verSesionEntrenador";
+    }
+
+    @PostMapping("/entrenadorMain/sesiones/ver/ejercicio")
+    public String doVerEjercicio(Model model, HttpSession session, @RequestParam("id") Integer id ){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        EjercicioEntity ejercicio = ejercicioRepository.getReferenceById(id);
+        model.addAttribute("ejercicio", ejercicio);
+
+        return "verEjercicioEntrenador";
     }
 
     private List<Integer> convertirAEnteros(List<String> valores) {

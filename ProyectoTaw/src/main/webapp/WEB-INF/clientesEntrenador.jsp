@@ -43,50 +43,60 @@
     </nav>
     <div class="imagen-fondo">
         <div class="capa-gris"></div>
-        <div class="contenedor-cliente-titulo">
-            <h1>Clientes</h1>
-            <div class="contenido">
-                <div class="tabla">
-                <table>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Dni</th>
-                        <th></th>
-                        <th></th>
-                    <%
-                        for (UsuarioEntity cliente: listaClientes) {
-                    %>
+        <div class="contenedor-cliente-titulo" style="width: auto;">
+            <div class="contenido" style="justify-content: normal;">
+                <div>
+                    <h1 style="margin: 0px;">Clientes</h1>
+                    <div class="tabla-filtro-container" style="width: 100%;">
 
-                        <tr>
-                            <td><%= cliente.getNombre()%></td>
-                            <td><%= cliente.getApellidos()%></td>
-                            <td><%= cliente.getDni()%></td>
+                        <div class="tabla">
+                            <table>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Dni</th>
+                                    <th></th>
+                                    <th></th>
+                                        <%
+                            for (UsuarioEntity cliente: listaClientes) {
+                        %>
 
-                            <td>
-                                <div class="btn-cliente">
-                                    <button onclick="window.location.href='/entrenadorMain/clientes/perfil?id=<%=cliente.getId()%>'">Informacion del cliente</button>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="btn-cliente">
-                                    <button onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=fechaLunes%>'">Entrenamiento</button>
-                                </div>
-                            </td>
+                                <tr>
+                                    <td><%= cliente.getNombre()%></td>
+                                    <td><%= cliente.getApellidos()%></td>
+                                    <td><%= cliente.getDni()%></td>
 
-                        </tr>
-                    <%}%>
-                    </table>
+                                    <td>
+                                        <div class="btn-cliente">
+                                            <button onclick="window.location.href='/entrenadorMain/clientes/perfil?id=<%=cliente.getId()%>'">Informacion del cliente</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-cliente">
+                                            <button onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=fechaLunes%>'">Entrenamiento</button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <%}%>
+                            </table>
+                        </div>
                 </div>
-                <div class="filtro-container">
-                    <div class="filtro">
-                        <form class="formulario" action="/entrenadorMain/clientes/filtrar" method="post">
-                            <p>Escribe nombre, apellidos o DNI</p>
-                            <input class="entrada" name="filtro" value="<%=filtro%>"> </br>
-                            <div class="btn-cliente">
-                            <input class="filtrar" type="submit" value="Filtrar">
-                            </div>
-                        </form>
+
+                </div>
+                <div>
+
+                    <div class="filtro-container" style="width: 100% !important; max-width: 100% !important;">
+                        <div class="filtro">
+                            <form class="formulario" action="/entrenadorMain/clientes/filtrar" method="post">
+                                <p>Escribe nombre, apellidos o DNI</p>
+                                <input class="entrada" name="filtro" value="<%=filtro%>"> </br>
+                                <div class="home-container07">
+                                    <div class="btn-cliente">
+                                        <input class="filtrar" type="submit" value="Filtrar">
+                                    </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

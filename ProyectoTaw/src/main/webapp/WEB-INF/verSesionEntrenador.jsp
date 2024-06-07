@@ -84,7 +84,7 @@
                             <div class="ejercicio">
                                 <p class="nombre-ejercicio"><%=sesionHasSesion.getSesionejercicio().getEjercicio().getNombre()%></p>
                                 <input type="hidden" name="ejercicios" value="<%=sesionHasSesion.getSesionejercicio().getEjercicio().getId()%>">
-                                <button class="btn-ver-ejercicio">Ver ejercicio</button>
+                                <button class="btn-ver-ejercicio" onclick="window.location.href='/entrenadorMain/sesiones/ver/ejercicio?id=<%=sesionHasSesion.getSesionejercicio().getEjercicio().getId()%>'">Ver ejercicio</button>
                                 <%
                                     if(sesionHasSesion.getSesionejercicio().getSeries() == null){
                                 %>
