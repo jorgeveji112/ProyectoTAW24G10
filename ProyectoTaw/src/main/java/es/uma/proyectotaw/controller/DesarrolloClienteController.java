@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class DesarrolloClienteController extends BaseController {
@@ -49,11 +48,29 @@ public class DesarrolloClienteController extends BaseController {
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
-        Optional<RutinaAsignadaEntity> rutinaAsignada = rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechaDate);
+        RutinaAsignadaEntity rutinaAsignada = rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechaDate);
 
-        if (rutinaAsignada.isPresent()) {
-            model.addAttribute("rutinaAsignada", rutinaAsignada.get());
-            List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.get().getRutinaPredefinida());
+        if (rutinaAsignada!=null) {
+            model.addAttribute("rutinaAsignada", rutinaAsignada);
+            List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
+            List<ValoracionEntity> valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaOrderBySesionejercicio(usuario, rutinaAsignada);
+            Map<Integer, Double> mediasValoraciones = new HashMap<>();
+            List<Integer> sesionesSinValoracion = new ArrayList<>();
+            for (RutinaSesionentrenamientoEntity rutinaSesion : rutinasSesiones) {
+                List<SesionejercicioEntity> ejerciciosSesion = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(rutinaSesion.getSesionentrenamiento())
+                        .stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
+                List<ValoracionEntity> valoracionesSesion = valoraciones.stream()
+                        .filter(val -> ejerciciosSesion.contains(val.getSesionejercicio()))
+                        .toList();
+                if (valoracionesSesion.isEmpty()) {
+                    sesionesSinValoracion.add(rutinaSesion.getSesionentrenamiento().getId());
+                } else {
+                    double media = valoracionesSesion.stream().mapToDouble(ValoracionEntity::getPuntuacion).average().orElse(0.0);
+                    mediasValoraciones.put(rutinaSesion.getSesionentrenamiento().getId(), media);
+                }
+            }
+            model.addAttribute("sesionesSinValoracion", sesionesSinValoracion);
+            model.addAttribute("mediasValoraciones", mediasValoraciones);
             model.addAttribute("rutinasSesiones", rutinasSesiones);
         } else {
             model.addAttribute("rutinaAsignada", null);
