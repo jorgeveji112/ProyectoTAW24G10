@@ -41,7 +41,8 @@
         <%if(listaClientes.size() == 0){%>
             <h2>No hay clientes para ser asignados</h2>
         <%} else{%>
-        <table>
+        <div class="div-tabla">
+        <table class="tabla">
             <tr>
                 <th>DNI</th>
                 <th>Nombre</th>
@@ -50,13 +51,14 @@
             </tr>
             <%for(UsuarioEntity u : listaClientes){%>
             <tr>
-                <th><%=u.getDni()%></th>
-                <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
-                <th><%=u.getGenero()%></th>
-                <th><button class="boton" onclick="window.location='/adminMain/asignarClienteEntrenador?idCliente=<%=u.getId()%>&idEntrenador=<%=entrenador.getId()%>'">Asignar</button></th>
+                <td><%=u.getDni()%></td>
+                <td><%=u.getNombre()%> <%=u.getApellidos()%></td>
+                <td><%=u.getGenero()%></td>
+                <td><button class="boton" onclick="window.location='/adminMain/asignarClienteEntrenador?idCliente=<%=u.getId()%>&idEntrenador=<%=entrenador.getId()%>'">Asignar</button></td>
             </tr>
             <%}%>
         </table>
+        </div>
         <%}%>
     </div>
     <div class="contenido2">
@@ -65,7 +67,7 @@
                 <p>Escribe nombre, apellidos o DNI</p>
                 <input type="hidden" name="idEntrenador" value="<%=entrenador.getId()%>">
                 <input class="entrada" name="filtro">
-                <input class="filtrar" type="submit" value="filtrar">
+                <input class="boton" type="submit" value="Filtrar">
             </form>
         </div>
     </div>

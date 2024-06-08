@@ -87,9 +87,7 @@ nav {
     scrollbar-width: thin; /* Ancho del scrollbar */
     scrollbar-color: #aaa transparent;
 }
-.contenedor-crear-sesion{
 
- }
 .crear-sesion {
     font-size: 18px;
     padding: 7px 12px; /* Espacio dentro del botón */

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>TrainingGym</title>
     <link rel="stylesheet" href="/styles/inicio.css">
     <link rel="stylesheet" href="/styles/general.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">

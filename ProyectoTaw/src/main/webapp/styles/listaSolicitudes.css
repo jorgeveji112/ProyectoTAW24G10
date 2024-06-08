@@ -78,20 +78,25 @@ nav {
     height: 75%;
 }
 
-.boton {
-    background: linear-gradient(#B10028, #D55005);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 10px;
-    color: #fff;
+.boton{
+    margin: 0; /* Añade un margen a los botones */
+    font-size: 18px;
+    padding: 7px 12px;
     cursor: pointer;
-    text-align: center;
-    box-shadow: none;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(#B10028, #D55005);
+    vertical-align: middle;
+    color: #fff;
+    z-index: 5;
 }
-
+.boton:hover {
+    background:linear-gradient(#A00017, #C44004);
+}
+h3{
+    margin-left: 15px;
+    white-space: nowrap;
+}
 .contenido table{
     width: 100%;
     border-collapse: collapse;
