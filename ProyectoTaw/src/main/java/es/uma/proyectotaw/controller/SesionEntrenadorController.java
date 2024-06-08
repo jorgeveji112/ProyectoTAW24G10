@@ -50,6 +50,29 @@ public class SesionEntrenadorController extends BaseController{
         return "sesionesEntrenador";
     }
 
+    @PostMapping("/entrenadorMain/sesiones/filtrar")
+    public String doFiltrar(@RequestParam("filtro") String filtro, Model model, HttpSession session) {
+        if (!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        List<SesionentrenamientoEntity> listaSesiones = sesionentrenamientoRepository.findByUsuario(usuario);
+        List<SesionentrenamientoEntity> listaFiltrada = new ArrayList<>();
+
+        for (SesionentrenamientoEntity sesion : listaSesiones) {
+            if (sesion.getNombre() != null && sesion.getNombre().toLowerCase().contains(filtro.toLowerCase())){
+                listaFiltrada.add(sesion);
+            }
+        }
+
+        if(filtro.isEmpty()){
+            listaFiltrada = listaSesiones;
+        }
+
+        model.addAttribute("filtro", filtro);
+        model.addAttribute("sesiones", listaFiltrada);
+        model.addAttribute("entrenador", usuario);
+        return "sesionesEntrenador";
+    }
+
     @GetMapping("/entrenadorMain/sesiones/crear")
     public String doCrearSesion(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -101,6 +124,18 @@ public class SesionEntrenadorController extends BaseController{
 
         return "verSesionEntrenador";
     }
+
+
+
+    @PostMapping("/entrenadorMain/sesiones/ver/ejercicio")
+    public String doVerEjercicio(Model model, HttpSession session, @RequestParam("id") Integer id ){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        EjercicioEntity ejercicio = ejercicioRepository.getReferenceById(id);
+        model.addAttribute("ejercicio", ejercicio);
+
+        return "verEjercicioEntrenador";
+    }
+
     private List<Integer> convertirAEnteros(List<String> valores) {
         List<Integer> enteros = new ArrayList<>();
         for (String valor : valores) {

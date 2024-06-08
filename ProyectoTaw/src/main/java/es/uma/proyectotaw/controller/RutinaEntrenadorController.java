@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Pablo Pardo Fernández 100%
@@ -60,6 +61,30 @@ public class RutinaEntrenadorController extends BaseController{
         UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
         List<RutinaPredefinidaEntity> rutinas = rutinaPredefinidaRepository.findByUsuario(usuario);
         model.addAttribute("rutinas", rutinas);
+        return "rutinasEntrenador";
+    }
+
+    @PostMapping("/entrenadorMain/rutinas/filtrar")
+    public String doFiltrar(@RequestParam("filtro") String filtro, Model model, HttpSession session) {
+        if (!estaAutenticado(session)) return "redirect:/acceso";
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        List<RutinaPredefinidaEntity> listaRutinas = rutinaPredefinidaRepository.findByUsuario(usuario);
+        List<RutinaPredefinidaEntity> listaFiltrada = new ArrayList<>();
+
+        for (RutinaPredefinidaEntity rutina : listaRutinas) {
+            if (rutina.getNombre() != null && rutina.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
+                    rutina.getObjetivos() != null && rutina.getObjetivos().toLowerCase().contains(filtro.toLowerCase())){
+                listaFiltrada.add(rutina);
+            }
+        }
+
+        if(filtro.isEmpty()){
+            listaFiltrada = listaRutinas;
+        }
+
+        model.addAttribute("filtro", filtro);
+        model.addAttribute("rutinas", listaFiltrada);
+        model.addAttribute("entrenador", usuario);
         return "rutinasEntrenador";
     }
 

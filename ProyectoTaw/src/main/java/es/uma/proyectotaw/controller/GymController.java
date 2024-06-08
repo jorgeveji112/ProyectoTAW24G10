@@ -22,7 +22,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-// Pablo Pardo Fernández 30%
+//Alba Ruiz -> registro entrenadores
+//Jorge Velazquez -> registro cliente
+//Pablo Pardo -> login
+
 @Controller
 public class GymController extends BaseController{
 

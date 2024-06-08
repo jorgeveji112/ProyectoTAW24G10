@@ -1,5 +1,5 @@
 <%--
-  Creador: Jorge Velázquez Jiménez
+  Creador: Alba Ruiz Gutiérrez
 --%>
 
 
@@ -31,15 +31,16 @@
 </head>
 <body>
 <nav>
-    <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
+    <div class="logo"><img src="/img/logoGym.png"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" >Inicio</a></li>
-        <li><a href="/clienteMain/perfil" id="activo">Perfil</a></li>
-        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
+        <li><a href="/entrenadorMain/inicio" >Inicio</a></li>
+        <li><a href="/entrenadorMain/rutinas">Rutinas</a></li>
+        <li><a href="/entrenadorMain/sesiones">Sesiones</a></li>
+        <li><a href="/entrenadorMain/clientes" id="activo">Clientes</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
+
 
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
