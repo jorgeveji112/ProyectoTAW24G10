@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+// Pablo Pardo Fernández 100%
 @Controller
 public class RutinaEntrenadorController extends BaseController{
 
@@ -30,6 +31,15 @@ public class RutinaEntrenadorController extends BaseController{
 
     @Autowired
     private RutinaAsignadaRepository rutinaAsignadaRepository;
+
+    @Autowired
+    private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+
+    @Autowired
+    private ValoracionRepository valoracionRepository;
+
+    @Autowired
+    private SesionejercicioRepository sesionejercicioRepository;
 
     @GetMapping("/entrenadorMain")
     public String doEntrenadorMain(Model model, HttpSession session) {
@@ -71,15 +81,32 @@ public class RutinaEntrenadorController extends BaseController{
     @GetMapping("/entrenadorMain/rutinas/borrar")
     public String doBorrarRutina(Model model, HttpSession session, @RequestParam("id") Integer id) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        RutinaPredefinidaEntity rutina = rutinaPredefinidaRepository.findById(id).get();
+        RutinaPredefinidaEntity rutina = rutinaPredefinidaRepository.findById(id).orElse(null);
+        if (rutina == null) return "redirect:/entrenadorMain/rutinas"; // Rutina no encontrada
+
+        // Obtener las sesiones de entrenamiento asociadas a la rutina
         List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutina);
+
+        // Obtener las rutinas asignadas asociadas a la rutina
+        List<RutinaAsignadaEntity> rutinasAsignadas = rutinaAsignadaRepository.findByRutinaPredefinida(rutina);
+
         for (RutinaSesionentrenamientoEntity rutinaSesion : rutinasSesiones) {
+            // Eliminar la relación entre la rutina y la sesión de entrenamiento
             rutinaSesionentrenamientoRepository.delete(rutinaSesion);
         }
-        List<RutinaAsignadaEntity> rutinasAsignadas = rutinaAsignadaRepository.findByRutinaPredefinida(rutina);
+
+        // Eliminar las rutinas asignadas
         for (RutinaAsignadaEntity rutinaAsignada : rutinasAsignadas) {
+            // Eliminar todas las valoraciones asociadas a la rutina asignada
+            List<ValoracionEntity> valoraciones = valoracionRepository.findByRutinaAsignada(rutinaAsignada);
+            for (ValoracionEntity valoracion : valoraciones) {
+                valoracionRepository.delete(valoracion);
+            }
+            // Finalmente eliminar la rutina asignada
             rutinaAsignadaRepository.delete(rutinaAsignada);
         }
+
+        // Finalmente, eliminar la rutina
         rutinaPredefinidaRepository.delete(rutina);
         return "redirect:/entrenadorMain/rutinas";
     }

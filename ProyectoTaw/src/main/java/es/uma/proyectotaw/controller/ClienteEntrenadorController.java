@@ -16,7 +16,7 @@ import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
-
+// Pablo Pardo Fernández 90%
 @Controller
 public class ClienteEntrenadorController extends  BaseController{
 
@@ -43,6 +43,8 @@ public class ClienteEntrenadorController extends  BaseController{
 
     @Autowired
     private ValoracionRepository valoracionRepository;
+
+    //Listado de clientes de un entrenador
     @GetMapping("/entrenadorMain/clientes")
     public String doClientes(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -51,6 +53,7 @@ public class ClienteEntrenadorController extends  BaseController{
         model.addAttribute("clientes", clientes);
         return "clientesEntrenador";
     }
+
 
     @GetMapping("/entrenadorMain/clientes/entrenamiento")
     public String doClientesEntrenamiento(@RequestParam("id") Integer clienteId, @RequestParam("fecha") String fecha, Model model, HttpSession session) {

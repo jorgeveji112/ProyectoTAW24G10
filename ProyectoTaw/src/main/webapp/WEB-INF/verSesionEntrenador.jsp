@@ -85,26 +85,11 @@
                                 <p class="nombre-ejercicio"><%=sesionHasSesion.getSesionejercicio().getEjercicio().getNombre()%></p>
                                 <input type="hidden" name="ejercicios" value="<%=sesionHasSesion.getSesionejercicio().getEjercicio().getId()%>">
                                 <button class="btn-ver-ejercicio">Ver ejercicio</button>
-                                <%
-                                    if(sesionHasSesion.getSesionejercicio().getSeries() == null){
-                                %>
-                                <p><input type="text" value="-" class="intensidad" name="series">series</p>
-                                <%}else{%>
-                                <p><input type="text" value="<%=sesionHasSesion.getSesionejercicio().getSeries()%>" class="intensidad" name="series">series</p>
-                                <%}
-                                    if(sesionHasSesion.getSesionejercicio().getRepeticiones() == null){
-                                %>
-                                <p><input type="text" value="-" class="intensidad" name="repeticiones">repeticiones</p>
-                                <%}else{%>
-                                <p><input type="text" value="<%=sesionHasSesion.getSesionejercicio().getRepeticiones()%>" class="intensidad" name="repeticiones">repeticiones</p>
-                                <%}
-                                    if(sesionHasSesion.getSesionejercicio().getDuracion() == null){
-                                %>
-                                <p><input type="text" value="-" class="intensidad" name="duracion">min</p>
-                                <%}else{%>
-                                <p><input type="text" value="<%=sesionHasSesion.getSesionejercicio().getDuracion()%>" class="intensidad" name="duracion">min</p>
-                                <%}%>
-                                    <div class="contenedor-iconos">
+                                <p><input type="text" value="<%= sesionHasSesion.getSesionejercicio().getSeries() == null ? "-" : sesionHasSesion.getSesionejercicio().getSeries() %>" class="intensidad" name="series">series</p>
+                                <p><input type="text" value="<%= sesionHasSesion.getSesionejercicio().getRepeticiones() == null ? "-" : sesionHasSesion.getSesionejercicio().getRepeticiones() %>" class="intensidad" name="repeticiones">repeticiones</p>
+                                <p><input type="text" value="<%= sesionHasSesion.getSesionejercicio().getDuracion() == null ? "-" : sesionHasSesion.getSesionejercicio().getDuracion() %>" class="intensidad" name="duracion">min</p>
+
+                                <div class="contenedor-iconos">
                                         <img src="/img/flecha-arriba.png" alt="Icono Subir" class="img-icono" onclick="moverEjercicio(this, 'arriba')">
                                         <img src="/img/flecha-abajo.png" alt="Icono Bajar" class="img-icono" onclick="moverEjercicio(this, 'abajo')">
                                         <img src="/img/borrar.png" alt="Icono Borrar" class="img-icono" onclick="borrarEjercicio(this)">
