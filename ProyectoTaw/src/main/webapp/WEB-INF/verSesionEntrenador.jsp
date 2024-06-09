@@ -84,7 +84,7 @@
                             <div class="ejercicio">
                                 <p class="nombre-ejercicio"><%=sesionHasSesion.getSesionejercicio().getEjercicio().getNombre()%></p>
                                 <input type="hidden" name="ejercicios" value="<%=sesionHasSesion.getSesionejercicio().getEjercicio().getId()%>">
-                                <button class="btn-ver-ejercicio" onclick="window.location.href='/entrenadorMain/sesiones/ver/ejercicio?id=<%=sesionHasSesion.getSesionejercicio().getEjercicio().getId()%>'">Ver ejercicio</button>
+                                <p class="btn-ver-ejercicio" onclick="window.location.href='/entrenadorMain/sesiones/ver/ejercicio?id=<%=sesionHasSesion.getSesionejercicio().getEjercicio().getId()%>'">Ver ejercicio</p>
                                 <p><input type="text" value="<%= sesionHasSesion.getSesionejercicio().getSeries() == null ? "-" : sesionHasSesion.getSesionejercicio().getSeries() %>" class="intensidad" name="series">series</p>
                                 <p><input type="text" value="<%= sesionHasSesion.getSesionejercicio().getRepeticiones() == null ? "-" : sesionHasSesion.getSesionejercicio().getRepeticiones() %>" class="intensidad" name="repeticiones">repeticiones</p>
                                 <p><input type="text" value="<%= sesionHasSesion.getSesionejercicio().getDuracion() == null ? "-" : sesionHasSesion.getSesionejercicio().getDuracion() %>" class="intensidad" name="duracion">min</p>

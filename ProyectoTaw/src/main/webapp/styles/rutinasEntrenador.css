@@ -171,3 +171,20 @@ h1 {
 .filtro p {
     font-weight: bold;
 }
+
+.btn button{
+    margin: 0; /* Añade un margen a los botones */
+    font-size: 15px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(#B10028, #D55005);
+    vertical-align: middle;
+    color: #fff;
+}
+
+.contenedor-principal button:hover, input[type=submit]:hover{
+    background:linear-gradient(#A00017, #C44004) !important;
+}
+

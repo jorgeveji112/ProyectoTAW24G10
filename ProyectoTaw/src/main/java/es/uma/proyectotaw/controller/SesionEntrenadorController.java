@@ -5,6 +5,7 @@ import es.uma.proyectotaw.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,12 +128,11 @@ public class SesionEntrenadorController extends BaseController{
 
 
 
-    @PostMapping("/entrenadorMain/sesiones/ver/ejercicio")
-    public String doVerEjercicio(Model model, HttpSession session, @RequestParam("id") Integer id ){
+    @GetMapping("/entrenadorMain/sesiones/ver/ejercicio")
+    public String doVerEjercicio(Model model, HttpSession session, @Param("id") Integer id ){
         if(!estaAutenticado(session)) return "redirect:/acceso";
         EjercicioEntity ejercicio = ejercicioRepository.getReferenceById(id);
         model.addAttribute("ejercicio", ejercicio);
-
         return "verEjercicioEntrenador";
     }
 
