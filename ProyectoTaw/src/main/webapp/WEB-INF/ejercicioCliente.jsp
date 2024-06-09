@@ -107,7 +107,7 @@
             <%
                 }else{
             %>
-            <button><a href="/clienteMain/rutina/sesion?rutinaId=<%=rutinaAsignada.getId() + "&id=" + sesionentrenamiento.getId()%>">Ejercicio ya completado, volver atrás</a></button>
+            <button onclick="window.location.href='/clienteMain/rutina/sesion?rutinaId=<%=rutinaAsignada.getId()%>&id=<%=sesionentrenamiento.getId()%>'">Ejercicio ya completado, volver atrás</button>
             <%
                 }
             %>
