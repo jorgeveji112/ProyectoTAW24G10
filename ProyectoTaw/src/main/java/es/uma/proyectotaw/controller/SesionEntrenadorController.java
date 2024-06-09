@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// Pablo Pardo Fernández 100%
+// Pablo Pardo Fernández - 80% (Listar/ Crear/Borrar/Ver/Guardar Sesiones)
 @Controller
 public class SesionEntrenadorController extends BaseController{
 
@@ -43,7 +43,7 @@ public class SesionEntrenadorController extends BaseController{
     private ValoracionRepository valoracionRepository;
 
     @GetMapping("/entrenadorMain/sesiones")
-    public String doRutinas(Model model, HttpSession session) {
+    public String doSesiones(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
         List<SesionentrenamientoEntity> sesiones = sesionentrenamientoRepository.findByUsuario(usuario);

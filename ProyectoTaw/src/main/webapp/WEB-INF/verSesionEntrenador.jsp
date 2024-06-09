@@ -24,6 +24,7 @@
         descripcion = sesion.getDescripcion();
     }
 %>
+<%-- Pablo Pardo 100% --%>
 <html>
 <head>
     <title>Training Gym</title>

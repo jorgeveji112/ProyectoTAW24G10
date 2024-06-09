@@ -14,6 +14,7 @@
         filtro = "";
     };
 %>
+<%-- Pablo Pardo (todo menos filtro)--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

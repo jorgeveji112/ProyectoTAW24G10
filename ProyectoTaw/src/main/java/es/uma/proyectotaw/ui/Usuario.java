@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.ui;
 
+// Pablo Pardo Fernández 100%
 public class Usuario {
     protected String user;
     protected String password;
