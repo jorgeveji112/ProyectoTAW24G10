@@ -11,6 +11,7 @@
   Time: 11:02
   To change this template use File | Settings | File Templates.
 --%>
+<%-- Pablo Pardo 100% --%>
 <%
     UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("cliente");
     RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");

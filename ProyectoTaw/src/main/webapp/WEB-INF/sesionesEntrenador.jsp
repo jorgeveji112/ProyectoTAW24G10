@@ -8,6 +8,7 @@
   Time: 11:02
   To change this template use File | Settings | File Templates.
 --%>
+<%-- Pablo Pardo (todo menos filtro) --%>
 <%
     List<SesionentrenamientoEntity> listaSesiones = (List<SesionentrenamientoEntity>) request.getAttribute("sesiones");
     String filtro = (String) request.getAttribute("filtro");

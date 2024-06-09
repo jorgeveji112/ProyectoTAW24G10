@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
-// Pablo Pardo Fernández 100%
+// Pablo Pardo Fernández - 80% (Listar/ Crear/Borrar/Ver/Guardar rutinas)
 @Controller
 public class RutinaEntrenadorController extends BaseController{
 
