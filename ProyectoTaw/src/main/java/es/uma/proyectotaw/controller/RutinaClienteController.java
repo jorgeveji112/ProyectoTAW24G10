@@ -76,7 +76,6 @@ public class RutinaClienteController extends BaseController {
         List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
         model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("ejercicios", ejercicios);
-        session.setAttribute("sesion", sesionentrenamiento);
         model.addAttribute("sesion", sesionentrenamiento);
         model.addAttribute("rutinaAsignada", rutinaAsignada);
 
@@ -96,16 +95,16 @@ public class RutinaClienteController extends BaseController {
         List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
         model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("rutinaAsignada",rutinaAsignada);
+        model.addAttribute("sesionEntrenamiento",sesionentrenamiento);
         return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @PostMapping("/clienteMain/rutina/sesion/ejercicio")
     @Transactional
     public String doEjercicoPost(@RequestParam("rutinaId") Integer rutinaId, @RequestParam("rating") Integer rating, @RequestParam("ejercicio") Integer ejercicioId,
-                                 @RequestParam("comentario") String comentario, Model model, HttpSession session) {
+                                 @RequestParam("comentario") String comentario,@RequestParam("sesionId") Integer sesionId ,Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionejercicioEntity sesionejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
-        SesionentrenamientoEntity sesionentrenamiento = (SesionentrenamientoEntity) session.getAttribute("sesion");
 
         ValoracionEntity valoracion = new ValoracionEntity();
 
@@ -127,6 +126,6 @@ public class RutinaClienteController extends BaseController {
 
         this.valoracionRepository.save(valoracion);
 
-        return "redirect:/clienteMain/rutina/sesion?rutinaId=" + rutinaId + "&id=" + sesionentrenamiento.getId(); // Retorna el nombre de la vista de cliente
+        return "redirect:/clienteMain/rutina/sesion?rutinaId=" + rutinaId + "&id=" + sesionId; // Retorna el nombre de la vista de cliente
     }
 }

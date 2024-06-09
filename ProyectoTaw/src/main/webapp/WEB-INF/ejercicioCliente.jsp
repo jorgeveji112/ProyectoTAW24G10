@@ -14,6 +14,7 @@
     SesionejercicioEntity ejercicio = (SesionejercicioEntity) request.getAttribute("ejercicio");
     List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
     RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    SesionentrenamientoEntity sesionentrenamiento = (SesionentrenamientoEntity) request.getAttribute("sesionEntrenamiento");
 
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
@@ -50,12 +51,48 @@
         <h1><%=ejercicio.getEjercicio().getNombre()%></h1>
         <label for="descripcion">Descripcion del ejercicio</label><textarea id="descripcion" class="description" readonly><%=ejercicio.getEjercicio().getDescripcion()%></textarea>
         <div class="input-group">
-            <label for="series">Series</label><input type="text" id="series" value="<%=ejercicio.getSeries()%>" readonly>
-            <label for="repeticiones">Repeticiones</label><input type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
-            <label for="duración">Duración</label><input type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
+            <%
+            if(ejercicio.getSeries()!=null){
+
+            %>
+                <label for="series">Series</label><input type="text" id="series" value="<%=ejercicio.getSeries()%>" readonly>
+            <%
+            } else{
+            %>
+                <label for="series" hidden="true">Series</label><input hidden="true" type="text" id="series" value="<%=ejercicio.getSeries()%>" readonly>
+            <%
+            }
+            %>
+
+            <%
+                if(ejercicio.getRepeticiones()!=null){
+
+            %>
+                <label for="repeticiones">Repeticiones</label><input type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
+            <%
+            } else{
+            %>
+                <label for="repeticiones" hidden="true">Repeticiones</label><input hidden="true" type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
+            <%
+                }
+            %>
+
+            <%
+                if(ejercicio.getDuracion()!=null){
+
+            %>
+                <label for="duración">Duración</label><input type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
+            <%
+            } else{
+            %>
+                <label for="duración" hidden="true">Duración</label><input hidden="true" type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
+            <%
+                }
+            %>
+
         </div>
         <div class="button-group">
-            <button ><a <%=ejercicio.getEjercicio().getVideo()%>>Video ejercicio</a></button>
+            <button onclick="document.getElementById('videoDialog').showModal()">Video ejercicio</button>
             <%
                 Boolean valorado = false;
                 for (ValoracionEntity val : valoraciones) {
@@ -70,7 +107,7 @@
             <%
                 }else{
             %>
-            <button disabled>Ejercicio ya completado</button>
+            <button><a href="/clienteMain/rutina/sesion?rutinaId=<%=rutinaAsignada.getId() + "&id=" + sesionentrenamiento.getId()%>">Ejercicio ya completado, volver atrás</a></button>
             <%
                 }
             %>
@@ -91,11 +128,20 @@
                 <label for="comment">Comenta qué te ha parecido el ejercicio y si has podido completarlo:</label>
                 <textarea id="comment" class="comment" name="comentario"></textarea>
             </div>
+            <input type="hidden" id="sesion" name="sesionId" value="<%=sesionentrenamiento.getId()%>">
             <input type="hidden" id="ejercicio" name="ejercicio" value="<%=ejercicio.getId()%>">
             <input type="hidden" id="rating" name="rating" value="0">
             <input type="submit" class="submit-button">
             <button type="button" class="cancel-button" onclick="document.getElementById('ratingDialog').close()">Cancelar</button>
         </form>
+    </dialog>
+    <dialog class="video" id="videoDialog">
+        <div class="contenedor-principal">
+            <div class="video-container">
+                <iframe src="<%=ejercicio.getEjercicio().getVideo()%>" title="Superman" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <button type="button" class="cancel-button" onclick="document.getElementById('videoDialog').close()">Cerrar</button>
+        </div>
     </dialog>
 </div>
 <script>
