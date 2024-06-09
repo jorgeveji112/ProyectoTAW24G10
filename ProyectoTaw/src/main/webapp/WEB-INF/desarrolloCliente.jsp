@@ -91,7 +91,7 @@
                         %>
                         <div class="sesion">
                             <p class="nombre-sesion"><%=rutinaHasSesion.getSesionentrenamiento().getNombre()%></p>
-                            <button class="btn-ver-sesion" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento/sesion?id=<%=cliente.getId()%>&rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Valoración</button>
+                            <button class="btn-ver-sesion" onclick="window.location.href='/clienteMain/desarrollo/sesion?rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Valoración</button>
                             <% if (sesionesSinValoracion.contains(sesionId)) { %>
                             <p>(No ha sido valorada todavía)</p>
                             <% } %>
