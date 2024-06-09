@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Pablo Pardo Fernández - 80% (Listar/ Crear/Borrar/Ver/Guardar rutinas)
+//Alba Ruiz Gutiérrez
 @Controller
 public class RutinaEntrenadorController extends BaseController{
 

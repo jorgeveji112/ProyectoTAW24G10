@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 // Pablo Pardo Fernández - 80% (Listar/ Crear/Borrar/Ver/Guardar Sesiones)
+//Alba Ruiz Gutiérrez
 @Controller
 public class SesionEntrenadorController extends BaseController{
 

@@ -17,6 +17,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 // Pablo Pardo Fernández 80% (Listar CLientes, Asignar Rutina, Ver Rutina Asignada, Ver Valoraciones de una Sesion)
+//Alba Ruiz Gutiérrez
 @Controller
 public class ClienteEntrenadorController extends  BaseController{
 
