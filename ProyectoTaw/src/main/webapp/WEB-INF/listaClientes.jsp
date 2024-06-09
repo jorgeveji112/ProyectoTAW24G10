@@ -40,7 +40,8 @@
     <h1 class="encabezado">Lista de clientes</h1> </br>
 
     <div class="contenido">
-        <table>
+        <div class="div-tabla">
+        <table class="tabla">
             <tr>
                 <th>DNI</th>
                 <th>Nombre</th>
@@ -53,10 +54,10 @@
             <tr>
                 <form action="/adminMain/editarCliente" method="post">
                     <input type="hidden" name="idCliente" value="<%=u.getId()%>">
-                    <th><%=u.getDni()%></th>
-                    <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
-                    <th><%=u.getGenero()%></th>
-                    <th>
+                    <td><%=u.getDni()%></td>
+                    <td><%=u.getNombre()%> <%=u.getApellidos()%></td>
+                    <td><%=u.getGenero()%></td>
+                    <td>
                         <select name="idEntrenador">
                             <option value="0" <%=(u.getEntrenador() == null)? "selected" : ""%>>Sin Entrenador</option>
                             <%if(u.getTipoEntrenamiento().getId() == 1){
@@ -69,20 +70,21 @@
                                 <%}
                             }%>
                         </select>
-                    </th>
-                    <th><input class="guardar" type="submit" value="Guardar"></th>
-                    <th><button class="boton" onclick="window.location='/adminMain/cliente/borrar/<%=u.getId()%>'">Borrar</button></th>
+                    </td>
+                    <td><input class="guardar boton" type="submit" value="Guardar"></td>
+                    <td><button class="boton" onclick="window.location='/adminMain/cliente/borrar/<%=u.getId()%>'">Borrar</button></td>
                 </form>
             </tr>
             <%}%>
         </table>
+        </div>
     </div>
     <div class="contenido2">
         <div class="filtro">
             <form class="formulario" action="/adminMain/filtrar/clientes" method="post">
                 <p>Escribe nombre, apellidos o DNI</p>
                 <input class="entrada" name="filtro"> </br>
-                <input class="filtrar" type="submit" value="Filtrar">
+                <input class="boton" type="submit" value="Filtrar">
             </form>
         </div>
     </div>

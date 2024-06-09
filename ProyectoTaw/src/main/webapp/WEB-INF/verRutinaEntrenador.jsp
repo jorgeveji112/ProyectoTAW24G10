@@ -16,6 +16,7 @@
         objetivos = rutina.getObjetivos();
     }
 %>
+<%-- Pablo Pardo 100% --%>
 <html>
 <head>
     <title>Training Gym</title>

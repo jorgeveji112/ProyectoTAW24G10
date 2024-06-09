@@ -87,9 +87,7 @@ nav {
     scrollbar-width: thin; /* Ancho del scrollbar */
     scrollbar-color: #aaa transparent;
 }
-.contenedor-crear-sesion{
 
- }
 .crear-sesion {
     font-size: 18px;
     padding: 7px 12px; /* Espacio dentro del botón */
@@ -173,9 +171,6 @@ h1{
     color: #fff;
 }
 
-.filtro .filtrar:hover {
-    background: linear-gradient(#D55005, #B10028);
-}
 
 textarea {
     margin-bottom: 10px; /* Ajusta el valor según sea necesario */
@@ -187,3 +182,6 @@ textarea {
 
 
 
+.contenedor-principal button:hover, input[type=submit]:hover{
+    background:linear-gradient(#A00017, #C44004) !important;
+}

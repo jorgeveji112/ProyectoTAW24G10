@@ -23,6 +23,7 @@
     String semanaSiguienteString = semanaSiguiente.toString();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- Pablo Pardo 100% --%>
 <html>
 <head>
     <title>TrainingGym</title>

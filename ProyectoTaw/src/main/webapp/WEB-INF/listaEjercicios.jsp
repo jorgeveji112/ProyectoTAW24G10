@@ -41,7 +41,8 @@
         <%if(listaEjercicios.isEmpty()){%>
         <h2>No hay ninfún ejercicio creado actualmente</h2>
         <%} else {%>
-        <table>
+        <div class="div-tabla">
+        <table class="tabla">
             <tr>
                 <th>Nombre</th>
                 <th>Tipo de ejercicio</th>
@@ -49,23 +50,24 @@
             </tr>
             <%for(EjercicioEntity e : listaEjercicios){%>
             <tr>
-                <th><%=e.getNombre()%></th>
-                <th><%=e.getTipoEntrenamiento().getTipo()%></th>
-                <th><button class="boton" onclick="window.location='/adminMain/borrarEjercicio/<%=e.getId()%>'">Borrar</button></th>
+                <td><%=e.getNombre()%></td>
+                <td><%=e.getTipoEntrenamiento().getTipo()%></td>
+                <td><button class="boton" onclick="window.location='/adminMain/borrarEjercicio/<%=e.getId()%>'">Borrar</button></td>
             </tr>
             <%}%>
         </table>
+        </div>
         <%}%>
     </div>
     <div class="contenido2">
         <div class="filtro">
             <form class="formulario" action="/adminMain/filtrar/ejercicios" method="post">
-                <p>Escribe nombre, o tipo de ejercicio</p>
+                <p>Escribe nombre o tipo de ejercicio</p>
                 <input class="entrada" name="filtro"> </br>
-                <input class="filtrar" type="submit" value="Filtrar">
+                <input class="boton" type="submit" value="Filtrar">
             </form>
         </div>
-        <button class="boton2" onclick="window.location='/adminMain/nuevoEjercicio'">Crear nuevo </br>ejercicio</button>
+        <button class="boton" onclick="window.location='/adminMain/nuevoEjercicio'">Crear nuevo </br>ejercicio</button>
     </div>
 </div>
 </body>

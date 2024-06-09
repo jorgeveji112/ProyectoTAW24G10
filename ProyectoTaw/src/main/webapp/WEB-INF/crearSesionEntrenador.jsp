@@ -15,6 +15,7 @@
 <%
     List<EjercicioEntity> listaEjercicios = (List<EjercicioEntity>) request.getAttribute("listaEjercicios");
 %>
+<%-- Pablo Pardo 100% --%>
 <html>
 <head>
     <title>Training Gym</title>
