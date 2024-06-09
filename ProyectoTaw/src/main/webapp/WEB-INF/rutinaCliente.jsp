@@ -60,10 +60,7 @@ if(rutinaasignada != null){
         %>
         <div class="session">
             <h2 ><a class="session-link" href="/clienteMain/rutina/sesion?rutinaId=<%=rutinaasignada.getId()%>&id=<%=sesion.getSesionentrenamiento().getId()%>"><%=sesion.getSesionentrenamiento().getNombre()%></a></h2>
-            <label class="custom-checkbox">
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>
+
 
         </div>
         <%
