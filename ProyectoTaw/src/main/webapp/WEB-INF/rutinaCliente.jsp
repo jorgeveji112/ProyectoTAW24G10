@@ -47,6 +47,10 @@
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
+<%
+if(rutinaasignada != null){
+
+%>
 <h1><%=rutinaasignada.getRutinaPredefinida().getNombre()%></h1>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
@@ -55,14 +59,28 @@
             for(RutinaSesionentrenamientoEntity sesion : sesiones){
         %>
         <div class="session">
-            <h2><%=sesion.getSesionentrenamiento().getNombre()%></h2>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion?rutinaId=<%=rutinaasignada.getId()%>&id=<%=sesion.getSesionentrenamiento().getId()%>'"> Ver ejercicios sesión</button>
-            <label for="sesion <%=sesion.getSesionentrenamiento().getId()%>"></label><input id="sesion <%=sesion.getSesionentrenamiento().getId()%>" type="checkbox">
+            <h2 ><a class="session-link" href="/clienteMain/rutina/sesion?rutinaId=<%=rutinaasignada.getId()%>&id=<%=sesion.getSesionentrenamiento().getId()%>"><%=sesion.getSesionentrenamiento().getNombre()%></a></h2>
+            <label class="custom-checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+
         </div>
         <%
             };
         %>
     </div>
 </div>
+<%
+    } else{
+%>
+<h1>Aún no se le ha asignado ninguna rutina</h1>
+<div class="imagen-fondo">
+    <div class="capa-gris"></div>
+</div>
+<%
+    }
+%>
+
 </body>
 </html>

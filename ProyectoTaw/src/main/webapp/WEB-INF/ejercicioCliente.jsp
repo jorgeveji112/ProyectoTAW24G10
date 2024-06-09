@@ -13,6 +13,7 @@
 <%
     SesionejercicioEntity ejercicio = (SesionejercicioEntity) request.getAttribute("ejercicio");
     List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
+    RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
 
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
@@ -54,7 +55,7 @@
             <label for="duración">Duración</label><input type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
         </div>
         <div class="button-group">
-            <button >Video ejercicio</button>
+            <button ><a <%=ejercicio.getEjercicio().getVideo()%>>Video ejercicio</a></button>
             <%
                 Boolean valorado = false;
                 for (ValoracionEntity val : valoraciones) {
@@ -78,6 +79,7 @@
     <dialog id="ratingDialog">
         <h1>Ejercicio número 1</h1>
         <form id="ratingForm" method="post">
+            <input hidden="true" name="rutinaId" value="<%=rutinaAsignada.getId()%>">
             <div class="star-rating">
                 <span class="star" data-value="1">&#9733;</span>
                 <span class="star" data-value="2">&#9733;</span>

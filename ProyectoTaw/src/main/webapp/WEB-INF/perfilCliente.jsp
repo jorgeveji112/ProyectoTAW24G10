@@ -65,30 +65,33 @@
             <label>DNI:</label>
             <input type="text" value="<%=usuario.getDni()%>" readonly>
         </div>
+        <form method="post">
+            <h1 class="section-title">Datos de Contacto</h1>
+            <div class="form-group">
+                <label>Correo Electrónico:</label>
+                <input type="text" name="correo" value="<%=usuario.getCorreo()%>" >
+            </div>
+            <div class="form-group">
+                <label>Número de Teléfono:</label>
+                <input type="text" name="telefono" value="<%=usuario.getTelefono()%>" >
+            </div>
 
-        <h1 class="section-title">Datos de Contacto</h1>
-        <div class="form-group">
-            <label>Correo Electrónico:</label>
-            <input type="text" value="<%=usuario.getCorreo()%>" readonly>
-        </div>
-        <div class="form-group">
-            <label>Número de Teléfono:</label>
-            <input type="text" value="<%=usuario.getTelefono()%>" readonly>
-        </div>
+            <h1 class="section-title">Datos Físicos y Objetivos</h1>
+            <div class="form-group half-width">
+                <label>Altura:</label>
+                <input type="text" name="altura" value="<%=cliente.getAltura()%>">
+            </div>
+            <div class="form-group half-width">
+                <label>Peso:</label>
+                <input type="text" name="peso" value="<%=cliente.getPeso()%>" >
+            </div>
+            <div class="form-group">
+                <label>Objetivos:</label>
+                <textarea rows="3" name="objetivos" ><%=cliente.getObjetivos()%></textarea>
+            </div>
+            <input class="submit" type="submit" value="Guardar Cambios">
+        </form>
 
-        <h1 class="section-title">Datos Físicos y Objetivos</h1>
-        <div class="form-group half-width">
-            <label>Altura:</label>
-            <input type="text" value="<%=cliente.getAltura() + " cm"%>" readonly>
-        </div>
-        <div class="form-group half-width">
-            <label>Peso:</label>
-            <input type="text" value="<%=cliente.getPeso() + " cm"%>" readonly>
-        </div>
-        <div class="form-group">
-            <label>Objetivos:</label>
-            <textarea rows="3" readonly><%=cliente.getObjetivos()%></textarea>
-        </div>
     </div>
 </div>
 </body>

@@ -53,8 +53,7 @@
             for(SesionentrenamientoHasSesionejercicioEntity ejercicio : ejercicios){
         %>
         <div class="session">
-            <h2><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></h2>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion/ejercicio?rutinaId=<%=rutina.getId()%>&sesionId=<%=sesion.getId()%>&id=<%=ejercicio.getSesionejercicio().getId()%>'"> Ver ejercicio </button>
+            <h2><a class="session-link" href="/clienteMain/rutina/sesion/ejercicio?rutinaId=<%=rutina.getId()%>&sesionId=<%=sesion.getId()%>&id=<%=ejercicio.getSesionejercicio().getId()%>"><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></a></h2>
             <%
                     Boolean valorado = false;
                     for (ValoracionEntity val : valoraciones) {

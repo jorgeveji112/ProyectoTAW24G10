@@ -51,11 +51,17 @@ public class RutinaClienteController extends BaseController {
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
         RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(cliente.getUsuario(), fechaDate);
-        List<RutinaSesionentrenamientoEntity> rutinaSesionentrenamiento = this.rutinasesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
+        if(rutinaAsignada != null){
+            List<RutinaSesionentrenamientoEntity> rutinaSesionentrenamiento = this.rutinasesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
+            model.addAttribute("sesiones", rutinaSesionentrenamiento);
+            model.addAttribute("rutinaAsignada", rutinaAsignada);
+            model.addAttribute("cliente", cliente);
+        } else{
+            model.addAttribute("rutinaAsignada", rutinaAsignada);
+            model.addAttribute("cliente", cliente);
+        }
 
-        model.addAttribute("sesiones", rutinaSesionentrenamiento);
-        model.addAttribute("rutinaAsignada", rutinaAsignada);
-        model.addAttribute("cliente", cliente);
+
         return "rutinaCliente"; // Retorna el nombre de la vista de cliente
     }
 
@@ -89,12 +95,13 @@ public class RutinaClienteController extends BaseController {
         List<SesionejercicioEntity> sesionesEjercicio = ejercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
         List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
         model.addAttribute("valoraciones", valoraciones);
+        model.addAttribute("rutinaAsignada",rutinaAsignada);
         return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @PostMapping("/clienteMain/rutina/sesion/ejercicio")
     @Transactional
-    public String doEjercicoPost(@RequestParam("rating") Integer rating, @RequestParam("ejercicio") Integer ejercicioId,
+    public String doEjercicoPost(@RequestParam("rutinaId") Integer rutinaId, @RequestParam("rating") Integer rating, @RequestParam("ejercicio") Integer ejercicioId,
                                  @RequestParam("comentario") String comentario, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionejercicioEntity sesionejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
@@ -120,6 +127,6 @@ public class RutinaClienteController extends BaseController {
 
         this.valoracionRepository.save(valoracion);
 
-        return "redirect:/clienteMain/rutina/sesion?id=" + sesionentrenamiento.getId(); // Retorna el nombre de la vista de cliente
+        return "redirect:/clienteMain/rutina/sesion?rutinaId=" + rutinaId + "&id=" + sesionentrenamiento.getId(); // Retorna el nombre de la vista de cliente
     }
 }
