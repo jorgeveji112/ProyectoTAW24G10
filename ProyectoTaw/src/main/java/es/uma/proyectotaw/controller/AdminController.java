@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-// Toda la parte de admin está hecha al 100% por Carlos Gálvez Bravo
+// Realizado por Carlos Gálvez Bravo
 @Controller
 public class AdminController extends BaseController{
 
@@ -334,6 +334,45 @@ public class AdminController extends BaseController{
         model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);
         model.addAttribute("listaTiposEjercicioCrossTraining", listaTiposEjercicioCrossTraining);
         return "nuevoEjercicio";
+    }
+
+    @GetMapping("/adminMain/datosEjercicio/{id}")
+    public String doDatosEjercicio(@PathVariable("id") int id, HttpSession session, Model model) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        EjercicioEntity ejercicio = ejercicioRepository.findById(id).get();
+        List<TipoentrenamientoEntity> listaTiposEntrenamiento = tipoentrenamientoEntity.findAll();
+        List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = tipoejerciciobodubuildingRepository.findAll();
+        List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = tipoejerciciocrosstrainingRepository.findAll();
+        model.addAttribute("ejercicio", ejercicio);
+        model.addAttribute("listaTiposEntrenamiento", listaTiposEntrenamiento);
+        model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);
+        model.addAttribute("listaTiposEjercicioCrossTraining", listaTiposEjercicioCrossTraining);
+        return "datosEjercicio";
+    }
+
+    @PostMapping("/adminMain/editarEjercicio")
+    public String editarEjercicio(@RequestParam("nombre") String nombre, @RequestParam("descripcion") String descripcion,
+                                 @RequestParam("video") String video, @RequestParam("tipoentrenamiento") int tipoentrenamiento,
+                                 @RequestParam("tipoejercicio") String tipoejercicio, @RequestParam("id") int id, HttpSession session){
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        EjercicioEntity nuevoEjercicio = ejercicioRepository.findById(id).get();
+        nuevoEjercicio.setNombre(nombre);
+        nuevoEjercicio.setDescripcion(descripcion);
+        nuevoEjercicio.setVideo(video);
+        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoEntity.findById(tipoentrenamiento).get());
+
+        String[] partes = tipoejercicio.split("_");
+        int idtipoejercicio = Integer.parseInt(partes[1]);
+        if (partes[0].equals("bb")) { // bodybuilding
+            nuevoEjercicio.setTipoejerciciocrosstrainingId(null);
+            nuevoEjercicio.setTipoejerciciobodybuildingId(idtipoejercicio);
+        } else{ // crosstraining
+            nuevoEjercicio.setTipoejerciciobodybuildingId(null);
+            nuevoEjercicio.setTipoejerciciocrosstrainingId(idtipoejercicio);
+        }
+
+        ejercicioRepository.save(nuevoEjercicio);
+        return "redirect:/adminMain/ejercicios";
     }
 
 

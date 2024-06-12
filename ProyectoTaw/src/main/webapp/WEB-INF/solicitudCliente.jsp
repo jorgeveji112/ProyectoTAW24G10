@@ -1,13 +1,9 @@
 <%@ page import="es.uma.proyectotaw.ui.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %><%--
- Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 5/6/24
-  Time: 12:39
-  To change this template use File | Settings | File Templates.
+<%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
-
 <%
     UsuarioEntity usuario = (UsuarioEntity) request.getAttribute("usuario");
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");

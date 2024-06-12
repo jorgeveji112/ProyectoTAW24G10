@@ -85,7 +85,7 @@ nav {
     margin: 10px; /* Opcional: elimina márgenes predeterminados */
 }
 
-.crear {
+.guardar {
     background: linear-gradient(#B10028, #D55005);
     display : flex;
     justify-content: center;

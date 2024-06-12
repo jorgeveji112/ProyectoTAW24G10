@@ -2,10 +2,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.TipoejerciciobodybuildingEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.TipoejerciciocrosstrainingEntity" %>
+<%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
 <%
+    EjercicioEntity ejercicio = (EjercicioEntity) request.getAttribute("ejercicio");
     List<TipoentrenamientoEntity> listaTiposEntrenamiento = (List<TipoentrenamientoEntity>) request.getAttribute("listaTiposEntrenamiento");
     List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = (List<TipoejerciciobodybuildingEntity>) request.getAttribute("listaTiposEjercicioBodyBuilding");
     List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = (List<TipoejerciciocrosstrainingEntity>) request.getAttribute("listaTiposEjercicioCrossTraining");
@@ -16,7 +18,7 @@
 <head>
     <title>TrainingGym</title>
     <link rel="stylesheet" href="/styles/general.css">
-    <link rel="stylesheet" href="/styles/nuevoEjercicio.css">
+    <link rel="stylesheet" href="/styles/datosEjercicio.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -35,22 +37,25 @@
 </nav>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
-    <h1 class="encabezado">Nuevo ejercicio:</h1> </br>
+    <h1 class="encabezado">Datos del ejercicio:</h1> </br>
 
     <div class="contenido">
-        <form class="formulario" action="/adminMain/crearEjercicio" method="post">
+        <form class="formulario" action="/adminMain/editarEjercicio" method="post">
+            <input type="hidden" name="id" value="<%=ejercicio.getId()%>">
             <table>
                 <tr>
                     <th>Nombre:</th>
-                    <th><input class="inputs" name="nombre"></th>
+                    <th><input class="inputs" name="nombre" value="<%=ejercicio.getNombre()%>"></th>
                     <th></th>
                 </tr>
                 <tr>
                     <th>Tipo de entrenamiento:</th>
                     <th>
                         <select class="sel" name="tipoentrenamiento">
-                            <%for (TipoentrenamientoEntity t : listaTiposEntrenamiento) {%>
-                            <option value="<%=t.getId()%>"><%=t.getTipo()%></option>
+                            <%for (TipoentrenamientoEntity t : listaTiposEntrenamiento) {
+                                String seleccionado = "";
+                                if (t.getTipo().name().equals(ejercicio.getTipoEntrenamiento().getTipo().name())) seleccionado="selected";%>
+                                <option value="<%=t.getId()%>" <%=seleccionado%>><%=t.getTipo()%></option>
                             <%}%>
                         </select>
                     </th>
@@ -60,11 +65,15 @@
                     <th>Tipo de ejercicio:</th>
                     <th>
                         <select class="sel" name="tipoejercicio">
-                            <%for (TipoejerciciobodybuildingEntity t : listaTiposEjercicioBodyBuilding) {%>
-                            <option value="bb_<%=t.getId()%>"><%=t.getTipo()%></option>
-                            <%}%>
-                            <%for (TipoejerciciocrosstrainingEntity t : listaTiposEjercicioCrossTraining) {%>
-                            <option value="cs_<%=t.getId()%>"><%=t.getTipo()%></option>
+                            <%for (TipoejerciciobodybuildingEntity t : listaTiposEjercicioBodyBuilding) {
+                                String seleccionado = "";
+                                if(ejercicio.getTipoejerciciobodybuildingId() != null && t.getId() == ejercicio.getTipoejerciciobodybuildingId()) seleccionado="selected";%>
+                                <option value="bb_<%=t.getId()%>" <%=seleccionado%>><%=t.getTipo()%></option>
+                            <%}
+                            for (TipoejerciciocrosstrainingEntity t : listaTiposEjercicioCrossTraining) {
+                                String seleccionado = "";
+                                if(ejercicio.getTipoejerciciocrosstrainingId() != null && t.getId() == ejercicio.getTipoejerciciocrosstrainingId()) seleccionado="selected";%>
+                            <option value="cs_<%=t.getId()%>" <%=seleccionado%>><%=t.getTipo()%></option>
                             <%}%>
                         </select>
                     </th>
@@ -72,13 +81,13 @@
                 </tr>
                 <tr>
                     <th>Video:</th>
-                    <th><input class="inputs" name="video"></th>
+                    <th><input class="inputs" name="video" value="<%=ejercicio.getVideo()%>"></th>
                     <th></th>
                 </tr>
                 <tr>
                     <th>Descripción:</th>
-                    <th><input class="inputs" name="descripcion"></th>
-                    <th><input class="crear" type="submit" value="Crear"></th>
+                    <th><input class="inputs" name="descripcion" value="<%=ejercicio.getDescripcion()%>"></th>
+                    <th><input class="guardar" type="submit" value="Guardar"></th>
                 </tr>
             </table>
         </form>
@@ -86,3 +95,4 @@
 </div>
 </body>
 </html>
+

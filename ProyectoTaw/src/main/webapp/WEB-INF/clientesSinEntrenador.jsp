@@ -1,10 +1,7 @@
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 5/6/24
-  Time: 12:39
-  To change this template use File | Settings | File Templates.
+<%@ page import="java.util.List" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
 <%
     List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes");

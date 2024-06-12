@@ -1,14 +1,10 @@
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.repository.EjercicioRepository" %>
-<%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %><%--
-  Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 5/6/24
-  Time: 12:39
-  To change this template use File | Settings | File Templates.
+<%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
-
 <%List<EjercicioEntity> listaEjercicios = (List<EjercicioEntity>) request.getAttribute("listaEjercicios"); %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -46,11 +42,13 @@
                 <th>Nombre</th>
                 <th>Tipo de ejercicio</th>
                 <th></th>
+                <th></th>
             </tr>
             <%for(EjercicioEntity e : listaEjercicios){%>
             <tr>
                 <th><%=e.getNombre()%></th>
                 <th><%=e.getTipoEntrenamiento().getTipo()%></th>
+                <th><button class="boton" onclick="window.location='/adminMain/datosEjercicio/<%=e.getId()%>'">Editar</button></th>
                 <th><button class="boton" onclick="window.location='/adminMain/borrarEjercicio/<%=e.getId()%>'">Borrar</button></th>
             </tr>
             <%}%>
