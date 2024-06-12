@@ -1,8 +1,7 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.repository.*;
-import jakarta.servlet.http.HttpServletRequest;
+import es.uma.proyectotaw.dao.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

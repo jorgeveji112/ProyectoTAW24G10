@@ -1,6 +1,6 @@
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.repository.EjercicioRepository" %>
+<%@ page import="es.uma.proyectotaw.dao.EjercicioRepository" %>
 <%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
 <%--
     Realizado por Carlos Gálvez Bravo

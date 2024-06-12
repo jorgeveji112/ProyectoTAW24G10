@@ -3,7 +3,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
 
-import es.uma.proyectotaw.repository.*;
+import es.uma.proyectotaw.dao.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

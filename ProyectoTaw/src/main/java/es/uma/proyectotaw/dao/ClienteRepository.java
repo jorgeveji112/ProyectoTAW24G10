@@ -1,4 +1,4 @@
-package es.uma.proyectotaw.repository;
+package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.ClienteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
