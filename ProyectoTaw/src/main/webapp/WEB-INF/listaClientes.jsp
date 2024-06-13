@@ -1,12 +1,12 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
 <%
-    List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes");
-    List<UsuarioEntity> entrenadoresBodyBuilding = (List<UsuarioEntity>) request.getAttribute("entrenadoresBodyBuilding");
-    List<UsuarioEntity> entrenadoresCrossTraining = (List<UsuarioEntity>) request.getAttribute("entrenadoresCrossTraining");
+    List<UsuarioDTO> listaClientes = (List<UsuarioDTO>) request.getAttribute("listaClientes");
+    List<UsuarioDTO> entrenadoresBodyBuilding = (List<UsuarioDTO>) request.getAttribute("entrenadoresBodyBuilding");
+    List<UsuarioDTO> entrenadoresCrossTraining = (List<UsuarioDTO>) request.getAttribute("entrenadoresCrossTraining");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -45,7 +45,7 @@
                 <th></th>
                 <th></th>
             </tr>
-            <%for(UsuarioEntity u : listaClientes){%>
+            <%for(UsuarioDTO u : listaClientes){%>
             <tr>
                 <form action="/adminMain/editarCliente" method="post">
                     <input type="hidden" name="idCliente" value="<%=u.getId()%>">
@@ -56,19 +56,19 @@
                         <select name="idEntrenador">
                             <option value="0" <%=(u.getEntrenador() == null)? "selected" : ""%>>Sin Entrenador</option>
                             <%if(u.getTipoEntrenamiento().getId() == 1){
-                                for(UsuarioEntity e : entrenadoresBodyBuilding){%>
+                                for(UsuarioDTO e : entrenadoresBodyBuilding){%>
                                     <option value="<%=e.getId()%>" <%=(u.getEntrenador() != null && e.equals(u.getEntrenador())? "selected" : "")%>><%=e.getNombre()%> <%=e.getApellidos()%></option>
                                 <%}
                             } else {
-                                for(UsuarioEntity e : entrenadoresCrossTraining){%>
+                                for(UsuarioDTO e : entrenadoresCrossTraining){%>
                                     <option value="<%=e.getId()%>" <%=(u.getEntrenador() != null && e.equals(u.getEntrenador())? "selected" : "")%>><%=e.getNombre()%> <%=e.getApellidos()%></option>
                                 <%}
                             }%>
                         </select>
                     </th>
                     <th><input class="guardar" type="submit" value="Guardar"></th>
-                    <th><button class="boton" onclick="window.location='/adminMain/cliente/borrar/<%=u.getId()%>'">Borrar</button></th>
                 </form>
+                    <th><button class="boton" onclick="window.location='/adminMain/cliente/borrar/<%=u.getId()%>'">Borrar</button></th>
             </tr>
             <%}%>
         </table>

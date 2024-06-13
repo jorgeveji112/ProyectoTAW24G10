@@ -1,8 +1,10 @@
 package es.uma.proyectotaw.service;
 
+import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
 import es.uma.proyectotaw.dao.TrolRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
+import es.uma.proyectotaw.dto.ClienteDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
     protected UsuarioRepository usuarioRepository;
 
     @Autowired
-    protected TipoentrenamientoRepository tipoentrenamientoRepository;
-
-    @Autowired
-    protected TrolRepository trolRepository;
+    protected ClienteRepository clienteRepository;
 
     public List<UsuarioDTO> listarEntrenadoresBodyBuilding(){
         //TrolEntity rol = trolRepository.findByRol(RolEnum.entrenador);
@@ -47,8 +46,18 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
         usuarioRepository.deleteById(id);
     }
 
+    public void borrarCliente(int id){
+        clienteRepository.deleteById(id);
+        usuarioRepository.deleteById(id);
+    }
+
     public UsuarioDTO buscarUsuario(int id){
         return usuarioRepository.findById(id).get().toDTO();
+    }
+
+    public List<UsuarioDTO> listarUsuariosPorRol(String rol){
+        List<UsuarioEntity> lista = usuarioRepository.findUsuariosByRol(rol);
+        return this.entidadesADTO(lista);
     }
 
     public List<UsuarioDTO> buscarClientesPorEntrenador(int id){
@@ -96,14 +105,37 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
     }
 
     public void asignarEntrenadorACliente(int idEntrenador, int idCliente) {
-        UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
         UsuarioEntity cliente = usuarioRepository.findById(idCliente).get();
-        cliente.setEntrenador(entrenador);
+
+        if(idEntrenador != 0){
+            UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
+            cliente.setEntrenador(entrenador);
+        } else {
+            cliente.setEntrenador(null);
+        }
+
         usuarioRepository.save(cliente);
     }
 
     public List<UsuarioDTO> filtrarClientesSinEntrenadorPorTipoEntrenamiento(String tipoEntrenamiento, String filtro){
         List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosWithoutCoachByTipoEntrenamiento(tipoEntrenamiento);
+
+        List<UsuarioDTO> listaFiltrada = new ArrayList<>();
+        for (UsuarioEntity cliente : listaClientes) {
+            if(cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
+                    cliente.getDni().toLowerCase().contains(filtro.toLowerCase())){
+                listaFiltrada.add(cliente.toDTO());
+            }
+        }
+        if(listaFiltrada.isEmpty()){
+            listaFiltrada = this.entidadesADTO(listaClientes);
+        }
+        return listaFiltrada;
+    }
+
+    public List<UsuarioDTO> filtrarClientes(String filtro){
+        List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosByRol("cliente");
 
         List<UsuarioDTO> listaFiltrada = new ArrayList<>();
         for (UsuarioEntity cliente : listaClientes) {

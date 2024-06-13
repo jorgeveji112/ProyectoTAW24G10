@@ -3,6 +3,7 @@ package es.uma.proyectotaw.controller;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.service.ClienteService;
 import es.uma.proyectotaw.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class AdminController extends BaseController{
     @Autowired
     protected UsuarioService usuarioService;
 
-    // BORRAR ///////////////////////////////////////////////
+    // BORRAR  CUANDO SE REFACTORICE ENTERO ///////////////////////////////////////////////
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -148,17 +149,11 @@ public class AdminController extends BaseController{
     @GetMapping("/adminMain/clientes")
     public String doClientes(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosByRol("cliente");
-        List<UsuarioEntity> listaEntrenadores = usuarioRepository.findUsuariosByRol("entrenador");
-        List<UsuarioEntity> entrenadoresBodyBuilding = new ArrayList<>();
-        List<UsuarioEntity> entrenadoresCrossTraining = new ArrayList<>();
-        for(UsuarioEntity usuario : listaEntrenadores) {
-            if(usuario.getTipoEntrenamiento().getId() == 1) {
-                entrenadoresBodyBuilding.add(usuario);
-            } else {
-                entrenadoresCrossTraining.add(usuario);
-            }
-        }
+
+        List<UsuarioDTO> listaClientes = usuarioService.listarUsuariosPorRol("cliente");
+        List<UsuarioDTO> entrenadoresBodyBuilding = usuarioService.listarEntrenadoresBodyBuilding();
+        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTrainig();
+
         model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
         model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
         model.addAttribute("listaClientes", listaClientes);
@@ -168,23 +163,15 @@ public class AdminController extends BaseController{
     @PostMapping("/adminMain/editarCliente")
     public String editarCliente(@RequestParam("idEntrenador") int idEntrenador, @RequestParam("idCliente") int idCliente, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity cliente = usuarioRepository.findById(idCliente).get();
-        if(idEntrenador == 0){ // el entrenador es nulo
-            cliente.setEntrenador(null);
-        } else {
-            UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
-            cliente.setEntrenador(entrenador);
-        }
-        usuarioRepository.save(cliente);
+
+        usuarioService.asignarEntrenadorACliente(idEntrenador, idCliente);
+
         return "redirect:/adminMain/clientes";
     }
 
     @GetMapping("/adminMain/cliente/borrar/{id}")
     public String borrarCliente(@PathVariable("id") int id){
-
-        clienteRepository.deleteById(id);
-        usuarioRepository.deleteById(id);
-
+        usuarioService.borrarCliente(id);
         return "redirect:/adminMain/clientes";
     }
 
@@ -192,29 +179,10 @@ public class AdminController extends BaseController{
     public String filtrarClientesAsignados(@RequestParam("filtro") String filtro, Model model, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
-        List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosByRol("cliente");
-        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
-        for (UsuarioEntity cliente : listaClientes) {
-            if(cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getDni().toLowerCase().contains(filtro.toLowerCase())){
-                listaFiltrada.add(cliente);
-            }
-        }
-        if(listaFiltrada.isEmpty()){
-            listaFiltrada = listaClientes;
-        }
+        List<UsuarioDTO> entrenadoresBodyBuilding = usuarioService.listarEntrenadoresBodyBuilding();
+        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTrainig();
+        List<UsuarioDTO> listaFiltrada = usuarioService.filtrarClientes(filtro);
 
-        List<UsuarioEntity> listaEntrenadores = usuarioRepository.findUsuariosByRol("entrenador");
-        List<UsuarioEntity> entrenadoresBodyBuilding = new ArrayList<>();
-        List<UsuarioEntity> entrenadoresCrossTraining = new ArrayList<>();
-        for(UsuarioEntity usuario : listaEntrenadores) {
-            if(usuario.getTipoEntrenamiento().getId() == 1) {
-                entrenadoresBodyBuilding.add(usuario);
-            } else {
-                entrenadoresCrossTraining.add(usuario);
-            }
-        }
         model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
         model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
         model.addAttribute("listaClientes", listaFiltrada);

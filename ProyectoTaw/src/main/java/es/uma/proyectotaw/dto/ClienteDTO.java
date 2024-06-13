@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ClienteDTO {
     private Integer id;
-    private UsuarioEntity usuario;
+    private UsuarioDTO usuario;
     private Float altura;
     private String objetivos;
 }
