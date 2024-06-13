@@ -1,7 +1,9 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,10 @@ import java.util.List;
 public class AdminController extends BaseController{
 
     @Autowired
+    protected UsuarioService usuarioService;
+
+    // BORRAR ///////////////////////////////////////////////
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
@@ -37,6 +43,8 @@ public class AdminController extends BaseController{
     @Autowired
     private TipoejerciciocrosstrainingRepository tipoejerciciocrosstrainingRepository;
 
+    /////////////////////////////////////////////////////////
+
     @GetMapping("/adminMain/inicio")
     public String doAdminMain() {
         return "mainAdmin";
@@ -47,18 +55,13 @@ public class AdminController extends BaseController{
     @GetMapping("/adminMain/entrenadores")
     public String doEntrenadores(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<UsuarioEntity> listaEntrenadores = usuarioRepository.findUsuariosByRol("entrenador");
-        List<UsuarioEntity> entrenadoresBodyBuilding = new ArrayList<>();
-        List<UsuarioEntity> entrenadoresCrossTraining = new ArrayList<>();
-        for (UsuarioEntity usuario : listaEntrenadores) {
-            if(usuario.getTipoEntrenamiento().getId() == 1) {
-                entrenadoresBodyBuilding.add(usuario);
-            } else {
-                entrenadoresCrossTraining.add(usuario);
-            }
-        }
+
+        List<UsuarioDTO> entrenadoresBodyBuilding = usuarioService.listarEntrenadoresBodyBuilding();
+        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTrainig();
+
         model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
         model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
+
         return "listaEntrenadores";
     }
 

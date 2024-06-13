@@ -1,5 +1,7 @@
 package es.uma.proyectotaw.dao;
 
+
+// Realizado por Carlos Gálvez Bravo y Pablo Pardo Fernández
 import es.uma.proyectotaw.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +22,8 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     List<UsuarioEntity> findUsuariosWithoutCoachByTipoEntrenamiento(@Param("tipoEntrenamiento") String tipoEntrenamiento);
 
     List<UsuarioEntity> findClientesByValidado(byte validado);
+
+    @Query(value = "SELECT u.* FROM bdgym.usuario u JOIN bdgym.trol r ON u.trol_id = r.id JOIN bdgym.tipoentrenamiento t ON u.tipoentrenamiento_id = t.id" +
+            " WHERE r.rol = :rol AND t.tipo = :tipoEntrenamiento", nativeQuery = true)
+    List<UsuarioEntity> findUsuariosByRolAndTipoEntrenamiento(@Param("rol") String rol, @Param("tipoEntrenamiento") String tipoEntrenamiento);
 }
