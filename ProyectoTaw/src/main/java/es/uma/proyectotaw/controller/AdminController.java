@@ -67,93 +67,77 @@ public class AdminController extends BaseController{
 
     @GetMapping("/adminMain/borrarEntrenador/{id}")
     public String borrarEntrenador(@PathVariable("id") int id){
-        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(id);
-        for (UsuarioEntity cliente : listaClientes) {
-            cliente.setEntrenador(null);
-            usuarioRepository.save(cliente);
-        }
-        usuarioRepository.deleteById(id);
+        usuarioService.borrarEntrenador(id);
         return "redirect:/adminMain/entrenadores";
     }
 
     @GetMapping("/adminMain/clientesEntrenador/{id}")
     public String doClientesEntrenador(@PathVariable("id") int id, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(id);
-        UsuarioEntity entrenador = usuarioRepository.findById(id).get();
+
+        List<UsuarioDTO> listaClientes = usuarioService.buscarClientesPorEntrenador(id);
+        UsuarioDTO entrenador = usuarioService.buscarUsuario(id);
+
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaClientes);
+
         return "clientesAsignadosEntrenador";
     }
 
     @GetMapping("/adminMain/entrenador/desasignarCliente/{id}")
     public String desasignarCliente(@PathVariable("id") int id, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity cliente = usuarioRepository.findById(id).get();
-        int idEntrenador = cliente.getEntrenador().getId();
-        cliente.setEntrenador(null);
-        usuarioRepository.save(cliente);
+
+        int idEntrenador = usuarioService.buscarEntrenadorDeCliente(id).getId();
+        usuarioService.desasignarEntrenadorACliente(id);
+
         return "redirect:/adminMain/clientesEntrenador/"+idEntrenador;
     }
 
     @PostMapping("/adminMain/filtrar/clientesAsignados")
     public String filtrarClientesAsignados(@RequestParam("idEntrenador") int idEntrenador, @RequestParam("filtro") String filtro, Model model, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
-        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(idEntrenador);
-        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
-        for (UsuarioEntity cliente : listaClientes) {
-            if(cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getDni().toLowerCase().contains(filtro.toLowerCase())){
-                listaFiltrada.add(cliente);
-            }
-        }
-        if(listaFiltrada.isEmpty()){
-            listaFiltrada = listaClientes;
-        }
+
+        UsuarioDTO entrenador = usuarioService.buscarUsuario(idEntrenador);
+        // si la lista filtrada está vacía, se mostrará la lista completa
+        List<UsuarioDTO> listaFiltrada = usuarioService.fliltrarClientesAsignadosEntrenador(idEntrenador, filtro);
+
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaFiltrada);
+
         return "clientesAsignadosEntrenador";
     }
 
     @GetMapping("/adminMain/nuevosClientesEntrenador/{id}")
     public String listaClientesSinAsignar(@PathVariable("id") int id, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity entrenador = usuarioRepository.findById(id).get();
-        String tipo = entrenador.getTipoEntrenamiento().getTipo().name();
-        List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosWithoutCoachByTipoEntrenamiento(tipo);
+
+        UsuarioDTO entrenador = usuarioService.buscarUsuario(id);
+        List<UsuarioDTO> listaClientes = usuarioService.buscarClientesSinEntrenadorPorTipoEntrenamiento(entrenador.getTipoEntrenamiento().getTipo().name());
+
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaClientes);
+
         return "clientesSinEntrenador";
     }
 
     @GetMapping("/adminMain/asignarClienteEntrenador")
     public String asignarClienteEntrenador(@RequestParam("idEntrenador") int idEntrenador, @RequestParam("idCliente") int idCliente, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
-        UsuarioEntity cliente = usuarioRepository.findById(idCliente).get();
-        cliente.setEntrenador(entrenador);
-        usuarioRepository.save(cliente);
+
+        UsuarioDTO entrenador = usuarioService.buscarUsuario(idEntrenador);
+        usuarioService.asignarEntrenadorACliente(idEntrenador, idCliente);
+
         return "redirect:/adminMain/clientesEntrenador/"+entrenador.getId();
     }
 
     @PostMapping("/adminMain/filtrar/clientesSinAsignar")
     public String filtrarClientesSinAsignar(@RequestParam("idEntrenador") int idEntrenador, @RequestParam("filtro") String filtro, Model model, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity entrenador = usuarioRepository.findById(idEntrenador).get();
-        List<UsuarioEntity> listaClientes = usuarioRepository.findUsuariosWithoutCoachByTipoEntrenamiento(entrenador.getTipoEntrenamiento().getTipo().name());
-        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
-        for (UsuarioEntity cliente : listaClientes) {
-            if(cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
-                    cliente.getDni().toLowerCase().contains(filtro.toLowerCase())){
-                listaFiltrada.add(cliente);
-            }
-        }
-        if(listaFiltrada.isEmpty()){
-            listaFiltrada = listaClientes;
-        }
+
+        UsuarioDTO entrenador = usuarioService.buscarUsuario(idEntrenador);
+        List<UsuarioDTO> listaFiltrada = usuarioService.filtrarClientesSinEntrenadorPorTipoEntrenamiento(entrenador.getTipoEntrenamiento().getTipo().name(), filtro);
+
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaFiltrada);
         return "clientesSinEntrenador";

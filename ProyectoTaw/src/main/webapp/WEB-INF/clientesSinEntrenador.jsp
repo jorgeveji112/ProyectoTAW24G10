@@ -1,11 +1,11 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
 <%
-    List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes");
-    UsuarioEntity entrenador = (UsuarioEntity) request.getAttribute("entrenador");
+    List<UsuarioDTO> listaClientes = (List<UsuarioDTO>) request.getAttribute("listaClientes");
+    UsuarioDTO entrenador = (UsuarioDTO) request.getAttribute("entrenador");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -45,7 +45,7 @@
                 <th>Genero</th>
                 <th></th>
             </tr>
-            <%for(UsuarioEntity u : listaClientes){%>
+            <%for(UsuarioDTO u : listaClientes){%>
             <tr>
                 <th><%=u.getDni()%></th>
                 <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
