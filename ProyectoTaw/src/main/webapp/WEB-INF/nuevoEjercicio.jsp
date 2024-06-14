@@ -1,14 +1,14 @@
-<%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.entity.TipoejerciciobodybuildingEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.TipoejerciciocrosstrainingEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoentrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoejerciciobodybuildingDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoejerciciocrosstrainingDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
 <%
-    List<TipoentrenamientoEntity> listaTiposEntrenamiento = (List<TipoentrenamientoEntity>) request.getAttribute("listaTiposEntrenamiento");
-    List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = (List<TipoejerciciobodybuildingEntity>) request.getAttribute("listaTiposEjercicioBodyBuilding");
-    List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = (List<TipoejerciciocrosstrainingEntity>) request.getAttribute("listaTiposEjercicioCrossTraining");
+    List<TipoentrenamientoDTO> listaTiposEntrenamiento = (List<TipoentrenamientoDTO>) request.getAttribute("listaTiposEntrenamiento");
+    List<TipoejerciciobodybuildingDTO> listaTiposEjercicioBodyBuilding = (List<TipoejerciciobodybuildingDTO>) request.getAttribute("listaTiposEjercicioBodyBuilding");
+    List<TipoejerciciocrosstrainingDTO> listaTiposEjercicioCrossTraining = (List<TipoejerciciocrosstrainingDTO>) request.getAttribute("listaTiposEjercicioCrossTraining");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -49,7 +49,7 @@
                     <th>Tipo de entrenamiento:</th>
                     <th>
                         <select class="sel" name="tipoentrenamiento">
-                            <%for (TipoentrenamientoEntity t : listaTiposEntrenamiento) {%>
+                            <%for (TipoentrenamientoDTO t : listaTiposEntrenamiento) {%>
                             <option value="<%=t.getId()%>"><%=t.getTipo()%></option>
                             <%}%>
                         </select>
@@ -60,10 +60,10 @@
                     <th>Tipo de ejercicio:</th>
                     <th>
                         <select class="sel" name="tipoejercicio">
-                            <%for (TipoejerciciobodybuildingEntity t : listaTiposEjercicioBodyBuilding) {%>
+                            <%for (TipoejerciciobodybuildingDTO t : listaTiposEjercicioBodyBuilding) {%>
                             <option value="bb_<%=t.getId()%>"><%=t.getTipo()%></option>
                             <%}%>
-                            <%for (TipoejerciciocrosstrainingEntity t : listaTiposEjercicioCrossTraining) {%>
+                            <%for (TipoejerciciocrosstrainingDTO t : listaTiposEjercicioCrossTraining) {%>
                             <option value="cs_<%=t.getId()%>"><%=t.getTipo()%></option>
                             <%}%>
                         </select>

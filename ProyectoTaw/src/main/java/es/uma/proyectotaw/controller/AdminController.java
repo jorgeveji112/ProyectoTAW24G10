@@ -1,11 +1,9 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.service.ClienteService;
-import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +26,18 @@ public class AdminController extends BaseController{
 
     @Autowired
     protected ClienteService clienteService;
+
+    @Autowired
+    protected EjercicioService ejercicioService;
+
+    @Autowired
+    protected TipoentrenamientoService tipoentrenamientoService;
+
+    @Autowired
+    protected TipoejerciciocrosstrainingService tipoejerciciocrosstrainingService;
+
+    @Autowired
+    protected TipoejerciciobodybuildingService tipoejerciciobodybuildingService;
 
     // BORRAR  CUANDO SE REFACTORICE ENTERO ///////////////////////////////////////////////
     @Autowired
@@ -248,7 +258,9 @@ public class AdminController extends BaseController{
     @GetMapping("/adminMain/ejercicios")
     public String doEjercicios(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<EjercicioEntity> listaEjercicios = ejercicioRepository.findAll();
+
+        List<EjercicioDTO> listaEjercicios = ejercicioService.listarEjercicios();
+
         model.addAttribute("listaEjercicios", listaEjercicios);
         return "listaEjercicios";
     }
@@ -256,33 +268,27 @@ public class AdminController extends BaseController{
     @PostMapping("/adminMain/filtrar/ejercicios")
     public String filtrarEjercicios(@RequestParam("filtro") String filtro, Model model, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<EjercicioEntity> listaEjercicios = ejercicioRepository.findAll();
-        List<EjercicioEntity> listaFiltrada = new ArrayList<>();
-        for (EjercicioEntity ejercicio : listaEjercicios) {
-            if(ejercicio.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
-                    ejercicio.getTipoEntrenamiento().getTipo().name().toLowerCase().contains(filtro.toLowerCase())){
-                listaFiltrada.add(ejercicio);
-            }
-        }
-        if(listaFiltrada.isEmpty()){
-            listaFiltrada = listaEjercicios;
-        }
+
+        List<EjercicioDTO> listaFiltrada = ejercicioService.filtrarEjercicios(filtro);
+
         model.addAttribute("listaEjercicios", listaFiltrada);
         return "listaEjercicios";
     }
 
     @GetMapping("/adminMain/borrarEjercicio/{id}")
     public String borrarEjercicio(@PathVariable("id") int id){
-        ejercicioRepository.deleteById(id);
+        ejercicioService.borrarEjercicio(id);
         return "redirect:/adminMain/ejercicios";
     }
 
     @GetMapping("/adminMain/nuevoEjercicio")
     public String doNuevoEjercicio(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<TipoentrenamientoEntity> listaTiposEntrenamiento = tipoentrenamientoEntity.findAll();
-        List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = tipoejerciciobodubuildingRepository.findAll();
-        List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = tipoejerciciocrosstrainingRepository.findAll();
+
+        List<TipoentrenamientoDTO> listaTiposEntrenamiento = tipoentrenamientoService.listarTipoentrenamientos();
+        List<TipoejerciciobodybuildingDTO> listaTiposEjercicioBodyBuilding = tipoejerciciobodybuildingService.listarTipoejercicios();
+        List<TipoejerciciocrosstrainingDTO> listaTiposEjercicioCrossTraining = tipoejerciciocrosstrainingService.listarTipoejercicios();
+
         model.addAttribute("listaTiposEntrenamiento", listaTiposEntrenamiento);
         model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);
         model.addAttribute("listaTiposEjercicioCrossTraining", listaTiposEjercicioCrossTraining);
@@ -292,10 +298,12 @@ public class AdminController extends BaseController{
     @GetMapping("/adminMain/datosEjercicio/{id}")
     public String doDatosEjercicio(@PathVariable("id") int id, HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        EjercicioEntity ejercicio = ejercicioRepository.findById(id).get();
-        List<TipoentrenamientoEntity> listaTiposEntrenamiento = tipoentrenamientoEntity.findAll();
-        List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = tipoejerciciobodubuildingRepository.findAll();
-        List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = tipoejerciciocrosstrainingRepository.findAll();
+
+        EjercicioDTO ejercicio = ejercicioService.buscarEjercicio(id);
+        List<TipoentrenamientoDTO> listaTiposEntrenamiento = tipoentrenamientoService.listarTipoentrenamientos();
+        List<TipoejerciciobodybuildingDTO> listaTiposEjercicioBodyBuilding = tipoejerciciobodybuildingService.listarTipoejercicios();
+        List<TipoejerciciocrosstrainingDTO> listaTiposEjercicioCrossTraining = tipoejerciciocrosstrainingService.listarTipoejercicios();
+
         model.addAttribute("ejercicio", ejercicio);
         model.addAttribute("listaTiposEntrenamiento", listaTiposEntrenamiento);
         model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);

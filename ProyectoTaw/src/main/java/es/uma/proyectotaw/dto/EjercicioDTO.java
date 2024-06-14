@@ -10,7 +10,7 @@ public class EjercicioDTO {
     private String nombre;
     private String descripcion;
     private String video;
-    private TipoentrenamientoEntity tipoEntrenamiento;
+    private TipoentrenamientoDTO tipoEntrenamiento;
     private Integer tipoejerciciobodybuildingId;
     private Integer tipoejerciciocrosstrainingId;
 }

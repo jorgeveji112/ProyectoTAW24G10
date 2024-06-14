@@ -1,11 +1,9 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.dao.EjercicioRepository" %>
-<%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
-<%List<EjercicioEntity> listaEjercicios = (List<EjercicioEntity>) request.getAttribute("listaEjercicios"); %>
+<%List<EjercicioDTO> listaEjercicios = (List<EjercicioDTO>) request.getAttribute("listaEjercicios"); %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -44,7 +42,7 @@
                 <th></th>
                 <th></th>
             </tr>
-            <%for(EjercicioEntity e : listaEjercicios){%>
+            <%for(EjercicioDTO e : listaEjercicios){%>
             <tr>
                 <th><%=e.getNombre()%></th>
                 <th><%=e.getTipoEntrenamiento().getTipo()%></th>

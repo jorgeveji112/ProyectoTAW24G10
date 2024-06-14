@@ -3,14 +3,18 @@
 <%@ page import="es.uma.proyectotaw.entity.TipoejerciciobodybuildingEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.TipoejerciciocrosstrainingEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoejerciciocrosstrainingDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoejerciciobodybuildingDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.TipoentrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
 <%
-    EjercicioEntity ejercicio = (EjercicioEntity) request.getAttribute("ejercicio");
-    List<TipoentrenamientoEntity> listaTiposEntrenamiento = (List<TipoentrenamientoEntity>) request.getAttribute("listaTiposEntrenamiento");
-    List<TipoejerciciobodybuildingEntity> listaTiposEjercicioBodyBuilding = (List<TipoejerciciobodybuildingEntity>) request.getAttribute("listaTiposEjercicioBodyBuilding");
-    List<TipoejerciciocrosstrainingEntity> listaTiposEjercicioCrossTraining = (List<TipoejerciciocrosstrainingEntity>) request.getAttribute("listaTiposEjercicioCrossTraining");
+    EjercicioDTO ejercicio = (EjercicioDTO) request.getAttribute("ejercicio");
+    List<TipoentrenamientoDTO> listaTiposEntrenamiento = (List<TipoentrenamientoDTO>) request.getAttribute("listaTiposEntrenamiento");
+    List<TipoejerciciobodybuildingDTO> listaTiposEjercicioBodyBuilding = (List<TipoejerciciobodybuildingDTO>) request.getAttribute("listaTiposEjercicioBodyBuilding");
+    List<TipoejerciciocrosstrainingDTO> listaTiposEjercicioCrossTraining = (List<TipoejerciciocrosstrainingDTO>) request.getAttribute("listaTiposEjercicioCrossTraining");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -52,7 +56,7 @@
                     <th>Tipo de entrenamiento:</th>
                     <th>
                         <select class="sel" name="tipoentrenamiento">
-                            <%for (TipoentrenamientoEntity t : listaTiposEntrenamiento) {
+                            <%for (TipoentrenamientoDTO t : listaTiposEntrenamiento) {
                                 String seleccionado = "";
                                 if (t.getTipo().name().equals(ejercicio.getTipoEntrenamiento().getTipo().name())) seleccionado="selected";%>
                                 <option value="<%=t.getId()%>" <%=seleccionado%>><%=t.getTipo()%></option>
@@ -65,12 +69,12 @@
                     <th>Tipo de ejercicio:</th>
                     <th>
                         <select class="sel" name="tipoejercicio">
-                            <%for (TipoejerciciobodybuildingEntity t : listaTiposEjercicioBodyBuilding) {
+                            <%for (TipoejerciciobodybuildingDTO t : listaTiposEjercicioBodyBuilding) {
                                 String seleccionado = "";
                                 if(ejercicio.getTipoejerciciobodybuildingId() != null && t.getId() == ejercicio.getTipoejerciciobodybuildingId()) seleccionado="selected";%>
                                 <option value="bb_<%=t.getId()%>" <%=seleccionado%>><%=t.getTipo()%></option>
                             <%}
-                            for (TipoejerciciocrosstrainingEntity t : listaTiposEjercicioCrossTraining) {
+                            for (TipoejerciciocrosstrainingDTO t : listaTiposEjercicioCrossTraining) {
                                 String seleccionado = "";
                                 if(ejercicio.getTipoejerciciocrosstrainingId() != null && t.getId() == ejercicio.getTipoejerciciocrosstrainingId()) seleccionado="selected";%>
                             <option value="cs_<%=t.getId()%>" <%=seleccionado%>><%=t.getTipo()%></option>
