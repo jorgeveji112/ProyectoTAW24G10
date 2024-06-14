@@ -72,6 +72,7 @@ public class ClienteEntity implements Serializable, DTO<ClienteDTO> {
         ClienteDTO dto = new ClienteDTO();
         dto.setId(this.id);
         dto.setUsuario(this.usuario.toDTO());
+        dto.setPeso(this.peso);
         dto.setAltura(this.altura);
         dto.setObjetivos(this.objetivos);
         return dto;

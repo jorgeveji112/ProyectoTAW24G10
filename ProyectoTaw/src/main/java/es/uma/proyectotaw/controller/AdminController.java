@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.ClienteDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
@@ -24,6 +25,9 @@ public class AdminController extends BaseController{
 
     @Autowired
     protected UsuarioService usuarioService;
+
+    @Autowired
+    protected ClienteService clienteService;
 
     // BORRAR  CUANDO SE REFACTORICE ENTERO ///////////////////////////////////////////////
     @Autowired
@@ -194,17 +198,10 @@ public class AdminController extends BaseController{
     @GetMapping("/adminMain/solicitudes")
     public String doSolicitudes(HttpSession session, Model model) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        byte validado = 0;
-        List<UsuarioEntity> listaSolicitudes = usuarioRepository.findClientesByValidado(validado);
-        List<UsuarioEntity> listaEntrenadores = new ArrayList<>();
-        List<UsuarioEntity> listaClientes = new ArrayList<>();
-        for (UsuarioEntity usuario : listaSolicitudes) {
-            if(usuario.getRol().getRol().name().equals("entrenador")) {
-                listaEntrenadores.add(usuario);
-            } else {
-                listaClientes.add(usuario);
-            }
-        }
+
+        List<UsuarioDTO> listaEntrenadores = usuarioService.buscarUsuarioPorRolYValidado("entrenador", (byte) 0);
+        List<UsuarioDTO> listaClientes = usuarioService.buscarUsuarioPorRolYValidado("cliente", (byte) 0);
+
         model.addAttribute("listaEntrenadores", listaEntrenadores);
         model.addAttribute("listaClientes", listaClientes);
         return "listaSolicitudes";
@@ -212,23 +209,22 @@ public class AdminController extends BaseController{
 
     @GetMapping("/adminMain/solicitud/aceptar/{id}")
     public String aceptarSolicitud(@PathVariable("id") int id){
-        UsuarioEntity usuario = usuarioRepository.findById(id).get();
-        usuario.setValidado((byte) 1); // validado
-        usuario.setFechaIngreso(new Date(System.currentTimeMillis()));
-        usuarioRepository.save(usuario);
+        usuarioService.aceptarSolicitud(id);
         return "redirect:/adminMain/solicitudes";
     }
 
     @GetMapping("/adminMain/solicitud/rechazar/{id}")
     public String rechazarSolicitud(@PathVariable("id") int id){
-        usuarioRepository.deleteById(id);
+        usuarioService.borrarUsuario(id);
         return "redirect:/adminMain/solicitudes";
     }
 
     @GetMapping("/adminMain/solicitud/entrenador/{id}")
     public String doSolicitudEntrenador(@PathVariable("id") int id, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = usuarioRepository.findById(id).get();
+
+        UsuarioDTO usuario = usuarioService.buscarUsuario(id);
+
         model.addAttribute("usuario", usuario);
         return "solicitudEntrenador";
     }
@@ -236,8 +232,10 @@ public class AdminController extends BaseController{
     @GetMapping("/adminMain/solicitud/cliente/{id}")
     public String doSolicitudCliente(@PathVariable("id") int id, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = usuarioRepository.findById(id).get();
-        ClienteEntity cliente = clienteRepository.findById(id).get();
+
+        UsuarioDTO usuario = usuarioService.buscarUsuario(id);
+        ClienteDTO cliente = clienteService.buscarCliente(id);
+
         model.addAttribute("usuario", usuario);
         model.addAttribute("cliente", cliente);
         return "solicitudCliente";

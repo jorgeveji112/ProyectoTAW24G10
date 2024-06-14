@@ -1,12 +1,11 @@
-<%@ page import="es.uma.proyectotaw.ui.Usuario" %>
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
 <%
-    UsuarioEntity usuario = (UsuarioEntity) request.getAttribute("usuario");
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
+    UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("usuario");
+    ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

@@ -21,7 +21,9 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
             " WHERE r.rol = 'cliente' AND u.entrenador_id IS NULL AND t.tipo = :tipoEntrenamiento", nativeQuery = true)
     List<UsuarioEntity> findUsuariosWithoutCoachByTipoEntrenamiento(@Param("tipoEntrenamiento") String tipoEntrenamiento);
 
-    List<UsuarioEntity> findClientesByValidado(byte validado);
+
+    @Query(value = "SELECT u.* FROM bdgym.usuario u JOIN bdgym.trol r ON u.trol_id = r.id WHERE r.rol = :rol AND u.validado = :validado", nativeQuery = true)
+    List<UsuarioEntity> findClientesByValidadoAAndRol(@Param("validado") byte validado, @Param("rol") String rol);
 
     @Query(value = "SELECT u.* FROM bdgym.usuario u JOIN bdgym.trol r ON u.trol_id = r.id JOIN bdgym.tipoentrenamiento t ON u.tipoentrenamiento_id = t.id" +
             " WHERE r.rol = :rol AND t.tipo = :tipoEntrenamiento", nativeQuery = true)

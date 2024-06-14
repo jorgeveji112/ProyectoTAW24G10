@@ -1,9 +1,9 @@
-<%@ page import="es.uma.proyectotaw.ui.Usuario" %>
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
 <%--
     Realizado por Carlos Gálvez Bravo
 --%>
-<%UsuarioEntity usuario = (UsuarioEntity) request.getAttribute("usuario");%>
+<%UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("usuario");%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>

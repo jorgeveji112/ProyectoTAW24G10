@@ -1,15 +1,13 @@
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.ClienteRepository;
-import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
-import es.uma.proyectotaw.dao.TrolRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
-import es.uma.proyectotaw.dto.ClienteDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +35,16 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
         return this.entidadesADTO(lista);
     }
 
+    public void borrarUsuario(int id){
+        UsuarioEntity usuario = usuarioRepository.findById(id).get();
+
+        if(usuario.getRol().getRol().name().equals("entrenador")){
+            borrarEntrenador(id);
+        } else if(usuario.getRol().getRol().name().equals("cliente")){
+            borrarCliente(id);
+        }
+    }
+
     public void borrarEntrenador(int id){
         List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(id);
         for (UsuarioEntity cliente : listaClientes) {
@@ -54,6 +62,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
     public UsuarioDTO buscarUsuario(int id){
         return usuarioRepository.findById(id).get().toDTO();
     }
+
 
     public List<UsuarioDTO> listarUsuariosPorRol(String rol){
         List<UsuarioEntity> lista = usuarioRepository.findUsuariosByRol(rol);
@@ -149,5 +158,17 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
             listaFiltrada = this.entidadesADTO(listaClientes);
         }
         return listaFiltrada;
+    }
+
+    public List<UsuarioDTO> buscarUsuarioPorRolYValidado(String rol, byte validado){
+        List<UsuarioEntity> lista = usuarioRepository.findClientesByValidadoAAndRol(validado, rol);
+        return this.entidadesADTO(lista);
+    }
+
+    public void aceptarSolicitud(int id){
+        UsuarioEntity usuario = usuarioRepository.findById(id).get();
+        usuario.setValidado((byte)1);
+        usuario.setFechaIngreso(new Date(System.currentTimeMillis()));
+        usuarioRepository.save(usuario);
     }
 }
