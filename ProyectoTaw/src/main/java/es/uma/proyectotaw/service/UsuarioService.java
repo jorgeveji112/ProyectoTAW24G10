@@ -23,9 +23,6 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
     protected ClienteRepository clienteRepository;
 
     public List<UsuarioDTO> listarEntrenadoresBodyBuilding(){
-        //TrolEntity rol = trolRepository.findByRol(RolEnum.entrenador);
-        //TipoentrenamientoEntity tipo = tipoentrenamientoRepository.findByTipo(TipoentrenamientoEnum.body_building);
-
         List<UsuarioEntity> lista = usuarioRepository.findUsuariosByRolAndTipoEntrenamiento("entrenador", "body_building");
         return this.entidadesADTO(lista);
     }

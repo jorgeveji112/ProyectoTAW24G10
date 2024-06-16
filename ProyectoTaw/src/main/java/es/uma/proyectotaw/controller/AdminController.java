@@ -1,8 +1,6 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 // Realizado por Carlos Gálvez Bravo
@@ -38,27 +33,6 @@ public class AdminController extends BaseController{
 
     @Autowired
     protected TipoejerciciobodybuildingService tipoejerciciobodybuildingService;
-
-    // BORRAR  CUANDO SE REFACTORICE ENTERO ///////////////////////////////////////////////
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    private EjercicioRepository ejercicioRepository;
-
-    @Autowired
-    private TipoentrenamientoRepository tipoentrenamientoEntity;
-
-    @Autowired
-    private TipoejerciciobodubuildingRepository tipoejerciciobodubuildingRepository;
-
-    @Autowired
-    private TipoejerciciocrosstrainingRepository tipoejerciciocrosstrainingRepository;
-
-    /////////////////////////////////////////////////////////
 
     @GetMapping("/adminMain/inicio")
     public String doAdminMain() {
@@ -316,23 +290,9 @@ public class AdminController extends BaseController{
                                  @RequestParam("video") String video, @RequestParam("tipoentrenamiento") int tipoentrenamiento,
                                  @RequestParam("tipoejercicio") String tipoejercicio, @RequestParam("id") int id, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        EjercicioEntity nuevoEjercicio = ejercicioRepository.findById(id).get();
-        nuevoEjercicio.setNombre(nombre);
-        nuevoEjercicio.setDescripcion(descripcion);
-        nuevoEjercicio.setVideo(video);
-        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoEntity.findById(tipoentrenamiento).get());
 
-        String[] partes = tipoejercicio.split("_");
-        int idtipoejercicio = Integer.parseInt(partes[1]);
-        if (partes[0].equals("bb")) { // bodybuilding
-            nuevoEjercicio.setTipoejerciciocrosstrainingId(null);
-            nuevoEjercicio.setTipoejerciciobodybuildingId(idtipoejercicio);
-        } else{ // crosstraining
-            nuevoEjercicio.setTipoejerciciobodybuildingId(null);
-            nuevoEjercicio.setTipoejerciciocrosstrainingId(idtipoejercicio);
-        }
+        ejercicioService.editarEjercicio(nombre, descripcion, video, tipoentrenamiento, tipoejercicio, id);
 
-        ejercicioRepository.save(nuevoEjercicio);
         return "redirect:/adminMain/ejercicios";
     }
 
@@ -341,22 +301,11 @@ public class AdminController extends BaseController{
     public String crearEjercicio(@RequestParam("nombre") String nombre, @RequestParam("descripcion") String descripcion,
                                  @RequestParam("video") String video, @RequestParam("tipoentrenamiento") int tipoentrenamiento,
                                  @RequestParam("tipoejercicio") String tipoejercicio, HttpSession session){
+
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        EjercicioEntity nuevoEjercicio = new EjercicioEntity();
-        nuevoEjercicio.setNombre(nombre);
-        nuevoEjercicio.setDescripcion(descripcion);
-        nuevoEjercicio.setVideo(video);
-        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoEntity.findById(tipoentrenamiento).get());
 
-        String[] partes = tipoejercicio.split("_");
-        int idtipoejercicio = Integer.parseInt(partes[1]);
-        if (partes[0].equals("bb")) { // bodybuilding
-            nuevoEjercicio.setTipoejerciciobodybuildingId(idtipoejercicio);
-        } else{ // crosstraining
-            nuevoEjercicio.setTipoejerciciocrosstrainingId(idtipoejercicio);
-        }
+        ejercicioService.crearEjercicio(nombre, descripcion, video, tipoentrenamiento, tipoejercicio);
 
-        ejercicioRepository.save(nuevoEjercicio);
         return "redirect:/adminMain/ejercicios";
     }
 
