@@ -1,12 +1,15 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.TrolDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "trol", schema = "bdgym", catalog = "")
-public class TrolEntity {
+public class TrolEntity implements Serializable, DTO<TrolDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -42,5 +45,13 @@ public class TrolEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, rol);
+    }
+
+    @Override
+    public TrolDTO toDTO() {
+        TrolDTO dto = new TrolDTO();
+        dto.setId(this.id);
+        dto.setRol(this.rol);
+        return dto;
     }
 }

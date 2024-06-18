@@ -22,32 +22,27 @@ nav {
 .enlaces li {
     margin-left: 90px;
 }
-
-.enlaces li a {
+.enlaces li a{
     font-size: 20px;
     text-decoration: none;
     color: #fff;
 }
-
-.enlaces li a:hover {
+.enlaces li a:hover{
     color: #E5670B;
 }
-
-.enlaces li a.cerrar-sesion {
+.enlaces li a.cerrar-sesion{
     background: #E5670B;
     padding: 5px 11px;
     border-radius: 5px;
     color: #fff;
 }
-
-.enlaces li a.cerrar-sesion:hover {
+.enlaces li a.cerrar-sesion:hover{
     background: #D4560A;
 }
 
-#activo {
+#activo{
     text-decoration: underline;
 }
-
 .imagen-fondo {
     background-image: url("/img/fondo.png");
     background-size: cover;
@@ -80,8 +75,6 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 60%;
-    max-height: 80vh;
-    overflow-y: auto;
     margin: 0 auto;
     position: relative;
     z-index: 10;
@@ -89,7 +82,7 @@ body {
 
 .section-title {
     font-size: 20px;
-    color: rgb(255, 122, 0);
+    color: orange;
     margin-bottom: 10px;
 }
 
@@ -97,8 +90,6 @@ body {
     margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    flex-direction: column;
 }
 
 .form-group label {
@@ -106,8 +97,7 @@ body {
     font-weight: bold;
 }
 
-.form-group input,
-.form-group textarea {
+.form-group input, .form-group textarea {
     flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
@@ -127,11 +117,3 @@ body {
     flex: 1;
 }
 
-.submit{
-    background: #E5670B;
-    padding: 10px 11px;
-    border-radius: 5px;
-    color: #fff;
-    margin-top: 25px;
-    margin-left: 85%;
-}

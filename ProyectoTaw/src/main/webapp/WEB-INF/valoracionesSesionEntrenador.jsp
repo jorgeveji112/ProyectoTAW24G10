@@ -23,7 +23,6 @@
     String semanaSiguienteString = semanaSiguiente.toString();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%-- Pablo Pardo 100% --%>
 <html>
 <head>
     <title>TrainingGym</title>
@@ -57,8 +56,7 @@
 
             <div class="info-rutina">
                 <p id="label-nombre">
-                    <span class="label" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=semanaString%>'">
-                        <%=rutinaAsignada.getRutinaPredefinida().getNombre()%> </span><span>---->  <%= sesion.getNombre() %></span>
+                    <span class="label"> <%=rutinaAsignada.getRutinaPredefinida().getNombre()%> > <%= sesion.getNombre() %></span>
                 </p>
                 <div class="div-sesiones">
                     <p>Sesiones:</p>
@@ -66,11 +64,17 @@
                     <div id="lista-sesiones">
                         <%
                             for (SesionejercicioEntity sesionEjercicio : sesionesEjercicio) {
-                                ValoracionEntity valoracion = valoraciones.stream()
-                                        .filter(val -> val.getSesionejercicio().equals(sesionEjercicio))
-                                        .findFirst()
-                                        .orElse(null);
-                                int puntuacion = (valoracion != null) ? valoracion.getPuntuacion() : 0;
+                                ValoracionEntity valoracion = null;
+                                for (ValoracionEntity val : valoraciones) {
+                                    if (val.getSesionejercicio().equals(sesionEjercicio)) {
+                                        valoracion = val;
+                                        break;
+                                    }
+                                }
+                                int puntuacion = 0;
+                                if(valoracion != null){
+                                    puntuacion = valoracion.getPuntuacion();
+                                }
                                 String comentario = (valoracion != null && valoracion.getDescripcion() != null) ? valoracion.getDescripcion() : cliente.getNombre() + " " + cliente.getApellidos() + " no ha escrito ningún comentario todavía.";
                         %>
                         <div class="valoracion">

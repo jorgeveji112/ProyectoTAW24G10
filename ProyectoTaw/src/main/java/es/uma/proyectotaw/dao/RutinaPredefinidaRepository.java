@@ -1,4 +1,4 @@
-package es.uma.proyectotaw.repository;
+package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;

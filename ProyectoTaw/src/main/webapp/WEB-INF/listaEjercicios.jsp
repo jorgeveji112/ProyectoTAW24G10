@@ -1,15 +1,9 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.repository.EjercicioRepository" %>
-<%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %><%--
-  Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 5/6/24
-  Time: 12:39
-  To change this template use File | Settings | File Templates.
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
-
-<%List<EjercicioEntity> listaEjercicios = (List<EjercicioEntity>) request.getAttribute("listaEjercicios"); %>
+<%List<EjercicioDTO> listaEjercicios = (List<EjercicioDTO>) request.getAttribute("listaEjercicios"); %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -41,33 +35,33 @@
         <%if(listaEjercicios.isEmpty()){%>
         <h2>No hay ninfún ejercicio creado actualmente</h2>
         <%} else {%>
-        <div class="div-tabla">
-        <table class="tabla">
+        <table>
             <tr>
                 <th>Nombre</th>
                 <th>Tipo de ejercicio</th>
                 <th></th>
+                <th></th>
             </tr>
-            <%for(EjercicioEntity e : listaEjercicios){%>
+            <%for(EjercicioDTO e : listaEjercicios){%>
             <tr>
-                <td><%=e.getNombre()%></td>
-                <td><%=e.getTipoEntrenamiento().getTipo()%></td>
-                <td><button class="boton" onclick="window.location='/adminMain/borrarEjercicio/<%=e.getId()%>'">Borrar</button></td>
+                <th><%=e.getNombre()%></th>
+                <th><%=e.getTipoEntrenamiento().getTipo()%></th>
+                <th><button class="boton" onclick="window.location='/adminMain/datosEjercicio/<%=e.getId()%>'">Editar</button></th>
+                <th><button class="boton" onclick="window.location='/adminMain/borrarEjercicio/<%=e.getId()%>'">Borrar</button></th>
             </tr>
             <%}%>
         </table>
-        </div>
         <%}%>
     </div>
     <div class="contenido2">
         <div class="filtro">
             <form class="formulario" action="/adminMain/filtrar/ejercicios" method="post">
-                <p>Escribe nombre o tipo de ejercicio</p>
+                <p>Escribe nombre, o tipo de ejercicio</p>
                 <input class="entrada" name="filtro"> </br>
-                <input class="boton" type="submit" value="Filtrar">
+                <input class="filtrar" type="submit" value="Filtrar">
             </form>
         </div>
-        <button class="boton" onclick="window.location='/adminMain/nuevoEjercicio'">Crear nuevo </br>ejercicio</button>
+        <button class="boton2" onclick="window.location='/adminMain/nuevoEjercicio'">Crear nuevo </br>ejercicio</button>
     </div>
 </div>
 </body>

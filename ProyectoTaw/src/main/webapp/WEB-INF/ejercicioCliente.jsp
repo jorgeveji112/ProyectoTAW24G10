@@ -1,24 +1,9 @@
-<%--
-  Creador: Jorge Velázquez Jiménez
---%>
-
-
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
-<%@ page import="java.time.DayOfWeek" %>
-<%@ page import="java.time.LocalDate" %>
 
 <%
     SesionejercicioEntity ejercicio = (SesionejercicioEntity) request.getAttribute("ejercicio");
-    List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
-    RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
-    SesionentrenamientoEntity sesionentrenamiento = (SesionentrenamientoEntity) request.getAttribute("sesionEntrenamiento");
-
-    LocalDate fecha = LocalDate.now();
-    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
-    String fechaLunes = lunes.toString();
 %>
 
 <!DOCTYPE html>
@@ -37,10 +22,10 @@
 <nav>
     <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" >Inicio</a></li>
+        <li><a href="/clienteMain/inicio" id="activo">Inicio</a></li>
         <li><a href="/clienteMain/perfil">Perfil</a></li>
-        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>" id="activo">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
+        <li><a href="/clienteMain/rutina">Rutina</a></li>
+        <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
@@ -51,72 +36,18 @@
         <h1><%=ejercicio.getEjercicio().getNombre()%></h1>
         <label for="descripcion">Descripcion del ejercicio</label><textarea id="descripcion" class="description" readonly><%=ejercicio.getEjercicio().getDescripcion()%></textarea>
         <div class="input-group">
-            <%
-            if(ejercicio.getSeries()!=null){
-
-            %>
-                <label for="series">Series</label><input type="text" id="series" value="<%=ejercicio.getSeries()%>" readonly>
-            <%
-            } else{
-            %>
-                <label for="series" hidden="true">Series</label><input hidden="true" type="text" id="series" value="<%=ejercicio.getSeries()%>" readonly>
-            <%
-            }
-            %>
-
-            <%
-                if(ejercicio.getRepeticiones()!=null){
-
-            %>
-                <label for="repeticiones">Repeticiones</label><input type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
-            <%
-            } else{
-            %>
-                <label for="repeticiones" hidden="true">Repeticiones</label><input hidden="true" type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
-            <%
-                }
-            %>
-
-            <%
-                if(ejercicio.getDuracion()!=null){
-
-            %>
-                <label for="duración">Duración</label><input type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
-            <%
-            } else{
-            %>
-                <label for="duración" hidden="true">Duración</label><input hidden="true" type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
-            <%
-                }
-            %>
-
+            <label for="series">Series</label><input type="text" id="series" value="<%=ejercicio.getSeries()%>" readonly>
+            <label for="repeticiones">Repeticiones</label><input type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
+            <label for="duración">Duración</label><input type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
         </div>
         <div class="button-group">
-            <button onclick="document.getElementById('videoDialog').showModal()">Video ejercicio</button>
-            <%
-                Boolean valorado = false;
-                for (ValoracionEntity val : valoraciones) {
-                    if (val.getSesionejercicio().equals(ejercicio)) {
-                        valorado = true;
-                        break;
-                    }
-                }
-                if(!valorado){
-            %>
+            <button >Video ejercicio</button>
             <button onclick="document.getElementById('ratingDialog').showModal()">Completar ejercicio</button>
-            <%
-                }else{
-            %>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion?rutinaId=<%=rutinaAsignada.getId()%>&id=<%=sesionentrenamiento.getId()%>'">Ejercicio ya completado, volver atrás</button>
-            <%
-                }
-            %>
         </div>
     </div>
     <dialog id="ratingDialog">
         <h1>Ejercicio número 1</h1>
         <form id="ratingForm" method="post">
-            <input hidden="true" name="rutinaId" value="<%=rutinaAsignada.getId()%>">
             <div class="star-rating">
                 <span class="star" data-value="1">&#9733;</span>
                 <span class="star" data-value="2">&#9733;</span>
@@ -128,20 +59,10 @@
                 <label for="comment">Comenta qué te ha parecido el ejercicio y si has podido completarlo:</label>
                 <textarea id="comment" class="comment" name="comentario"></textarea>
             </div>
-            <input type="hidden" id="sesion" name="sesionId" value="<%=sesionentrenamiento.getId()%>">
             <input type="hidden" id="ejercicio" name="ejercicio" value="<%=ejercicio.getId()%>">
             <input type="hidden" id="rating" name="rating" value="0">
             <input type="submit" class="submit-button">
-            <button type="button" class="cancel-button" onclick="document.getElementById('ratingDialog').close()">Cancelar</button>
         </form>
-    </dialog>
-    <dialog class="video" id="videoDialog">
-        <div class="contenedor-principal">
-            <div class="video-container">
-                <iframe src="<%=ejercicio.getEjercicio().getVideo()%>" title="Superman" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
-            <button type="button" class="cancel-button" onclick="document.getElementById('videoDialog').close()">Cerrar</button>
-        </div>
     </dialog>
 </div>
 <script>

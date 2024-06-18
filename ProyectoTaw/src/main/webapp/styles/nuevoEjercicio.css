@@ -160,33 +160,3 @@ h1 {
     box-sizing: border-box; /* Asegura que el padding y border no afecten al ancho total */
     margin-bottom: 10px; /* Espaciado inferior para separación visual */
 }
-
-.filtrar{
-    background: linear-gradient(#B10028, #D55005);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    font-size: 1.1em;
-}
-
-.boton2 {
-    background: linear-gradient(#B10028, #D55005);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    font-size: 1.1em;
-}

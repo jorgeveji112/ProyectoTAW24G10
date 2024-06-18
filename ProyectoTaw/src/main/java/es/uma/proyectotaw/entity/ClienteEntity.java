@@ -1,10 +1,14 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.DTO;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cliente")
-public class ClienteEntity {
+public class ClienteEntity implements Serializable, DTO<ClienteDTO> {
     @Id
     @Column(name = "usuario_id", nullable = false)
     private Integer id;
@@ -61,6 +65,17 @@ public class ClienteEntity {
 
     public void setObjetivos(String objetivos) {
         this.objetivos = objetivos;
+    }
+
+    @Override
+    public ClienteDTO toDTO() {
+        ClienteDTO dto = new ClienteDTO();
+        dto.setId(this.id);
+        dto.setUsuario(this.usuario.toDTO());
+        dto.setPeso(this.peso);
+        dto.setAltura(this.altura);
+        dto.setObjetivos(this.objetivos);
+        return dto;
     }
 
 }

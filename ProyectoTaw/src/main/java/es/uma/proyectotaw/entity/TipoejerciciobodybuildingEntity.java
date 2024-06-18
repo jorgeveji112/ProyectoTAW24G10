@@ -1,12 +1,15 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.TipoejerciciobodybuildingDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tipoejerciciobodybuilding", schema = "bdgym", catalog = "")
-public class TipoejerciciobodybuildingEntity {
+public class TipoejerciciobodybuildingEntity implements Serializable, DTO<TipoejerciciobodybuildingDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -42,5 +45,13 @@ public class TipoejerciciobodybuildingEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, tipo);
+    }
+
+    @Override
+    public TipoejerciciobodybuildingDTO toDTO() {
+        TipoejerciciobodybuildingDTO dto = new TipoejerciciobodybuildingDTO();
+        dto.setId(this.id);
+        dto.setTipo(this.tipo);
+        return dto;
     }
 }

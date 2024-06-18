@@ -1,7 +1,7 @@
-package es.uma.proyectotaw.repository;
+package es.uma.proyectotaw.dao;
 
+import es.uma.proyectotaw.entity.RolEnum;
 import es.uma.proyectotaw.entity.TrolEntity;
-import es.uma.proyectotaw.entity.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

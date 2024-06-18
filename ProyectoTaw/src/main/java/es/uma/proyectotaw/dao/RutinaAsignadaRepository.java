@@ -1,4 +1,4 @@
-package es.uma.proyectotaw.repository;
+package es.uma.proyectotaw.dao;
 
 import es.uma.proyectotaw.entity.RutinaAsignadaEntity;
 import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
@@ -12,6 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface RutinaAsignadaRepository extends JpaRepository<RutinaAsignadaEntity, Integer>{
-    RutinaAsignadaEntity findByUsuarioAndFecha(UsuarioEntity cliente, Date lunesDeEstaSemana);
+    Optional<RutinaAsignadaEntity> findByUsuarioAndFecha(UsuarioEntity cliente, Date lunesDeEstaSemana);
     List<RutinaAsignadaEntity> findByRutinaPredefinida(RutinaPredefinidaEntity rutinaPredefinidaEntity);
 }

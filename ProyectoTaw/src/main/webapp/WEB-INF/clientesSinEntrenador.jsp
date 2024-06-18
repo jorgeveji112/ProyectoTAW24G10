@@ -1,14 +1,11 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 5/6/24
-  Time: 12:39
-  To change this template use File | Settings | File Templates.
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
 <%
-    List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes");
-    UsuarioEntity entrenador = (UsuarioEntity) request.getAttribute("entrenador");
+    List<UsuarioDTO> listaClientes = (List<UsuarioDTO>) request.getAttribute("listaClientes");
+    UsuarioDTO entrenador = (UsuarioDTO) request.getAttribute("entrenador");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -41,24 +38,22 @@
         <%if(listaClientes.size() == 0){%>
             <h2>No hay clientes para ser asignados</h2>
         <%} else{%>
-        <div class="div-tabla">
-        <table class="tabla">
+        <table>
             <tr>
                 <th>DNI</th>
                 <th>Nombre</th>
                 <th>Genero</th>
                 <th></th>
             </tr>
-            <%for(UsuarioEntity u : listaClientes){%>
+            <%for(UsuarioDTO u : listaClientes){%>
             <tr>
-                <td><%=u.getDni()%></td>
-                <td><%=u.getNombre()%> <%=u.getApellidos()%></td>
-                <td><%=u.getGenero()%></td>
-                <td><button class="boton" onclick="window.location='/adminMain/asignarClienteEntrenador?idCliente=<%=u.getId()%>&idEntrenador=<%=entrenador.getId()%>'">Asignar</button></td>
+                <th><%=u.getDni()%></th>
+                <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
+                <th><%=u.getGenero()%></th>
+                <th><button class="boton" onclick="window.location='/adminMain/asignarClienteEntrenador?idCliente=<%=u.getId()%>&idEntrenador=<%=entrenador.getId()%>'">Asignar</button></th>
             </tr>
             <%}%>
         </table>
-        </div>
         <%}%>
     </div>
     <div class="contenido2">
@@ -67,7 +62,7 @@
                 <p>Escribe nombre, apellidos o DNI</p>
                 <input type="hidden" name="idEntrenador" value="<%=entrenador.getId()%>">
                 <input class="entrada" name="filtro">
-                <input class="boton" type="submit" value="Filtrar">
+                <input class="filtrar" type="submit" value="filtrar">
             </form>
         </div>
     </div>

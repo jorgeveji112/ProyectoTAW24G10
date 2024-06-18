@@ -1,6 +1,5 @@
-package es.uma.proyectotaw.repository;
+package es.uma.proyectotaw.dao;
 
-import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
 import es.uma.proyectotaw.entity.SesionentrenamientoEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

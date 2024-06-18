@@ -1,14 +1,11 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 11/5/24
-  Time: 21:37
-  To change this template use File | Settings | File Templates.
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% List<UsuarioEntity> entrenadoresBodyBuilding = (List<UsuarioEntity>) request.getAttribute("entrenadoresBodyBuilding"); %>
-<% List<UsuarioEntity> entrenadoresCrossTraining = (List<UsuarioEntity>) request.getAttribute("entrenadoresCrossTraining"); %>
+<% List<UsuarioDTO> entrenadoresBodyBuilding = (List<UsuarioDTO>) request.getAttribute("entrenadoresBodyBuilding"); %>
+<% List<UsuarioDTO> entrenadoresCrossTraining = (List<UsuarioDTO>) request.getAttribute("entrenadoresCrossTraining"); %>
 
 <html>
 <head>
@@ -39,7 +36,7 @@
         <table class="tabla">
             <tbody>
                 <%if(entrenadoresBodyBuilding.size() > 0){
-                    for(UsuarioEntity entrenador : entrenadoresBodyBuilding){ %>
+                    for(UsuarioDTO entrenador : entrenadoresBodyBuilding){ %>
                         <tr>
                             <td><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></td>
                             <td>
@@ -61,7 +58,7 @@
         <table class="tabla">
             <tbody>
             <%if(entrenadoresCrossTraining.size() > 0){
-                for(UsuarioEntity entrenador : entrenadoresCrossTraining){ %>
+                for(UsuarioDTO entrenador : entrenadoresCrossTraining){ %>
                     <tr>
                         <td><%=entrenador.getNombre()%> <%=entrenador.getApellidos()%></td>
                         <td>

@@ -1,14 +1,17 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "usuario", schema = "bdgym", catalog = "")
-public class UsuarioEntity {
+public class UsuarioEntity implements Serializable, DTO<UsuarioDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -189,5 +192,30 @@ public class UsuarioEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, apellidos, fechaNacimiento, dni, genero, correo, telefono, fechaIngreso, nombreUsuario, contraseña, validado, tipoEntrenamiento, rol, entrenador);
+    }
+
+    @Override
+    public UsuarioDTO toDTO() {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(this.id);
+        dto.setNombre(this.nombre);
+        dto.setApellidos(this.apellidos);
+        dto.setFechaNacimiento(this.fechaNacimiento);
+        dto.setDni(this.dni);
+        dto.setGenero(this.genero);
+        dto.setCorreo(this.correo);
+        dto.setTelefono(this.telefono);
+        dto.setFechaIngreso(this.fechaIngreso);
+        dto.setNombreUsuario(this.nombreUsuario);
+        dto.setContraseña(this.contraseña);
+        dto.setValidado(this.validado);
+        dto.setTipoEntrenamiento(this.tipoEntrenamiento.toDTO());
+        dto.setRol(this.rol.toDTO());
+        if(this.entrenador != null){
+            dto.setEntrenador(this.entrenador.toDTO());
+        } else {
+            dto.setEntrenador(null);
+        }
+        return dto;
     }
 }

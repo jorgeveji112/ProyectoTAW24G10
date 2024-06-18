@@ -68,7 +68,6 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -76,27 +75,25 @@ nav {
     margin: 15px;
     width: 85%;
     height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 }
 
-.boton{
-    margin: 0; /* Añade un margen a los botones */
-    font-size: 18px;
-    padding: 7px 12px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
+.boton {
     background: linear-gradient(#B10028, #D55005);
-    vertical-align: middle;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    border-radius: 10px;
     color: #fff;
-    z-index: 5;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: none;
 }
-.boton:hover {
-    background:linear-gradient(#A00017, #C44004);
-}
-h3{
-    margin-left: 15px;
-    white-space: nowrap;
-}
+
 .contenido table{
     width: 100%;
     border-collapse: collapse;
@@ -113,7 +110,7 @@ h3{
 .contenido table,
 .contenido table th,
 .contenido table td {
-    font-size: 1.1em; /* Aumenta el tamaño de la fuente */
+    font-size: 1.05em; /* Aumenta el tamaño de la fuente */
     padding: 10px 0px;
 }
 

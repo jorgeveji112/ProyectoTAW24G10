@@ -68,7 +68,6 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -76,34 +75,23 @@ nav {
     margin: 15px;
     width: 85%;
     height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 }
 
 .boton {
     background: linear-gradient(#B10028, #D55005);
-
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-}
-.boton{
     display : flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     position: relative;
-    font-size: 15px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background: linear-gradient(#B10028, #D55005);
+    border-radius: 10px;
     color: #fff;
-}
-
-.boton:hover{
-    background:linear-gradient(#A00017, #C44004);
+    cursor: pointer;
+    text-align: center;
+    box-shadow: none;
 }
 
 .contenido table{
@@ -122,11 +110,14 @@ nav {
 .contenido table,
 .contenido table th,
 .contenido table td {
-    font-size: 18px; /* Aumenta el tamaño de la fuente */
-    padding: 10px 0px;
+    font-size: 1.05em; /* Aumenta el tamaño de la fuente */
+    padding: 10px;
 }
 
-
+.contenido table td button {
+    font-size: 1em;
+    padding: 2px 10px; /* Ajusta el tamaño del botón */
+}
 
 h1{
     position: absolute;

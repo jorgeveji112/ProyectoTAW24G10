@@ -1,16 +1,12 @@
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: carlossgaalvez
-  Date: 11/5/24
-  Time: 21:37
-  To change this template use File | Settings | File Templates.
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%--
+    Realizado por Carlos Gálvez Bravo
 --%>
-
 <%
-    List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes");
-    List<UsuarioEntity> entrenadoresBodyBuilding = (List<UsuarioEntity>) request.getAttribute("entrenadoresBodyBuilding");
-    List<UsuarioEntity> entrenadoresCrossTraining = (List<UsuarioEntity>) request.getAttribute("entrenadoresCrossTraining");
+    List<UsuarioDTO> listaClientes = (List<UsuarioDTO>) request.getAttribute("listaClientes");
+    List<UsuarioDTO> entrenadoresBodyBuilding = (List<UsuarioDTO>) request.getAttribute("entrenadoresBodyBuilding");
+    List<UsuarioDTO> entrenadoresCrossTraining = (List<UsuarioDTO>) request.getAttribute("entrenadoresCrossTraining");
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -40,8 +36,7 @@
     <h1 class="encabezado">Lista de clientes</h1> </br>
 
     <div class="contenido">
-        <div class="div-tabla">
-        <table class="tabla">
+        <table>
             <tr>
                 <th>DNI</th>
                 <th>Nombre</th>
@@ -50,41 +45,40 @@
                 <th></th>
                 <th></th>
             </tr>
-            <%for(UsuarioEntity u : listaClientes){%>
+            <%for(UsuarioDTO u : listaClientes){%>
             <tr>
                 <form action="/adminMain/editarCliente" method="post">
                     <input type="hidden" name="idCliente" value="<%=u.getId()%>">
-                    <td><%=u.getDni()%></td>
-                    <td><%=u.getNombre()%> <%=u.getApellidos()%></td>
-                    <td><%=u.getGenero()%></td>
-                    <td>
+                    <th><%=u.getDni()%></th>
+                    <th><%=u.getNombre()%> <%=u.getApellidos()%></th>
+                    <th><%=u.getGenero()%></th>
+                    <th>
                         <select name="idEntrenador">
                             <option value="0" <%=(u.getEntrenador() == null)? "selected" : ""%>>Sin Entrenador</option>
                             <%if(u.getTipoEntrenamiento().getId() == 1){
-                                for(UsuarioEntity e : entrenadoresBodyBuilding){%>
+                                for(UsuarioDTO e : entrenadoresBodyBuilding){%>
                                     <option value="<%=e.getId()%>" <%=(u.getEntrenador() != null && e.equals(u.getEntrenador())? "selected" : "")%>><%=e.getNombre()%> <%=e.getApellidos()%></option>
                                 <%}
                             } else {
-                                for(UsuarioEntity e : entrenadoresCrossTraining){%>
+                                for(UsuarioDTO e : entrenadoresCrossTraining){%>
                                     <option value="<%=e.getId()%>" <%=(u.getEntrenador() != null && e.equals(u.getEntrenador())? "selected" : "")%>><%=e.getNombre()%> <%=e.getApellidos()%></option>
                                 <%}
                             }%>
                         </select>
-                    </td>
-                    <td><input class="guardar boton" type="submit" value="Guardar"></td>
-                    <td><button class="boton" onclick="window.location='/adminMain/cliente/borrar/<%=u.getId()%>'">Borrar</button></td>
+                    </th>
+                    <th><input class="guardar" type="submit" value="Guardar"></th>
                 </form>
+                    <th><button class="boton" onclick="window.location='/adminMain/cliente/borrar/<%=u.getId()%>'">Borrar</button></th>
             </tr>
             <%}%>
         </table>
-        </div>
     </div>
     <div class="contenido2">
         <div class="filtro">
             <form class="formulario" action="/adminMain/filtrar/clientes" method="post">
                 <p>Escribe nombre, apellidos o DNI</p>
                 <input class="entrada" name="filtro"> </br>
-                <input class="boton" type="submit" value="Filtrar">
+                <input class="filtrar" type="submit" value="Filtrar">
             </form>
         </div>
     </div>
