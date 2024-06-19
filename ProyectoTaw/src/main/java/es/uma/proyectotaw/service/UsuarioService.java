@@ -1,6 +1,8 @@
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.ClienteRepository;
+import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
+import es.uma.proyectotaw.dao.TrolRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,12 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
 
     @Autowired
     protected ClienteRepository clienteRepository;
+
+    @Autowired
+    protected TrolRepository trolRepository;
+
+    @Autowired
+    private TipoentrenamientoRepository tipoentrenamientoRepository;
 
     public List<UsuarioDTO> listarEntrenadoresBodyBuilding(){
         List<UsuarioEntity> lista = usuarioRepository.findUsuariosByRolAndTipoEntrenamiento("entrenador", "body_building");
@@ -167,5 +177,34 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
         usuario.setValidado((byte)1);
         usuario.setFechaIngreso(new Date(System.currentTimeMillis()));
         usuarioRepository.save(usuario);
+    }
+
+    public UsuarioDTO buscarUsuarioPorUsuarioYContraseña(String user, String password) {
+        UsuarioEntity usuario = this.usuarioRepository.findByNombreUsuarioAndContraseña(user, password);
+        return usuario.toDTO();
+    }
+
+    public void actualizarUsuario(UsuarioDTO usuarioDTO){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioDTO.getId()).orElseThrow();
+        usuarioEntity.setCorreo(usuarioDTO.getCorreo());
+        usuarioEntity.setTelefono(usuarioDTO.getTelefono());
+        usuarioRepository.save(usuarioEntity);
+    }
+
+    public void crearUsuario(UsuarioDTO usuarioDTO){
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setNombre(usuarioDTO.getNombre());
+        usuario.setApellidos(usuarioDTO.getApellidos());
+        usuario.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
+        usuario.setDni(usuarioDTO.getDni());
+        usuario.setCorreo(usuarioDTO.getCorreo());
+        usuario.setTelefono(usuarioDTO.getTelefono());
+        usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        usuario.setContraseña(usuarioDTO.getContraseña());
+        usuario.setGenero(usuarioDTO.getGenero());
+        usuario.setRol(this.trolRepository.findById(usuarioDTO.getRol().getId()).get());
+        usuario.setTipoEntrenamiento(this.tipoentrenamientoRepository.findById(usuarioDTO.getTipoEntrenamiento().getId()).get());
+        usuarioRepository.save(usuario);
+
     }
 }

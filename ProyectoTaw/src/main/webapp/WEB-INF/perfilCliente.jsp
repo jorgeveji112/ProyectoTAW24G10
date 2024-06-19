@@ -9,9 +9,11 @@
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.DayOfWeek" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
 
-<%  ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
-    UsuarioEntity usuario = cliente.getUsuario();
+<%  ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
+    UsuarioDTO usuario = cliente.getUsuario();
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
     String fechaLunes = lunes.toString();
