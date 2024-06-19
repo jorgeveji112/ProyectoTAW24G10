@@ -1,3 +1,6 @@
+/*
+        Creador: Jorge Velázquez Jiménez
+*/
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
@@ -47,44 +50,61 @@ public class RutinaClienteController extends BaseController {
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
-        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(cliente.getUsuario(), fechaDate).orElse(null);
-        List<RutinaSesionentrenamientoEntity> rutinaSesionentrenamiento = this.rutinasesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(cliente.getUsuario(), fechaDate);
+        if(rutinaAsignada != null){
+            List<RutinaSesionentrenamientoEntity> rutinaSesionentrenamiento = this.rutinasesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
+            model.addAttribute("sesiones", rutinaSesionentrenamiento);
+            model.addAttribute("rutinaAsignada", rutinaAsignada);
+            model.addAttribute("cliente", cliente);
+        } else{
+            model.addAttribute("rutinaAsignada", rutinaAsignada);
+            model.addAttribute("cliente", cliente);
+        }
 
-        model.addAttribute("sesiones", rutinaSesionentrenamiento);
-        model.addAttribute("rutinaAsignada", rutinaAsignada);
-        model.addAttribute("cliente", cliente);
+
         return "rutinaCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @GetMapping("/clienteMain/rutina/sesion")
-    public String doSesion(@RequestParam("id") Integer sesionId, Model model, HttpSession session) {
+    public String doSesion(@RequestParam("id") Integer sesionId, @RequestParam("rutinaId") Integer rutinaId, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(sesionId).orElse(null);
+        UsuarioEntity cliente = (UsuarioEntity) session.getAttribute("usuario");
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(rutinaId).orElse(null);
         List<SesionentrenamientoHasSesionejercicioEntity> ejercicios = this.sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesionentrenamiento);
-
+        List<SesionejercicioEntity> sesionesEjercicio = ejercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
+        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
+        model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("ejercicios", ejercicios);
-        session.setAttribute("sesion", sesionentrenamiento);
         model.addAttribute("sesion", sesionentrenamiento);
+        model.addAttribute("rutinaAsignada", rutinaAsignada);
 
         return "sesionCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @GetMapping("/clienteMain/rutina/sesion/ejercicio")
-    public String doEjercico(@RequestParam("id") Integer ejercicioId, Model model, HttpSession session) {
+    public String doEjercico(@RequestParam("id") Integer ejercicioId, @RequestParam("rutinaId") Integer rutinaId, @RequestParam("sesionId") Integer sesionId, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionejercicioEntity ejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
         model.addAttribute("ejercicio", ejercicio);
-
+        UsuarioEntity cliente = (UsuarioEntity) session.getAttribute("usuario");
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(rutinaId).orElse(null);
+        SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(sesionId).orElse(null);
+        List<SesionentrenamientoHasSesionejercicioEntity> ejercicios = this.sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesionentrenamiento);
+        List<SesionejercicioEntity> sesionesEjercicio = ejercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
+        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
+        model.addAttribute("valoraciones", valoraciones);
+        model.addAttribute("rutinaAsignada",rutinaAsignada);
+        model.addAttribute("sesionEntrenamiento",sesionentrenamiento);
         return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @PostMapping("/clienteMain/rutina/sesion/ejercicio")
     @Transactional
-    public String doEjercicoPost(@RequestParam("rating") Integer rating, @RequestParam("ejercicio") Integer ejercicioId,
-                                 @RequestParam("comentario") String comentario, Model model, HttpSession session) {
+    public String doEjercicoPost(@RequestParam("rutinaId") Integer rutinaId, @RequestParam("rating") Integer rating, @RequestParam("ejercicio") Integer ejercicioId,
+                                 @RequestParam("comentario") String comentario,@RequestParam("sesionId") Integer sesionId ,Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
         SesionejercicioEntity sesionejercicio = this.sesionejercicioRepository.findById(ejercicioId).orElse(null);
-        SesionentrenamientoEntity sesionentrenamiento = (SesionentrenamientoEntity) session.getAttribute("sesion");
 
         ValoracionEntity valoracion = new ValoracionEntity();
 
@@ -98,7 +118,7 @@ public class RutinaClienteController extends BaseController {
         // Reload the usuario entity from the repository to ensure it is managed
         usuario = this.usuarioRepository.findById(usuario.getId()).orElse(null);
 
-        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechafinal).orElse(null);
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechafinal);
 
         valoracion.setRutinaAsignada(rutinaAsignada);
         valoracion.setUsuario(usuario);
@@ -106,6 +126,6 @@ public class RutinaClienteController extends BaseController {
 
         this.valoracionRepository.save(valoracion);
 
-        return "redirect:/clienteMain/rutina/sesion?id=" + sesionentrenamiento.getId(); // Retorna el nombre de la vista de cliente
+        return "redirect:/clienteMain/rutina/sesion?rutinaId=" + rutinaId + "&id=" + sesionId; // Retorna el nombre de la vista de cliente
     }
 }

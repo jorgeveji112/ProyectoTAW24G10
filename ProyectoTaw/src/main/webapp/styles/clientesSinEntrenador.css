@@ -68,6 +68,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -75,9 +76,6 @@ nav {
     margin: 15px;
     width: 75%;
     height: 75%;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #aaa transparent;
 }
 
 .contenido h2{
@@ -85,42 +83,79 @@ nav {
     margin: 15px auto; /* Margen superior e inferior de 15px, y margen izquierdo y derecho automáticos */
     font-family: "Tahoma", sans-serif;
 }
-
-.boton {
-    background: linear-gradient(#B10028, #D55005);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 10px;
-    color: #fff;
+.boton{
+    margin: 0; /* Añade un margen a los botones */
+    font-size: 18px;
+    padding: 7px 12px;
     cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(#B10028, #D55005);
+    vertical-align: middle;
+    color: #fff;
+    z-index: 5;
+}
+.boton:hover {
+    background:linear-gradient(#A00017, #C44004);
+}
+.contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100vh;
+    z-index: 4;
+    background: #ffffff;
+    color: #000;
+    margin: 15px;
+    border-radius: 18px;
+    width: 85%;
+    height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
-.contenido table{
+.div-tabla {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Cambiado de 'center' a 'flex-start' */
     width: 100%;
+    height: 100%;
+    border-radius: 18px;
+
+}
+table {
     border-collapse: collapse;
-    margin-top: 15px ;
-    margin-left: 25px;
-    margin-right: 25px;
-    font-family: "Tahoma", sans-serif;
+    border-radius: 18px;
+    width: 100%;
+    height: fit-content;
+
 }
 
-.contenido div:hover{
-    transform: scale(1.05);
+
+
+.contenido table th{
+    font-size: 18px;
+    font-weight: 600;
+}
+.contenido tabla td {
+    font-size: 18px;
+    font-weight: 400;
 }
 
-.contenido table,
-.contenido table th,
-.contenido table td {
-    font-size: 1.2em; /* Aumenta el tamaño de la fuente */
-    padding: 5px;
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
 }
 
+table th {
+    background-color: #f2f2f2;
+}
+table td{
+    text-align: center;
+    background: #fff;
+
+}
 
 h1 {
     position: absolute;
@@ -142,6 +177,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    height: 100vh;
     z-index: 4;
     background: #ffffff;
     color: #000;
@@ -170,17 +206,3 @@ h1 {
     margin-bottom: 10px; /* Espaciado inferior para separación visual */
 }
 
-.filtrar{
-    background: linear-gradient(#B10028, #D55005);
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    font-size: 1.1em;
-}

@@ -1,8 +1,15 @@
+<%--
+  Creador: Jorge Velázquez Jiménez
+--%>
+
+
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
-<%@ page import="java.time.LocalDate" %><%--
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.DayOfWeek" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -10,20 +17,24 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("cliente");
+    UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("usuario");
     RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
     LocalDate semana = (LocalDate) request.getAttribute("semana");
     String semanaString = semana.toString();
     SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
     List<SesionejercicioEntity> sesionesEjercicio = (List<SesionejercicioEntity>) request.getAttribute("sesionesEjercicio");
     List<ValoracionEntity> valoraciones = (List<ValoracionEntity>) request.getAttribute("valoraciones");
+
     LocalDate semanaAnterior = semana.minusDays(7);
     String semanaAnteriorString = semanaAnterior.toString();
     LocalDate semanaSiguiente = semana.plusDays(7);
     String semanaSiguienteString = semanaSiguiente.toString();
+
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%-- Pablo Pardo 100% --%>
 <html>
 <head>
     <title>TrainingGym</title>
@@ -35,12 +46,12 @@
 </head>
 <body>
 <nav>
-    <div class="logo"><img src="/img/logoGym.png"></div>
+    <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
     <ul class="enlaces">
-        <li><a href="/entrenadorMain/inicio" >Inicio</a></li>
-        <li><a href="/entrenadorMain/rutinas">Rutinas</a></li>
-        <li><a href="/entrenadorMain/sesiones">Sesiones</a></li>
-        <li><a href="/entrenadorMain/clientes" id="activo">Clientes</a></li>
+        <li><a href="/clienteMain/inicio" >Inicio</a></li>
+        <li><a href="/clienteMain/perfil">Perfil</a></li>
+        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>" >Rutina</a></li>
+        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>" id="activo">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
@@ -50,15 +61,14 @@
         <h1><%=cliente.getNombre()%> <%=cliente.getApellidos()%></h1>
         <div class="contenido">
             <div class="fecha">
-                <img src="/img/flecha-izquierda.png" alt="flecha izquierda" class="icono" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=semanaAnteriorString%>'">
+                <img src="/img/flecha-izquierda.png" alt="flecha izquierda" class="icono" onclick="window.location.href='/clienteMain/desarrollo?fecha=<%=semanaAnteriorString%>'">
                 <p>Sem. <%=semana.getDayOfMonth()%>/<%=semana.getMonthValue()%></p>
-                <img src="/img/flecha-derecha.png" alt="flecha derecha" class="icono" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=semanaSiguienteString%>'">
+                <img src="/img/flecha-derecha.png" alt="flecha derecha" class="icono" onclick="window.location.href='/clienteMain/desarrollo?id=<%=cliente.getId()%>&fecha=<%=semanaSiguienteString%>'">
             </div>
 
             <div class="info-rutina">
                 <p id="label-nombre">
-                    <span class="label" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento?id=<%=cliente.getId()%>&fecha=<%=semanaString%>'">
-                        <%=rutinaAsignada.getRutinaPredefinida().getNombre()%> </span><span>---->  <%= sesion.getNombre() %></span>
+                    <span class="label"> <%=rutinaAsignada.getRutinaPredefinida().getNombre()%> > <%= sesion.getNombre() %></span>
                 </p>
                 <div class="div-sesiones">
                     <p>Sesiones:</p>
@@ -75,17 +85,17 @@
                         %>
                         <div class="valoracion">
                             <div class="sesion">
-                                    <p class="nombre-sesion"><%=sesionEjercicio.getEjercicio().getNombre()%></p>
-                                    <div class="contenedor-iconos">
-                                        <% for (int i = 0; i < puntuacion; i++) { %>
-                                        <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
-                                        <% } %>
+                                <p class="nombre-sesion"><%=sesionEjercicio.getEjercicio().getNombre()%></p>
+                                <div class="contenedor-iconos">
+                                    <% for (int i = 0; i < puntuacion; i++) { %>
+                                    <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
+                                    <% } %>
 
-                                        <%-- Mostrar estrellas blancas para completar hasta 5 --%>
-                                        <% for (int i = puntuacion; i < 5; i++) { %>
-                                        <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
-                                        <% } %>
-                                    </div>
+                                    <%-- Mostrar estrellas blancas para completar hasta 5 --%>
+                                    <% for (int i = puntuacion; i < 5; i++) { %>
+                                    <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
+                                    <% } %>
+                                </div>
                             </div>
                             <div class="sesion">
                                 <div class="intensidad-div">

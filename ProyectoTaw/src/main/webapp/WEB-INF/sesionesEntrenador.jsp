@@ -8,8 +8,13 @@
   Time: 11:02
   To change this template use File | Settings | File Templates.
 --%>
+<%-- Pablo Pardo (todo menos filtro) --%>
 <%
     List<SesionentrenamientoEntity> listaSesiones = (List<SesionentrenamientoEntity>) request.getAttribute("sesiones");
+    String filtro = (String) request.getAttribute("filtro");
+    if(filtro == null ){
+        filtro = "";
+    };
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -33,25 +38,32 @@
     </ul>
 </nav>
 <div class="imagen-fondo">
-    <div class="capa-gris"></div>
-    <div class="contenedor-crear-sesion">
-        <h1>Estas son tus Sesiones de Entrenamiento creadas</h1>
-        <button class="crear-sesion" onclick="window.location.href='/entrenadorMain/sesiones/crear'">Crear Sesión</button>
-        <div class="contenedor-sesion">
-            <%
-                for (SesionentrenamientoEntity sesion: listaSesiones) {
-            %>
-            <div class="sesion-item">
-                <p class="sesion-nombre"><%= sesion.getNombre()%></p>
-                <button class="ver-sesion" onclick="window.location.href='/entrenadorMain/sesiones/ver?id=<%= sesion.getId() %>'">Ver Sesión</button>
-                <button class="borrar-sesion" onclick="window.location.href='/entrenadorMain/sesiones/borrar?id=<%= sesion.getId() %>'">Borrar Sesión</button>
+    <div class="capa-gris">
+        <div class="contenedor-principal">
+            <div class="contenedor-crear-sesion">
+                <h1>Estas son tus Sesiones de Entrenamiento creadas</h1>
+                <button class="crear-sesion" onclick="window.location.href='/entrenadorMain/sesiones/crear'">Crear Sesión</button>
+                <div class="contenedor-sesion">
+                    <% for (SesionentrenamientoEntity sesion: listaSesiones) { %>
+                    <div class="sesion-item">
+                        <p class="sesion-nombre"><%= sesion.getNombre()%></p>
+                        <button class="ver-sesion" onclick="window.location.href='/entrenadorMain/sesiones/ver?id=<%= sesion.getId() %>'">Ver Sesión</button>
+                        <button class="borrar-sesion" onclick="window.location.href='/entrenadorMain/sesiones/borrar?id=<%= sesion.getId() %>'">Borrar Sesión</button>
+                    </div>
+                    <% } %>
+                </div>
             </div>
-            <%
-                }
-            %>
+            <div class="filtro">
+                <form class="formulario" action="/entrenadorMain/sesiones/filtrar" method="post" style="display: flex; flex-direction: column;">
+                    <p><strong>Escribe nombre de la sesión</strong></p>
+                    <input class="entrada" name="filtro" value="<%=filtro%>"> </br>
+                    <input class="filtrar crear-rutina" type="submit" value="Filtrar">
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
 

@@ -1,11 +1,25 @@
+<%--
+  Creador: Jorge Velázquez Jiménez
+--%>
+
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="java.time.DayOfWeek" %>
+<%@ page import="java.time.LocalDate" %>
 
 <%
     SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
 
     List<SesionentrenamientoHasSesionejercicioEntity> ejercicios  = (List<SesionentrenamientoHasSesionejercicioEntity>) request.getAttribute("ejercicios");
+    List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
+    RutinaAsignadaEntity rutina = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
 %>
 
 <!DOCTYPE html>
@@ -26,8 +40,8 @@
     <ul class="enlaces">
         <li><a href="/clienteMain/inicio" >Inicio</a></li>
         <li><a href="/clienteMain/perfil">Perfil</a></li>
-        <li><a href="/clienteMain/rutina" id="activo">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
+        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>" id="activo">Rutina</a></li>
+        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
@@ -39,9 +53,34 @@
             for(SesionentrenamientoHasSesionejercicioEntity ejercicio : ejercicios){
         %>
         <div class="session">
-            <h2><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></h2>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion/ejercicio?id=<%=ejercicio.getSesionejercicio().getId()%>'"> Ver ejercicio </button>
-            <label for="sesion <%=ejercicio.getSesionejercicio().getId()%>"></label><input id="sesion <%=ejercicio.getSesionejercicio().getId()%>" type="checkbox">
+            <h2><a class="session-link" href="/clienteMain/rutina/sesion/ejercicio?rutinaId=<%=rutina.getId()%>&sesionId=<%=sesion.getId()%>&id=<%=ejercicio.getSesionejercicio().getId()%>"><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></a></h2>
+            <%
+                    Boolean valorado = false;
+                    for (ValoracionEntity val : valoraciones) {
+                        if (val.getSesionejercicio().equals(ejercicio.getSesionejercicio())) {
+                            valorado = true;
+                            break;
+                        }
+                    }
+
+                    if(valorado){
+            %>
+            <label class="custom-checkbox">
+                <input type="checkbox" checked disabled>
+                <span class="checkmark"></span>
+            </label>
+            <%
+
+            }else{
+            %>
+            <label class="custom-checkbox">
+                <input type="checkbox" disabled>
+                <span class="checkmark"></span>
+            </label>
+                <%
+
+                    }
+                %>
         </div>
         <%
             };

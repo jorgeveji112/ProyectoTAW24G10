@@ -2,6 +2,8 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
 <%@ page import="java.time.LocalDate" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
@@ -9,6 +11,7 @@
   Time: 11:02
   To change this template use File | Settings | File Templates.
 --%>
+<%-- Pablo Pardo 100% --%>
 <%
     UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("cliente");
     RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
@@ -75,7 +78,7 @@
             %>
                     <div class="info-rutina">
                         <p id="label-nombre">
-                            <span class="label"> Nombre de la Rutina:</span>
+                            <span class="label" > Nombre de la Rutina:</span>
                             <span class="nombre"><%=rutinaAsignada.getRutinaPredefinida().getNombre()%></span>
                         </p>
                         <p id="label-objetivos">
@@ -87,18 +90,27 @@
 
                             <div id="lista-sesiones">
                                 <%
+                                    Map<Integer, Double> mediasValoraciones = (Map<Integer, Double>) request.getAttribute("mediasValoraciones");
+                                    List<Integer> sesionesSinValoracion = (List<Integer>) request.getAttribute("sesionesSinValoracion");
+                                    int sesionId;
                                     for (RutinaSesionentrenamientoEntity rutinaHasSesion : rutinasSesiones) {
+                                        sesionId = rutinaHasSesion.getSesionentrenamiento().getId();
+                                        double mediaValoracion = mediasValoraciones.getOrDefault(sesionId, 0.0);
+                                        int estrellasAmarillas = (int) Math.round(mediaValoracion);
                                 %>
                                 <div class="sesion">
                                     <p class="nombre-sesion"><%=rutinaHasSesion.getSesionentrenamiento().getNombre()%></p>
-                                    <button class="btn-ver-sesion" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento/sesion?id=<%=cliente.getId()%>&rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Sesión</button>
-
+                                    <button class="btn-ver-sesion" onclick="window.location.href='/entrenadorMain/clientes/entrenamiento/sesion?id=<%=cliente.getId()%>&rutina=<%= rutinaAsignada.getId()%>&sesion=<%= rutinaHasSesion.getSesionentrenamiento().getId()%>'">Ver Valoración</button>
+                                    <% if (sesionesSinValoracion.contains(sesionId)) { %>
+                                        <p>(No ha sido valorada todavía)</p>
+                                    <% } %>
                                     <div class="contenedor-iconos">
+                                        <% for (int i = 0; i < estrellasAmarillas; i++) { %>
                                         <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
-                                        <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
-                                        <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
+                                        <% } %>
+                                        <% for (int i = estrellasAmarillas; i < 5; i++) { %>
                                         <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
-                                        <img src="/img/estrellablanca.png" alt="Estrella Blanca" class="img-icono">
+                                        <% } %>
                                     </div>
 
                                 </div>

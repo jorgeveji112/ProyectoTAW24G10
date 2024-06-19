@@ -21,6 +21,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+//Alba Ruiz -> registro entrenadores
+//Jorge Velazquez -> registro cliente
+//Pablo Pardo -> login
+
 @Controller
 public class GymController extends BaseController{
 
@@ -152,13 +156,13 @@ public class GymController extends BaseController{
 
         return "redirect:/";
     }
+
+
     @GetMapping("/adminMain")
     public String doAdminMain() {
         // Aquí puedes agregar lógica para obtener datos necesarios para la vista de administrador
         return "mainAdmin"; // Retorna el nombre de la vista de administrador
     }
-
-
 
 
 

@@ -1,15 +1,27 @@
+<%--
+  Creador: Jorge Velázquez Jiménez
+--%>
+
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.RutinaAsignadaEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.RutinaSesionentrenamientoEntity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.DayOfWeek" %>
 
 <%
     RutinaAsignadaEntity rutinaasignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
     ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
 
     List<RutinaSesionentrenamientoEntity> sesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("sesiones");
+
+    LocalDate fecha = LocalDate.now();
+    LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
+    String fechaLunes = lunes.toString();
 %>
 
 <!DOCTYPE html>
@@ -28,13 +40,17 @@
 <nav>
     <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" id="activo">Inicio</a></li>
+        <li><a href="/clienteMain/inicio" >Inicio</a></li>
         <li><a href="/clienteMain/perfil">Perfil</a></li>
-        <li><a href="/clienteMain/rutina">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo">Desarrollo</a></li>
+        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>" id="activo">Rutina</a></li>
+        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
+<%
+if(rutinaasignada != null){
+
+%>
 <h1><%=rutinaasignada.getRutinaPredefinida().getNombre()%></h1>
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
@@ -43,14 +59,25 @@
             for(RutinaSesionentrenamientoEntity sesion : sesiones){
         %>
         <div class="session">
-            <h2><%=sesion.getSesionentrenamiento().getNombre()%></h2>
-            <button onclick="window.location.href='/clienteMain/rutina/sesion?id=<%=sesion.getSesionentrenamiento().getId()%>'"> Ver ejercicios sesión</button>
-            <label for="sesion <%=sesion.getSesionentrenamiento().getId()%>"></label><input id="sesion <%=sesion.getSesionentrenamiento().getId()%>" type="checkbox">
+            <h2 ><a class="session-link" href="/clienteMain/rutina/sesion?rutinaId=<%=rutinaasignada.getId()%>&id=<%=sesion.getSesionentrenamiento().getId()%>"><%=sesion.getSesionentrenamiento().getNombre()%></a></h2>
+
+
         </div>
         <%
             };
         %>
     </div>
 </div>
+<%
+    } else{
+%>
+<h1>Aún no se le ha asignado ninguna rutina</h1>
+<div class="imagen-fondo">
+    <div class="capa-gris"></div>
+</div>
+<%
+    }
+%>
+
 </body>
 </html>

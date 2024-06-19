@@ -11,6 +11,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- Pablo Pardo 100% --%>
 <%
     RutinaPredefinidaEntity rutina = (RutinaPredefinidaEntity) request.getAttribute("rutina");
     List<SesionentrenamientoEntity> listaSesiones = (List<SesionentrenamientoEntity>) request.getAttribute("listaSesiones");

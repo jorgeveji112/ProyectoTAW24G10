@@ -61,8 +61,20 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Color grisáceo con transparencia */
+    background-color: rgba(0, 0, 0, 0.7);
 }
+
+.contenedor-principal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 90%;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    padding: 0 40px;
+}
+
 .contenedor-sesion {
     width: 100%;
     background-color: #fff;
@@ -75,17 +87,7 @@ nav {
     scrollbar-width: thin; /* Ancho del scrollbar */
     scrollbar-color: #aaa transparent;
 }
-.contenedor-crear-sesion{
-    width: 40%;
-    height: 70%;
-    position: absolute;
-    top: 10%;
-    left: 20%;
-    flex-direction: column;
-    display: flex;
-    align-items: flex-start;
 
-}
 .crear-sesion {
     font-size: 18px;
     padding: 7px 12px; /* Espacio dentro del botón */
@@ -101,6 +103,8 @@ nav {
     flex-direction: row;
     align-items: center; /* Alinear verticalmente */
     border-bottom: 1px solid #ccc; /* Línea separadora */
+    min-width: 100%;
+    width: 750px;
 }
 
 .sesion-nombre {
@@ -126,4 +130,58 @@ h1{
     margin: 0;
     margin-bottom: 15px;
     white-space: nowrap;
+}
+
+.filtro {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 5;
+    height: auto;
+    margin-left: 20px;
+    width: auto;
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    width: 80%; /* Porcentaje ajustable según tu diseño */
+    margin: 0 auto; /* Centrar el contenedor */
+    z-index: 5;
+}
+
+.filtro .filtrar {
+    font-size: 18px;
+    padding: 7px 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(#B10028, #D55005);
+    color: #fff;
+}
+
+
+textarea {
+    margin-bottom: 10px; /* Ajusta el valor según sea necesario */
+}
+
+.filtro p {
+    font-weight: bold;
+}
+
+
+
+.contenedor-principal button:hover, input[type=submit]:hover{
+    background:linear-gradient(#A00017, #C44004) !important;
 }

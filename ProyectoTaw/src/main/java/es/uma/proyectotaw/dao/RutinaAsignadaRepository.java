@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface RutinaAsignadaRepository extends JpaRepository<RutinaAsignadaEntity, Integer>{
-    Optional<RutinaAsignadaEntity> findByUsuarioAndFecha(UsuarioEntity cliente, Date lunesDeEstaSemana);
+    RutinaAsignadaEntity findByUsuarioAndFecha(UsuarioEntity cliente, Date lunesDeEstaSemana);
     List<RutinaAsignadaEntity> findByRutinaPredefinida(RutinaPredefinidaEntity rutinaPredefinidaEntity);
 }

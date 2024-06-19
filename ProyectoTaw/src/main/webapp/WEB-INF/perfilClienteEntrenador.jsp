@@ -1,5 +1,5 @@
 <%--
-  Creador: Jorge Velázquez Jiménez
+  Creador: Alba Ruiz Gutiérrez
 --%>
 
 
@@ -31,15 +31,16 @@
 </head>
 <body>
 <nav>
-    <div class="logo"><img src="/img/logoGym.png" alt="TrainingGym Logo"></div>
+    <div class="logo"><img src="/img/logoGym.png"></div>
     <ul class="enlaces">
-        <li><a href="/clienteMain/inicio" >Inicio</a></li>
-        <li><a href="/clienteMain/perfil" id="activo">Perfil</a></li>
-        <li><a href="/clienteMain/rutina?fecha=<%=fechaLunes%>">Rutina</a></li>
-        <li><a href="/clienteMain/desarrollo?fecha=<%=fechaLunes%>">Desarrollo</a></li>
+        <li><a href="/entrenadorMain/inicio" >Inicio</a></li>
+        <li><a href="/entrenadorMain/rutinas">Rutinas</a></li>
+        <li><a href="/entrenadorMain/sesiones">Sesiones</a></li>
+        <li><a href="/entrenadorMain/clientes" id="activo">Clientes</a></li>
         <li><a href="/inicio" class="cerrar-sesion">Cerrar Sesión</a></li>
     </ul>
 </nav>
+
 
 <div class="imagen-fondo">
     <div class="capa-gris"></div>
@@ -65,33 +66,30 @@
             <label>DNI:</label>
             <input type="text" value="<%=usuario.getDni()%>" readonly>
         </div>
-        <form method="post">
-            <h1 class="section-title">Datos de Contacto</h1>
-            <div class="form-group">
-                <label>Correo Electrónico:</label>
-                <input type="text" name="correo" value="<%=usuario.getCorreo()%>" >
-            </div>
-            <div class="form-group">
-                <label>Número de Teléfono:</label>
-                <input type="text" name="telefono" value="<%=usuario.getTelefono()%>" >
-            </div>
 
-            <h1 class="section-title">Datos Físicos y Objetivos</h1>
-            <div class="form-group half-width">
-                <label>Altura:</label>
-                <input type="text" name="altura" value="<%=cliente.getAltura()%>">
-            </div>
-            <div class="form-group half-width">
-                <label>Peso:</label>
-                <input type="text" name="peso" value="<%=cliente.getPeso()%>" >
-            </div>
-            <div class="form-group">
-                <label>Objetivos:</label>
-                <textarea rows="3" name="objetivos" ><%=cliente.getObjetivos()%></textarea>
-            </div>
-            <input class="submit" type="submit" value="Guardar Cambios">
-        </form>
+        <h1 class="section-title">Datos de Contacto</h1>
+        <div class="form-group">
+            <label>Correo Electrónico:</label>
+            <input type="text" value="<%=usuario.getCorreo()%>" readonly>
+        </div>
+        <div class="form-group">
+            <label>Número de Teléfono:</label>
+            <input type="text" value="<%=usuario.getTelefono()%>" readonly>
+        </div>
 
+        <h1 class="section-title">Datos Físicos y Objetivos</h1>
+        <div class="form-group half-width">
+            <label>Altura:</label>
+            <input type="text" value="<%=cliente.getAltura() + " cm"%>" readonly>
+        </div>
+        <div class="form-group half-width">
+            <label>Peso:</label>
+            <input type="text" value="<%=cliente.getPeso() + " cm"%>" readonly>
+        </div>
+        <div class="form-group">
+            <label>Objetivos:</label>
+            <textarea rows="3" readonly><%=cliente.getObjetivos()%></textarea>
+        </div>
     </div>
 </div>
 </body>
