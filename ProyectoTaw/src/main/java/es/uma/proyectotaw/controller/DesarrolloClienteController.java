@@ -3,8 +3,13 @@
 */
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.service.RutinaAsignadaService;
+import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
+import es.uma.proyectotaw.service.SesionentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,16 +25,16 @@ import java.util.*;
 public class DesarrolloClienteController extends BaseController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    protected UsuarioService usuarioService;
 
     @Autowired
-    private RutinaAsignadaRepository rutinaAsignadaRepository;
+    private RutinaAsignadaService rutinaAsignadaService;
 
     @Autowired
-    private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
+    private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
 
     @Autowired
-    private SesionentrenamientoRepository sesionentrenamientoRepository;
+    private SesionentrenamientoService sesionentrenamientoService;
 
     @Autowired
     private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
@@ -41,22 +46,22 @@ public class DesarrolloClienteController extends BaseController {
     public String doDesarrollo(@RequestParam("fecha") String fecha, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
-        ClienteEntity cliente = (ClienteEntity) session.getAttribute("cliente");
-        UsuarioEntity usuario = usuarioRepository.findById(cliente.getId()).orElse(null);
+        ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
+        UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
 
         model.addAttribute("usuario", usuario);
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
-        RutinaAsignadaEntity rutinaAsignada = rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fechaDate);
+        RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorUsuarioYFecha(usuario,fechaDate);
 
         if (rutinaAsignada!=null) {
             model.addAttribute("rutinaAsignada", rutinaAsignada);
-            List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
+            List<RutinaSesionentrenamientoDTO> rutinasSesiones = this.rutinaSesionentrenamientoService.buscarPorRutinaPredefinidaOrdenadaPorPosicion(rutinaAsignada.getRutinaPredefinida());
             List<ValoracionEntity> valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaOrderBySesionejercicio(usuario, rutinaAsignada);
             Map<Integer, Double> mediasValoraciones = new HashMap<>();
             List<Integer> sesionesSinValoracion = new ArrayList<>();
-            for (RutinaSesionentrenamientoEntity rutinaSesion : rutinasSesiones) {
+            for (RutinaSesionentrenamientoDTO rutinaSesion : rutinasSesiones) {
                 List<SesionejercicioEntity> ejerciciosSesion = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(rutinaSesion.getSesionentrenamiento())
                         .stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
                 List<ValoracionEntity> valoracionesSesion = valoraciones.stream()
@@ -81,10 +86,10 @@ public class DesarrolloClienteController extends BaseController {
     @GetMapping("/clienteMain/desarrollo/sesion")
     public String verSesion(@RequestParam("rutina") Integer rutinaId ,@RequestParam("sesion") Integer sesionId,Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        ClienteEntity cliente = (ClienteEntity) session.getAttribute("cliente");
-        UsuarioEntity usuario = usuarioRepository.findById(cliente.getId()).orElse(null);
-        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(sesionId).orElse(null);
-        RutinaAsignadaEntity rutinaAsignada = rutinaAsignadaRepository.findById(rutinaId).orElse(null);
+        ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
+        UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
+        SesionentrenamientoDTO sesion = sesionentrenamientoService.buscarPorId(sesionId);
+        RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorId(rutinaId);
         List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
         List<SesionejercicioEntity> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
         List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(usuario,rutinaAsignada, sesionesEjercicio);

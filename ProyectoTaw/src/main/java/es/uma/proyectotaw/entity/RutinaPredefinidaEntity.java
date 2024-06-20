@@ -1,13 +1,17 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
+import es.uma.proyectotaw.dto.RutinaPredefinidaDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "rutina_predefinida", schema = "bdgym", catalog = "")
-public class RutinaPredefinidaEntity {
+public class RutinaPredefinidaEntity implements Serializable, DTO<RutinaPredefinidaDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -77,6 +81,17 @@ public class RutinaPredefinidaEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, objetivos, usuario, tipoEntrenamiento);
+    }
+
+    @Override
+    public RutinaPredefinidaDTO toDTO() {
+        RutinaPredefinidaDTO dto = new RutinaPredefinidaDTO();
+        dto.setId(this.id);
+        dto.setUsuario(this.usuario.toDTO());
+        dto.setObjetivos(objetivos);
+        dto.setNombre(this.nombre);
+        dto.setTipoentrenamiento(tipoEntrenamiento.toDTO());
+        return dto;
     }
 
 }
