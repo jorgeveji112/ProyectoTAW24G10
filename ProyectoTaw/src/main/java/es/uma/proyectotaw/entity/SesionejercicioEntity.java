@@ -1,12 +1,15 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.SesionejercicioDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "sesionejercicio", schema = "bdgym", catalog = "")
-public class SesionejercicioEntity {
+public class SesionejercicioEntity implements Serializable, DTO<SesionejercicioDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -75,5 +78,22 @@ public class SesionejercicioEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, series, repeticiones, duracion);
+    }
+
+    @Override
+    public SesionejercicioDTO toDTO() {
+        SesionejercicioDTO dto = new SesionejercicioDTO();
+        dto.setId(id);
+        if (series != null){
+            dto.setSeries(series);
+        }
+        if (repeticiones != null){
+            dto.setRepeticiones(repeticiones);
+        }
+        if(duracion != null){
+            dto.setDuracion(duracion);
+        }
+        dto.setEjercicio(ejercicio.toDTO());
+        return dto;
     }
 }
