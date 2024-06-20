@@ -34,7 +34,7 @@ public class DesarrolloClienteController extends BaseController {
     private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
 
     @Autowired
-    private SesionentrenamientoService sesionentrenamientoService;
+    private SesionentrenamientoService sesionEntrenamientoService;
 
     @Autowired
     private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
@@ -88,7 +88,7 @@ public class DesarrolloClienteController extends BaseController {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
-        SesionentrenamientoDTO sesion = sesionentrenamientoService.buscarPorId(sesionId);
+        SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(sesionId);
         RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorId(rutinaId);
         List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
         List<SesionejercicioEntity> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
