@@ -1,13 +1,16 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "rutina_sesionentrenamiento", schema = "bdgym", catalog = "")
 @IdClass(RutinaSesionentrenamientoEntityPK.class)
-public class RutinaSesionentrenamientoEntity {
+public class RutinaSesionentrenamientoEntity implements Serializable, DTO<RutinaSesionentrenamientoDTO> {
     @Id
     @ManyToOne
     @JoinColumn(name = "sesionentrenamiento_id")
@@ -56,6 +59,15 @@ public class RutinaSesionentrenamientoEntity {
     @Override
     public int hashCode() {
         return Objects.hash(sesionentrenamiento, rutinaPredefinida, posicion);
+    }
+
+    @Override
+    public RutinaSesionentrenamientoDTO toDTO() {
+        RutinaSesionentrenamientoDTO dto = new RutinaSesionentrenamientoDTO();
+        dto.setPosicion(posicion);
+        dto.setRutinaPredefinida(rutinaPredefinida.toDTO());
+        dto.setSesionentrenamiento(sesionentrenamiento.toDTO());
+        return dto;
     }
 
 }
