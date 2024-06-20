@@ -1,9 +1,16 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.TipoentrenamientoDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.ClienteRepository;
 import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
 import es.uma.proyectotaw.dao.TrolRepository;
+import es.uma.proyectotaw.service.ClienteService;
+import es.uma.proyectotaw.service.TRolService;
+import es.uma.proyectotaw.service.TipoentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
 import es.uma.proyectotaw.ui.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +29,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 //Alba Ruiz -> registro entrenadores
-//Jorge Velazquez -> registro cliente
+//Jorge Velazquez -> registro cliente y refactorizacion
 //Pablo Pardo -> login
 
 @Controller
 public class GymController extends BaseController{
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    protected UsuarioService usuarioService;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    protected ClienteService clienteService;
 
     @Autowired
-    private TrolRepository trolRepository;
+    private TRolService trolService;
 
     @Autowired
-    private TipoentrenamientoRepository tipoentrenamientoRepository;
+    private TipoentrenamientoService tipoentrenamientoService;
 
     @GetMapping("/")
     public String redirectToInicio(Model model) {
@@ -50,7 +57,7 @@ public class GymController extends BaseController{
     }
     @GetMapping("/trabaja")
     public String doTrabaja(Model model) {
-        List<TipoentrenamientoEntity> tiposEntrenamientos = tipoentrenamientoRepository.findAll();
+        List<TipoentrenamientoDTO> tiposEntrenamientos = tipoentrenamientoService.listarTipoentrenamientos();
         model.addAttribute("tiposEntrenamientos", tiposEntrenamientos);
         return "trabaja";
     }
@@ -71,7 +78,7 @@ public class GymController extends BaseController{
                            @RequestParam("eMail") String eMail, @RequestParam("telefono") String telefono, @RequestParam("sexo") String sexo,
                            @RequestParam("tipoentrenamiento") TipoentrenamientoEnum tipoEntrenamiento,
                            @RequestParam("usuario") String nombre_usuario, @RequestParam("contraseña") String contraseña, Model model) throws ParseException {
-        UsuarioEntity usuario = new UsuarioEntity();
+        UsuarioDTO usuario = new UsuarioDTO();
         usuario.setNombre(nombre);
         usuario.setApellidos(apellidos);
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -84,14 +91,13 @@ public class GymController extends BaseController{
         usuario.setNombreUsuario(nombre_usuario);
         usuario.setContraseña(contraseña);
         usuario.setGenero(sexo);
-        usuario.setRol(this.trolRepository.findById(3).get());
+        usuario.setRol(trolService.buscarRolPorId(3));
 
-        TipoentrenamientoEntity tipoent = new TipoentrenamientoEntity();
+        TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
 
         tipoent.setTipo(tipoEntrenamiento);
-        this.tipoentrenamientoRepository.save(tipoent);
         usuario.setTipoEntrenamiento(tipoent);
-        this.usuarioRepository.save(usuario);
+        usuarioService.crearUsuario(usuario);
 
         return "redirect:/";
     }
@@ -100,7 +106,7 @@ public class GymController extends BaseController{
     @PostMapping("/login")
     public String login(@ModelAttribute("usuario") Usuario user,
                         Model model, HttpSession session) {
-        UsuarioEntity usuario = usuarioRepository.findByNombreUsuarioAndContraseña(user.getUser(), user.getPassword());
+        UsuarioDTO usuario = usuarioService.buscarUsuarioPorUsuarioYContraseña(user.getUser(),user.getPassword());
         if (usuario != null) {
             RolEnum rol = usuario.getRol().getRol();
             session.setAttribute("usuario", usuario);
@@ -109,7 +115,7 @@ public class GymController extends BaseController{
             }else if(rol == RolEnum.entrenador) {
                 return "redirect:/entrenadorMain";
             }else if(rol == RolEnum.cliente){
-                ClienteEntity cliente = this.clienteRepository.findById(usuario.getId()).orElse(null);
+                ClienteDTO cliente = clienteService.buscarCliente(usuario.getId());
                 session.setAttribute("cliente", cliente);
                     return "redirect:/clienteMain";
             }
@@ -126,7 +132,7 @@ public class GymController extends BaseController{
                            @RequestParam("peso") String peso, @RequestParam("sexo") String sexo,
                            @RequestParam("tipoEntrenamiento") TipoentrenamientoEnum tipoEntrenamiento, @RequestParam("objetivos") String objetivos,
                            @RequestParam("usuario") String nombre_usuario, @RequestParam("contraseña") String contraseña, Model model) throws ParseException {
-        UsuarioEntity usuario = new UsuarioEntity();
+        UsuarioDTO usuario = new UsuarioDTO();
         usuario.setNombre(nombre);
         usuario.setApellidos(apellidos);
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -139,20 +145,19 @@ public class GymController extends BaseController{
         usuario.setNombreUsuario(nombre_usuario);
         usuario.setContraseña(contraseña);
         usuario.setGenero(sexo);
-        usuario.setRol(this.trolRepository.findById(2).get());
+        usuario.setRol(trolService.buscarRolPorId(2));
 
-        TipoentrenamientoEntity tipoent = new TipoentrenamientoEntity();
+        TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
 
         tipoent.setTipo(tipoEntrenamiento);
-        this.tipoentrenamientoRepository.save(tipoent);
         usuario.setTipoEntrenamiento(tipoent);
 
-        ClienteEntity cliente = new ClienteEntity();
+        ClienteDTO cliente = new ClienteDTO();
         cliente.setAltura(Float.parseFloat(altura));
         cliente.setPeso(Float.parseFloat(peso));
         cliente.setObjetivos(objetivos);
         cliente.setUsuario(usuario);
-        this.clienteRepository.save(cliente);
+        clienteService.crearCliente(cliente, usuario);
 
         return "redirect:/";
     }

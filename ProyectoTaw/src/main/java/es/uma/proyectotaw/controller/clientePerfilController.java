@@ -3,8 +3,12 @@
 */
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.ClienteRepository;
+import es.uma.proyectotaw.service.ClienteService;
+import es.uma.proyectotaw.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class clientePerfilController extends BaseController{
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    protected UsuarioService usuarioService;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    protected ClienteService clienteService;
 
 
     @GetMapping("/clienteMain")
@@ -34,7 +38,7 @@ public class clientePerfilController extends BaseController{
     @GetMapping("/clienteMain/inicio")
     public String doMainInicio(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        ClienteEntity cliente = (ClienteEntity) session.getAttribute("cliente");
+        ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         model.addAttribute("cliente", cliente);
         return "mainCliente";
     }
@@ -42,7 +46,7 @@ public class clientePerfilController extends BaseController{
     @GetMapping("/clienteMain/perfil")
     public String doPerfil(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        ClienteEntity cliente = (ClienteEntity) session.getAttribute("cliente");
+        ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         model.addAttribute("cliente", cliente);
         return "perfilCliente";
     }
@@ -52,8 +56,8 @@ public class clientePerfilController extends BaseController{
                                 @RequestParam("altura") Float altura, @RequestParam("peso") Float peso,
                                 @RequestParam("objetivos") String objetivos, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        ClienteEntity cliente = (ClienteEntity) session.getAttribute("cliente");
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         usuario.setCorreo(email);
         usuario.setTelefono(telefono);
 
@@ -61,8 +65,8 @@ public class clientePerfilController extends BaseController{
         cliente.setPeso(peso);
         cliente.setObjetivos(objetivos);
 
-        this.usuarioRepository.save(usuario);
-        this.clienteRepository.save(cliente);
+        usuarioService.actualizarUsuario(usuario);
+        clienteService.actualizarCliente(cliente);
 
         model.addAttribute("cliente", cliente);
         return "mainCliente";
