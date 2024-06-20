@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SesionEntrenamientoService {
+public class SesionEntrenamientoService  {
 
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
     public List<SesionentrenamientoEntity> findByUsuario(UsuarioEntity usuario) {
         return this.sesionentrenamientoRepository.findByUsuario(usuario);
+    }
+
+    public List<Object> findById(Integer id) {
+        return this.sesionentrenamientoRepository.findById(id);
     }
 }

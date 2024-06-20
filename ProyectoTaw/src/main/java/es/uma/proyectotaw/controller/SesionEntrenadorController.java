@@ -2,6 +2,7 @@ package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -16,31 +17,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// Pablo Pardo Fernández - 80% (Listar/ Crear/Borrar/Ver/Guardar Sesiones)
-//Alba Ruiz Gutiérrez
+// Pablo Pardo Fernández - 60% (Listar/ Crear/Borrar/Ver/Guardar Sesiones primera version)
+//Alba Ruiz Gutiérrez 40% (Filtros, ver ejercicio primera version y segunda version entera + refactor)
 @Controller
 public class SesionEntrenadorController extends BaseController{
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
+    @Autowired
+    private SesionEntrenamientoService sesionEntrenamientoService;
+
 
     @Autowired
     private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+    @Autowired
+    private SesionentrenamientoHasSesionejercicioService sesionentrenamientoHasSesionejercicioService;
 
     @Autowired
     private EjercicioRepository ejercicioRepository;
+    @Autowired
+    private EjercicioService ejercicioService;
 
     @Autowired
     private SesionejercicioRepository sesionejercicioRepository;
+    @Autowired
+    private SesionEjercicioService sesionEjercicioService;
 
     @Autowired
     private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
+    @Autowired
+    private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
 
     @Autowired
     private ValoracionRepository valoracionRepository;
+    @Autowired
+    private ValoracionService valoracionService;
 
     @GetMapping("/entrenadorMain/sesiones")
     public String doSesiones(Model model, HttpSession session) {

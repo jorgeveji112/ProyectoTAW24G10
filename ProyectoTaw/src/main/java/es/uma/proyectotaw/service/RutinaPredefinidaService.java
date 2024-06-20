@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RutinaPredefinidaService {
@@ -21,5 +22,13 @@ public class RutinaPredefinidaService {
     }
 
     public void save(RutinaPredefinidaEntity rutina) {
+    }
+
+    public Optional<RutinaPredefinidaEntity> findById(Integer id) {
+        return this.rutinaPredefinidaRepository.findById(id);
+    }
+
+    public void delete(RutinaPredefinidaEntity rutina) {
+        this.rutinaPredefinidaRepository.delete(rutina);
     }
 }
