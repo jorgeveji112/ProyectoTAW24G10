@@ -82,4 +82,10 @@ public class ValoracionService extends DTOService<ValoracionDTO, ValoracionEntit
         ValoracionEntity valoracionEntity = this.valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicio(usuario, rutinaAsignada, sesion);
         this.valoracionRepository.delete(valoracionEntity);
     }
+
+    public List<ValoracionDTO> buscarPorSesionEjercicio(SesionejercicioDTO sesionEjercicio) {
+        SesionejercicioEntity sesion = this.sesionejercicioRepository.findById(sesionEjercicio.getId()).orElse(null);
+        List<ValoracionEntity> valoraciones = this.valoracionRepository.findBySesionejercicio(sesion);
+        return this.entidadesADTO(valoraciones);
+    }
 }

@@ -11,9 +11,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.SesionentrenamientoHasSesionejercicioEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<EjercicioEntity> listaEjercicios = (List<EjercicioEntity>) request.getAttribute("listaEjercicios");
+    List<EjercicioDTO> listaEjercicios = (List<EjercicioDTO>) request.getAttribute("listaEjercicios");
 %>
 <%-- Pablo Pardo 100% --%>
 <html>
@@ -44,7 +45,7 @@
                 <!-- Lista de ejercicios -->
                 <h2>Lista de Ejercicios</h2>
                 <div class="lista-ejercicios-modal">
-                    <% for (EjercicioEntity ejercicio : listaEjercicios) { %>
+                    <% for (EjercicioDTO ejercicio : listaEjercicios) { %>
                     <div class="ejercicio-modal">
                         <p><%= ejercicio.getNombre() %></p>
                         <button onclick="addEjercicio(<%= ejercicio.getId() %>, '<%= ejercicio.getNombre() %>')">Añadir</button>

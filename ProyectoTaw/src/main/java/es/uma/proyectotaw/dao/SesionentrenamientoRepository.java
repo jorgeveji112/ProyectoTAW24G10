@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface SesionentrenamientoRepository extends JpaRepository<SesionentrenamientoEntity, Integer> {
     List<SesionentrenamientoEntity> findByUsuario(UsuarioEntity usuario);
+
+    List<SesionentrenamientoEntity> findBySesionEntrenamientoOrderByPosicion(SesionentrenamientoEntity sesion);
+
 }

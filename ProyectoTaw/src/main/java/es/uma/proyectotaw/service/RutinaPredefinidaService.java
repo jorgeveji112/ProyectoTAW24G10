@@ -35,6 +35,7 @@ public class RutinaPredefinidaService extends DTOService<RutinaPredefinidaDTO, R
         return this.entidadesADTO(rutinas);
     }
 
+
     public void save(RutinaPredefinidaDTO rutina) {
         RutinaPredefinidaEntity rutinaEntity = this.rutinaPredefinidaRepository.findById(rutina.getId()).orElse(null);
         this.rutinaPredefinidaRepository.save(rutinaEntity);

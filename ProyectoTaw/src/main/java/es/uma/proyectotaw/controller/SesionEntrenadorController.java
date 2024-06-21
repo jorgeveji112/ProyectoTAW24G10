@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.controller;
 
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.service.*;
@@ -17,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// Pablo Pardo Fernández - 60% (Listar/ Crear/Borrar/Ver/Guardar Sesiones primera version)
-//Alba Ruiz Gutiérrez 40% (Filtros, ver ejercicio primera version y segunda version entera + refactor)
+// Pablo Pardo Fernández - 50% (Listar/ Crear/Borrar/Ver/Guardar Sesiones primera version)
+//Alba Ruiz Gutiérrez 50% (Filtros, ver ejercicio primera version y segunda version entera + refactor)
 @Controller
 public class SesionEntrenadorController extends BaseController{
 
@@ -57,8 +58,8 @@ public class SesionEntrenadorController extends BaseController{
     @GetMapping("/entrenadorMain/sesiones")
     public String doSesiones(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
-        List<SesionentrenamientoEntity> sesiones = sesionentrenamientoRepository.findByUsuario(usuario);
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
+        List<SesionentrenamientoDTO> sesiones = sesionEntrenamientoService.findByUsuario(usuario);
         model.addAttribute("sesiones", sesiones);
         return "sesionesEntrenador";
     }
@@ -66,11 +67,11 @@ public class SesionEntrenadorController extends BaseController{
     @PostMapping("/entrenadorMain/sesiones/filtrar")
     public String doFiltrar(@RequestParam("filtro") String filtro, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
-        List<SesionentrenamientoEntity> listaSesiones = sesionentrenamientoRepository.findByUsuario(usuario);
-        List<SesionentrenamientoEntity> listaFiltrada = new ArrayList<>();
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
+        List<SesionentrenamientoDTO> listaSesiones = sesionEntrenamientoService.findByUsuario(usuario);
+        List<SesionentrenamientoDTO> listaFiltrada = new ArrayList<>();
 
-        for (SesionentrenamientoEntity sesion : listaSesiones) {
+        for (SesionentrenamientoDTO sesion : listaSesiones) {
             if (sesion.getNombre() != null && sesion.getNombre().toLowerCase().contains(filtro.toLowerCase())){
                 listaFiltrada.add(sesion);
             }
@@ -89,12 +90,12 @@ public class SesionEntrenadorController extends BaseController{
     @GetMapping("/entrenadorMain/sesiones/crear")
     public String doCrearSesion(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        List<EjercicioEntity> listaEjercicios = ejercicioRepository.findAll();
+        List<EjercicioDTO> listaEjercicios = ejercicioService.listarEjercicios();
         model.addAttribute("listaEjercicios", listaEjercicios);
-        SesionentrenamientoEntity sesion = new SesionentrenamientoEntity();
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
+        SesionentrenamientoDTO sesion = new SesionentrenamientoDTO();
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         sesion.setUsuario(usuario);
-        sesionentrenamientoRepository.save(sesion);
+        sesionEntrenamientoService.saveNew(sesion);
         model.addAttribute("sesion", sesion);
         return "crearSesionEntrenador";
     }
@@ -103,36 +104,35 @@ public class SesionEntrenadorController extends BaseController{
     @GetMapping("/entrenadorMain/sesiones/borrar")
     public String doBorrarSesion(Model model, HttpSession session, @RequestParam("id") Integer id) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(id).get();
-        List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findBySesionentrenamientoOrderByPosicion(sesion);
-        for (RutinaSesionentrenamientoEntity rutinaSesion : rutinasSesiones) {
-            rutinaSesionentrenamientoRepository.delete(rutinaSesion);
+        SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(id);
+        List<RutinaSesionentrenamientoDTO> rutinasSesiones = rutinaSesionentrenamientoService.buscarPorSesionentrenamientoOrdenadoPorPosicion(sesion);
+        for (RutinaSesionentrenamientoDTO rutinaSesion : rutinasSesiones) {
+            rutinaSesionentrenamientoService.delete(rutinaSesion);
         }
-        List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesiones = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
-        for (SesionentrenamientoHasSesionejercicioEntity sesionHasSesion : sesionesHasSesiones) {
-            SesionejercicioEntity sesionEjercicio = sesionHasSesion.getSesionejercicio();
-            List<ValoracionEntity> valoraciones = valoracionRepository.findBySesionejercicio(sesionEjercicio);
-            for (ValoracionEntity valoracion : valoraciones) {
-                valoracionRepository.delete(valoracion);
+        List<SesionentrenamientoHasSesionejercicioDTO> sesionesHasSesiones = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(sesion.getId());
+        for (SesionentrenamientoHasSesionejercicioDTO sesionHasSesion : sesionesHasSesiones) {
+            SesionejercicioDTO sesionEjercicio = sesionHasSesion.getSesionejercicio();
+            List<ValoracionDTO> valoraciones = valoracionService.buscarPorSesionEjercicio(sesionEjercicio);
+            for (ValoracionDTO valoracion : valoraciones) {
+                valoracionService.delete(valoracion);
             }
             // Eliminar la relación entre la sesión de entrenamiento y la sesión de ejercicio
-            sesionentrenamientoHasSesionejercicioRepository.delete(sesionHasSesion);
+            sesionentrenamientoHasSesionejercicioService.delete(sesionHasSesion);
 
             // Eliminar la sesión de ejercicio
-            sesionejercicioRepository.delete(sesionEjercicio);
+            sesionentrenamientoHasSesionejercicioService.delete(sesionEjercicio);
         }
-        sesionentrenamientoRepository.deleteById(id);
+        sesionEntrenamientoService.deleteById(id);
         return "redirect:/entrenadorMain/sesiones";
     }
     @GetMapping("/entrenadorMain/sesiones/ver")
     public String doVerSesion(Model model, HttpSession session, @RequestParam("id") Integer id) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(id).get();
-        List<SesionentrenamientoHasSesionejercicioEntity> listaSesionHasSesion = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
-
+        SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(id);
+        List<SesionentrenamientoHasSesionejercicioDTO> listaSesionHasSesion = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(sesion.getId());
         model.addAttribute("listaSesionHasSesion", listaSesionHasSesion);
         model.addAttribute("sesion", sesion);
-        List<EjercicioEntity> listaEjercicios = ejercicioRepository.findByTipoEntrenamiento(sesion.getUsuario().getTipoEntrenamiento());
+        List<EjercicioDTO> listaEjercicios = ejercicioService.buscarPorTipoEntrenamiento(sesion.getUsuario().getTipoEntrenamiento());
         model.addAttribute("listaEjercicios", listaEjercicios);
 
         return "verSesionEntrenador";
@@ -143,7 +143,7 @@ public class SesionEntrenadorController extends BaseController{
     @GetMapping("/entrenadorMain/sesiones/ver/ejercicio")
     public String doVerEjercicio(Model model, HttpSession session, @Param("id") Integer id ){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        EjercicioEntity ejercicio = ejercicioRepository.getReferenceById(id);
+        EjercicioDTO ejercicio = ejercicioService.buscarEjercicio(id);
         model.addAttribute("ejercicio", ejercicio);
         return "verEjercicioEntrenador";
     }
@@ -171,25 +171,25 @@ public class SesionEntrenadorController extends BaseController{
                                   HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
 
-        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(id).get();
+        SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(id);
         sesion.setNombre(nombre);
         sesion.setDescripcion(descripcion);
-        sesionentrenamientoRepository.save(sesion);
+        sesionEntrenamientoService.save(sesion);
 
-        List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesiones = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
+        List<SesionentrenamientoHasSesionejercicioDTO> sesionesHasSesiones = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(sesion.getId());
 
         // Crear una lista de ejercicios IDs existentes
         List<Integer> ejerciciosExistentes = new ArrayList<>();
-        for (SesionentrenamientoHasSesionejercicioEntity sesionHasSesion : sesionesHasSesiones) {
+        for (SesionentrenamientoHasSesionejercicioDTO sesionHasSesion : sesionesHasSesiones) {
             ejerciciosExistentes.add(sesionHasSesion.getSesionejercicio().getEjercicio().getId());
         }
 
         // Si no hay ejercicios nuevos, eliminar todos los ejercicios existentes
         if (ejercicios == null) {
-            for (SesionentrenamientoHasSesionejercicioEntity sesionHasSesion : sesionesHasSesiones) {
-                SesionejercicioEntity sesionEjercicio = sesionHasSesion.getSesionejercicio();
-                sesionentrenamientoHasSesionejercicioRepository.delete(sesionHasSesion);
-                sesionejercicioRepository.delete(sesionEjercicio);
+            for (SesionentrenamientoHasSesionejercicioDTO sesionHasSesion : sesionesHasSesiones) {
+                SesionejercicioDTO sesionEjercicio = sesionHasSesion.getSesionejercicio();
+                sesionentrenamientoHasSesionejercicioService.delete(sesionHasSesion);
+                sesionEjercicioService.delete(sesionEjercicio);
             }
             return "redirect:/entrenadorMain/sesiones";
         }
@@ -199,17 +199,17 @@ public class SesionEntrenadorController extends BaseController{
         List<Integer> duracionInt = convertirAEnteros(duracion);
 
         // Mapear ejercicios existentes por ID para una fácil búsqueda
-        Map<Integer, SesionentrenamientoHasSesionejercicioEntity> mapSesionesExistentes = sesionesHasSesiones.stream()
+        Map<Integer, SesionentrenamientoHasSesionejercicioDTO> mapSesionesExistentes = sesionesHasSesiones.stream()
                 .collect(Collectors.toMap(s -> s.getSesionejercicio().getEjercicio().getId(), s -> s));
 
         // Actualizar o eliminar ejercicios existentes
-        for (SesionentrenamientoHasSesionejercicioEntity sesionHasSesion : sesionesHasSesiones) {
+        for (SesionentrenamientoHasSesionejercicioDTO sesionHasSesion : sesionesHasSesiones) {
             Integer ejercicioId = sesionHasSesion.getSesionejercicio().getEjercicio().getId();
             if (!ejercicios.contains(ejercicioId)) {
                 // Si el ejercicio no está en la nueva lista, eliminarlo
-                SesionejercicioEntity sesionEjercicio = sesionHasSesion.getSesionejercicio();
-                sesionentrenamientoHasSesionejercicioRepository.delete(sesionHasSesion);
-                sesionejercicioRepository.delete(sesionEjercicio);
+                SesionejercicioDTO sesionEjercicio = sesionHasSesion.getSesionejercicio();
+                sesionentrenamientoHasSesionejercicioService.delete(sesionHasSesion);
+                sesionEjercicioService.delete(sesionEjercicio);
 
             }
         }
@@ -219,25 +219,25 @@ public class SesionEntrenadorController extends BaseController{
             Integer ejercicioId = ejercicios.get(i);
             if (mapSesionesExistentes.containsKey(ejercicioId)) {
                 // Si el ejercicio ya existe, actualizarlo
-                SesionentrenamientoHasSesionejercicioEntity sesionHasSesion = mapSesionesExistentes.get(ejercicioId);
+                SesionentrenamientoHasSesionejercicioDTO sesionHasSesion = mapSesionesExistentes.get(ejercicioId);
                 sesionHasSesion.getSesionejercicio().setSeries(seriesInt.get(i));
                 sesionHasSesion.getSesionejercicio().setRepeticiones(repeticionesInt.get(i));
                 sesionHasSesion.getSesionejercicio().setDuracion(duracionInt.get(i));
                 sesionHasSesion.setPosicion(i); // Actualizar la posición
-                sesionentrenamientoHasSesionejercicioRepository.save(sesionHasSesion);
+                sesionentrenamientoHasSesionejercicioService.save(sesionHasSesion);
             } else {
                 // Si el ejercicio es nuevo, agregarlo
-                SesionentrenamientoHasSesionejercicioEntity sesionHasSesion = new SesionentrenamientoHasSesionejercicioEntity();
+                SesionentrenamientoHasSesionejercicioDTO sesionHasSesion = new SesionentrenamientoHasSesionejercicioDTO();
                 sesionHasSesion.setSesionentrenamiento(sesion);
-                SesionejercicioEntity sesionEjercicio = new SesionejercicioEntity();
-                sesionEjercicio.setEjercicio(ejercicioRepository.findById(ejercicioId).get());
+                SesionejercicioDTO sesionEjercicio = new SesionejercicioDTO();
+                sesionEjercicio.setEjercicio(ejercicioService.buscarEjercicio(ejercicioId));
                 sesionEjercicio.setSeries(seriesInt.get(i));
                 sesionEjercicio.setRepeticiones(repeticionesInt.get(i));
                 sesionEjercicio.setDuracion(duracionInt.get(i));
-                sesionejercicioRepository.save(sesionEjercicio);
+                sesionEjercicioService.saveNew(sesionEjercicio);
                 sesionHasSesion.setSesionejercicio(sesionEjercicio);
                 sesionHasSesion.setPosicion(i); // Establecer la posición
-                sesionentrenamientoHasSesionejercicioRepository.save(sesionHasSesion);
+                sesionentrenamientoHasSesionejercicioService.saveNew(sesionHasSesion);
             }
         }
 

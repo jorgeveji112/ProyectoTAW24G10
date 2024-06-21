@@ -4,9 +4,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.SesionentrenamientoHasSesionejercicioEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EjercicioEntity ejercicio = (EjercicioEntity) request.getAttribute("ejercicio");
+    EjercicioDTO ejercicio = (EjercicioDTO) request.getAttribute("ejercicio");
     String entrenamiento;
     if(ejercicio.getTipoEntrenamiento().getId() == 1){
         entrenamiento = "Body building";

@@ -1,7 +1,8 @@
 <%@ page import="es.uma.proyectotaw.entity.SesionentrenamientoEntity" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -10,7 +11,7 @@
 --%>
 <%-- Pablo Pardo (todo menos filtro) --%>
 <%
-    List<SesionentrenamientoEntity> listaSesiones = (List<SesionentrenamientoEntity>) request.getAttribute("sesiones");
+    List<SesionentrenamientoDTO> listaSesiones = (List<SesionentrenamientoDTO>) request.getAttribute("sesiones");
     String filtro = (String) request.getAttribute("filtro");
     if(filtro == null ){
         filtro = "";
@@ -44,7 +45,7 @@
                 <h1>Estas son tus Sesiones de Entrenamiento creadas</h1>
                 <button class="crear-sesion" onclick="window.location.href='/entrenadorMain/sesiones/crear'">Crear Sesión</button>
                 <div class="contenedor-sesion">
-                    <% for (SesionentrenamientoEntity sesion: listaSesiones) { %>
+                    <% for (SesionentrenamientoDTO sesion: listaSesiones) { %>
                     <div class="sesion-item">
                         <p class="sesion-nombre"><%= sesion.getNombre()%></p>
                         <button class="ver-sesion" onclick="window.location.href='/entrenadorMain/sesiones/ver?id=<%= sesion.getId() %>'">Ver Sesión</button>

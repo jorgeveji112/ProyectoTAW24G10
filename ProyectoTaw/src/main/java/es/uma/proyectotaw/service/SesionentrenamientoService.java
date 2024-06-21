@@ -4,6 +4,7 @@ import es.uma.proyectotaw.dao.SesionentrenamientoRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.entity.SesionejercicioEntity;
 import es.uma.proyectotaw.entity.SesionentrenamientoEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,24 @@ public class SesionentrenamientoService extends DTOService<SesionentrenamientoDT
     public SesionentrenamientoDTO buscarPorId(int i) {
         SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(i).orElse(null);
         return sesion.toDTO();
+    }
+
+    public void saveNew(SesionentrenamientoDTO sesion) {
+        SesionentrenamientoEntity sesionEntity = new SesionentrenamientoEntity();
+        UsuarioEntity usuario = this.usuarioRepository.findById(sesion.getUsuario().getId()).orElse(null);
+        sesionEntity.setUsuario(usuario);
+        this.sesionentrenamientoRepository.save(sesionEntity);
+    }
+
+    public void deleteById(Integer id) {
+        SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(id).orElse(null);
+        this.sesionentrenamientoRepository.delete(sesion);
+    }
+
+    public void save(SesionentrenamientoDTO sesion) {
+        SesionentrenamientoEntity sesionEntity = this.sesionentrenamientoRepository.findById(sesion.getId()).orElse(null);
+        UsuarioEntity usuario = this.usuarioRepository.findById(sesion.getUsuario().getId()).orElse(null);
+        sesionEntity.setUsuario(usuario);
+        this.sesionentrenamientoRepository.save(sesionEntity);
     }
 }

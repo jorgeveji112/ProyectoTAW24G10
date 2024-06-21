@@ -3,7 +3,8 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.DayOfWeek" %><%--
+<%@ page import="java.time.DayOfWeek" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %><%--
   Created by IntelliJ IDEA.
   User: Alba
   Date: 30/04/2024
@@ -11,7 +12,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("clientes");
+    List<UsuarioDTO> listaClientes = (List<UsuarioDTO>) request.getAttribute("clientes");
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
     String fechaLunes = lunes.toString();
@@ -58,7 +59,7 @@
                                     <th></th>
                                     <th></th>
                                         <%
-                            for (UsuarioEntity cliente: listaClientes) {
+                            for (UsuarioDTO cliente: listaClientes) {
                         %>
 
                                 <tr>
@@ -95,8 +96,8 @@
                                     <div class="btn-cliente">
                                         <input class="filtrar" type="submit" value="Filtrar">
                                     </div>
+                                </div>
                             </form>
-                        </div>
                     </div>
                 </div>
             </div>

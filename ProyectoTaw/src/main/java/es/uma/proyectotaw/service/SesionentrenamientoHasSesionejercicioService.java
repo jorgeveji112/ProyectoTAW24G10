@@ -25,4 +25,14 @@ public class SesionentrenamientoHasSesionejercicioService extends DTOService<Ses
 
         return this.entidadesADTO(sesionesHasSesionesEjercicios);
     }
+
+    public void delete(SesionentrenamientoHasSesionejercicioDTO sesionHasSesion) {
+
+    }
+
+    public void save(SesionentrenamientoHasSesionejercicioDTO sesionHasSesion) {
+    }
+
+    public void saveNew(SesionentrenamientoHasSesionejercicioDTO sesionHasSesion) {
+    }
 }

@@ -4,7 +4,11 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
-<%@ page import="java.time.LocalDate" %><%--
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaAsignadaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaPredefinidaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -13,16 +17,16 @@
 --%>
 <%-- Pablo Pardo 100% --%>
 <%
-    UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("cliente");
-    RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    UsuarioDTO cliente = (UsuarioDTO) request.getAttribute("cliente");
+    RutinaAsignadaDTO rutinaAsignada = (RutinaAsignadaDTO) request.getAttribute("rutinaAsignada");
     LocalDate semana = (LocalDate) request.getAttribute("semana");
     String semanaString = semana.toString();
-    List<RutinaPredefinidaEntity> rutinasEntrenador = (List<RutinaPredefinidaEntity>) request.getAttribute("rutinasEntrenador");
+    List<RutinaPredefinidaDTO> rutinasEntrenador = (List<RutinaPredefinidaDTO>) request.getAttribute("rutinasEntrenador");
     LocalDate semanaAnterior = semana.minusDays(7);
     String semanaAnteriorString = semanaAnterior.toString();
     LocalDate semanaSiguiente = semana.plusDays(7);
     String semanaSiguienteString = semanaSiguiente.toString();
-    List<RutinaSesionentrenamientoEntity> rutinasSesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("rutinasSesiones");
+    List<RutinaSesionentrenamientoDTO> rutinasSesiones = (List<RutinaSesionentrenamientoDTO>) request.getAttribute("rutinasSesiones");
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -51,7 +55,7 @@
         <div class="modal-content">
             <h2>Lista de Rutinas Semanales</h2>
             <div class="lista-rutinas-modal">
-                <% for (RutinaPredefinidaEntity rutina : rutinasEntrenador) { %>
+                <% for (RutinaPredefinidaDTO rutina : rutinasEntrenador) { %>
                 <div class="rutina-modal">
                     <p><%= rutina.getNombre() %></p>
                     <form action="/entrenadorMain/clientes/entrenamiento/asignarRutina" method="post">
@@ -93,7 +97,7 @@
                                     Map<Integer, Double> mediasValoraciones = (Map<Integer, Double>) request.getAttribute("mediasValoraciones");
                                     List<Integer> sesionesSinValoracion = (List<Integer>) request.getAttribute("sesionesSinValoracion");
                                     int sesionId;
-                                    for (RutinaSesionentrenamientoEntity rutinaHasSesion : rutinasSesiones) {
+                                    for (RutinaSesionentrenamientoDTO rutinaHasSesion : rutinasSesiones) {
                                         sesionId = rutinaHasSesion.getSesionentrenamiento().getId();
                                         double mediaValoracion = mediasValoraciones.getOrDefault(sesionId, 0.0);
                                         int estrellasAmarillas = (int) Math.round(mediaValoracion);

@@ -11,11 +11,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.SesionentrenamientoHasSesionejercicioEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoHasSesionejercicioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
-    List<SesionentrenamientoHasSesionejercicioEntity> listaSesionHasSesion = (List<SesionentrenamientoHasSesionejercicioEntity>) request.getAttribute("listaSesionHasSesion");
-    List<EjercicioEntity> listaEjercicios = (List<EjercicioEntity>) request.getAttribute("listaEjercicios");
+    SesionentrenamientoDTO sesion = (SesionentrenamientoDTO) request.getAttribute("sesion");
+    List<SesionentrenamientoHasSesionejercicioDTO> listaSesionHasSesion = (List<SesionentrenamientoHasSesionejercicioDTO>) request.getAttribute("listaSesionHasSesion");
+    List<EjercicioDTO> listaEjercicios = (List<EjercicioDTO>) request.getAttribute("listaEjercicios");
     boolean esEditar = (sesion.getId() != -1);
     String nombre = "", descripcion = "";
 
@@ -53,7 +56,7 @@
                 <!-- Lista de ejercicios -->
                 <h2>Lista de Ejercicios</h2>
                 <div class="lista-ejercicios-modal">
-                    <% for (EjercicioEntity ejercicio : listaEjercicios) { %>
+                    <% for (EjercicioDTO ejercicio : listaEjercicios) { %>
                     <div class="ejercicio-modal">
                         <p><%= ejercicio.getNombre() %></p>
                         <button onclick="addEjercicio(<%= ejercicio.getId() %>, '<%= ejercicio.getNombre() %>')">Añadir</button>
@@ -80,7 +83,7 @@
 
                         <div id="lista-ejercicios">
                             <%
-                                for (SesionentrenamientoHasSesionejercicioEntity sesionHasSesion : listaSesionHasSesion) {
+                                for (SesionentrenamientoHasSesionejercicioDTO sesionHasSesion : listaSesionHasSesion) {
                             %>
                             <div class="ejercicio">
                                 <p class="nombre-ejercicio"><%=sesionHasSesion.getSesionejercicio().getEjercicio().getNombre()%></p>

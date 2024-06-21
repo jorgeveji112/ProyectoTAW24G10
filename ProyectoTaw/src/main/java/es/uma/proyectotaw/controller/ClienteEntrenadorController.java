@@ -1,6 +1,7 @@
 package es.uma.proyectotaw.controller;
 
 
+import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 
 import es.uma.proyectotaw.dao.*;
@@ -16,49 +17,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
-// Pablo Pardo Fernández 60% (Listar CLientes, Asignar Rutina, Ver Rutina Asignada, Ver Valoraciones de una Sesion primera version)
-//Alba Ruiz Gutiérrez 40% (Filtros primera version y segunda version entera + refactor)
+// Pablo Pardo Fernández 50% (Listar CLientes, Asignar Rutina, Ver Rutina Asignada, Ver Valoraciones de una Sesion primera version)
+//Alba Ruiz Gutiérrez 50% (Filtros primera version y segunda version entera + refactor)
 @Controller
 public class ClienteEntrenadorController extends  BaseController{
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
     @Autowired
     private UsuarioService usuarioService;
 
     @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private RutinaPredefinidaRepository rutinaPredefinidaRepository;
     @Autowired
     private RutinaPredefinidaService rutinaPredefinidaService;
 
     @Autowired
-    private RutinaAsignadaRepository rutinaAsignadaRepository;
-    @Autowired
     private RutinaAsignadaService rutinaAsignadaService;
 
     @Autowired
-    private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
-    @Autowired
     private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
-
-    @Autowired
-    private SesionentrenamientoRepository sesionentrenamientoRepository;
 
     @Autowired
     private SesionentrenamientoService sesionEntrenamientoService;
 
     @Autowired
-    private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
-    @Autowired
     private SesionentrenamientoHasSesionejercicioService sesionentrenamientoHasSesionejercicioService;
 
-    @Autowired
-    private ValoracionRepository valoracionRepository;
     @Autowired
     private ValoracionService valoracionService;
 
@@ -66,8 +51,8 @@ public class ClienteEntrenadorController extends  BaseController{
     @GetMapping("/entrenadorMain/clientes")
     public String doClientes(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
-        List<UsuarioEntity> clientes = usuarioRepository.findClientesByEntrenadorId(usuario.getId());
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
+        List<UsuarioDTO> clientes = usuarioService.buscarClientesPorEntrenador(usuario.getId());
         model.addAttribute("clientes", clientes);
         return "clientesEntrenador";
     }
@@ -75,11 +60,11 @@ public class ClienteEntrenadorController extends  BaseController{
     @PostMapping("/entrenadorMain/clientes/filtrar")
     public String doFiltrar(@RequestParam("filtro") String filtro, Model model, HttpSession session) {
         if (!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
-        List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(usuario.getId());
-        List<UsuarioEntity> listaFiltrada = new ArrayList<>();
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
+        List<UsuarioDTO> listaClientes = usuarioService.buscarClientesPorEntrenador(usuario.getId());
+        List<UsuarioDTO> listaFiltrada = new ArrayList<>();
 
-        for (UsuarioEntity cliente : listaClientes) {
+        for (UsuarioDTO cliente : listaClientes) {
             if (cliente.getNombre() != null && cliente.getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
                     cliente.getApellidos() != null && cliente.getApellidos().toLowerCase().contains(filtro.toLowerCase()) ||
                     cliente.getDni() != null && cliente.getDni().toLowerCase().contains(filtro.toLowerCase())) {
@@ -98,40 +83,37 @@ public class ClienteEntrenadorController extends  BaseController{
     }
 
 
-
-
     @GetMapping("/entrenadorMain/clientes/entrenamiento")
     public String doClientesEntrenamiento(@RequestParam("id") Integer clienteId, @RequestParam("fecha") String fecha, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
-        UsuarioEntity cliente = usuarioRepository.findById(clienteId).get();
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
+        UsuarioDTO cliente = usuarioService.buscarUsuario(usuario.getId());
 
-        List<RutinaPredefinidaEntity> rutinasEntrenador = rutinaPredefinidaRepository.findByUsuario(usuario);
+        List<RutinaPredefinidaDTO> rutinasEntrenador = rutinaPredefinidaService.findByUsuario(usuario);
         model.addAttribute("rutinasEntrenador", rutinasEntrenador);
         model.addAttribute("cliente", cliente);
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
 
-        RutinaAsignadaEntity rutinaAsignada = rutinaAsignadaRepository.findByUsuarioAndFecha(cliente, fechaDate);
+        RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorUsuarioYFecha(cliente, fechaDate);
 
             if (rutinaAsignada != null) {
                 model.addAttribute("rutinaAsignada", rutinaAsignada);
-                List<RutinaSesionentrenamientoEntity> rutinasSesiones = rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaAsignada.getRutinaPredefinida());
-                List<ValoracionEntity> valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaOrderBySesionejercicio(cliente, rutinaAsignada);
+                List<RutinaSesionentrenamientoDTO> rutinasSesiones = rutinaSesionentrenamientoService.buscarPorRutinaPredefinidaOrdenadaPorPosicion(rutinaAsignada.getRutinaPredefinida());
+                List<ValoracionDTO> valoraciones = valoracionService.buscarPorUsuarioYRutinaAsignadaOrdenadoPorSesionejercicio(cliente.getId(), rutinaAsignada.getId());
                 Map<Integer, Double> mediasValoraciones = new HashMap<>();
                 List<Integer> sesionesSinValoracion = new ArrayList<>();
-                for (RutinaSesionentrenamientoEntity rutinaSesion : rutinasSesiones) {
-                    List<SesionejercicioEntity> ejerciciosSesion = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(rutinaSesion.getSesionentrenamiento())
-                            .stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
-                    List<ValoracionEntity> valoracionesSesion = valoraciones.stream()
+                for (RutinaSesionentrenamientoDTO rutinaSesion : rutinasSesiones) {
+                    List<SesionejercicioDTO> ejerciciosSesion = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(rutinaSesion.getSesionentrenamiento().getId()).stream().map(SesionentrenamientoHasSesionejercicioDTO::getSesionejercicio).toList();
+                    List<ValoracionDTO> valoracionesSesion = valoraciones.stream()
                             .filter(val -> ejerciciosSesion.contains(val.getSesionejercicio()))
                             .toList();
                     if (valoracionesSesion.isEmpty()) {
                         sesionesSinValoracion.add(rutinaSesion.getSesionentrenamiento().getId());
                     } else {
-                        double media = valoracionesSesion.stream().mapToDouble(ValoracionEntity::getPuntuacion).average().orElse(0.0);
+                        double media = valoracionesSesion.stream().mapToDouble(ValoracionDTO::getPuntuacion).average().orElse(0.0);
                         mediasValoraciones.put(rutinaSesion.getSesionentrenamiento().getId(), media);
                     }
                 }
@@ -149,13 +131,13 @@ public class ClienteEntrenadorController extends  BaseController{
     @GetMapping("/entrenadorMain/clientes/entrenamiento/sesion")
     public String verValoracionSesion(@RequestParam("id") Integer clienteId, @RequestParam("rutina") Integer rutinaId ,@RequestParam("sesion") Integer sesionId,Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuario");
-        UsuarioEntity cliente = usuarioRepository.findById(clienteId).get();
-        SesionentrenamientoEntity sesion = sesionentrenamientoRepository.findById(sesionId).get();
-        RutinaAsignadaEntity rutinaAsignada = rutinaAsignadaRepository.findById(rutinaId).get();
-        List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
-        List<SesionejercicioEntity> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
-        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(cliente,rutinaAsignada, sesionesEjercicio);
+        UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
+        UsuarioDTO cliente = usuarioService.buscarUsuario(clienteId);
+        SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(sesionId);
+        RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorId(rutinaId);
+        List<SesionentrenamientoHasSesionejercicioDTO> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(sesion.getId());
+        List<SesionejercicioDTO> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioDTO::getSesionejercicio).toList();
+        List<ValoracionDTO>  valoraciones = valoracionService.buscarPorUsuarioYRutinaAsignadaYSesionejercicioDentro(cliente.getId(),rutinaAsignada.getId(), sesionesEjercicio);
         LocalDate fechaLocal = rutinaAsignada.getFecha().toLocalDate();
         model.addAttribute("rutinaAsignada", rutinaAsignada);
         model.addAttribute("semana", fechaLocal);
@@ -170,18 +152,18 @@ public class ClienteEntrenadorController extends  BaseController{
     @PostMapping("/entrenadorMain/clientes/entrenamiento/asignarRutina")
     public String crearRutinaAsignada(@RequestParam("rutinaId") Integer rutinaId, @RequestParam("usuarioId") Integer usuarioId,@RequestParam("fecha") LocalDate fecha, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        RutinaAsignadaEntity rutinaAsignada = new RutinaAsignadaEntity();
-        rutinaAsignada.setRutinaPredefinida(rutinaPredefinidaRepository.findById(rutinaId).get());
-        rutinaAsignada.setUsuario(usuarioRepository.findById(usuarioId).get());
+        RutinaAsignadaDTO rutinaAsignada = new RutinaAsignadaDTO();
+        rutinaAsignada.setRutinaPredefinida(rutinaPredefinidaService.findById(rutinaId);
+        rutinaAsignada.setUsuario(usuarioService.buscarUsuario(usuarioId));
         rutinaAsignada.setFecha(Date.valueOf(fecha));
-        rutinaAsignadaRepository.save(rutinaAsignada);
+        rutinaAsignadaService.save(rutinaAsignada);
         return "redirect:/entrenadorMain/clientes/entrenamiento?id="+usuarioId+"&fecha="+fecha.toString(); // Redirige a la página deseada después de asignar la rutina
     }
 
     @GetMapping("/entrenadorMain/clientes/perfil")
     public String mostrarPerfil(@RequestParam("id") Integer clienteId, Model model, HttpSession session){
         if(!estaAutenticado(session)) return "redirect:/acceso";
-        ClienteEntity cliente = clienteRepository.findById(clienteId).get();
+        ClienteDTO cliente = clienteService.buscarCliente(clienteId);
         model.addAttribute("cliente", cliente);
         return "perfilClienteEntrenador";
     }

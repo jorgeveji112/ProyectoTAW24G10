@@ -1,5 +1,6 @@
 <%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %><%--
   Created by IntelliJ IDEA.
   User: carlossgaalvez
   Date: 11/5/24
@@ -7,8 +8,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% List<UsuarioEntity> listaEntrenadores = (List<UsuarioEntity>) request.getAttribute("listaEntrenadores"); %>
-<% List<UsuarioEntity> listaClientes = (List<UsuarioEntity>) request.getAttribute("listaClientes"); %>
+<% List<UsuarioDTO> listaEntrenadores = (List<UsuarioDTO>) request.getAttribute("listaEntrenadores"); %>
+<% List<UsuarioDTO> listaClientes = (List<UsuarioDTO>) request.getAttribute("listaClientes"); %>
 
 <html>
 <head>
@@ -39,7 +40,7 @@
         <table class="tabla">
             <tbody>
             <%if(listaEntrenadores.size() > 0){
-                for(UsuarioEntity e : listaEntrenadores){ %>
+                for(UsuarioDTO e : listaEntrenadores){ %>
             <tr>
                 <td><%=e.getNombre()%> <%=e.getApellidos()%></td>
                 <td>
@@ -65,7 +66,7 @@
         <table class="tabla">
             <tbody>
             <%if(listaClientes.size() > 0){
-                for(UsuarioEntity c : listaClientes){ %>
+                for(UsuarioDTO c : listaClientes){ %>
             <tr>
                 <td><%=c.getNombre()%> <%=c.getApellidos()%></td>
                 <td>

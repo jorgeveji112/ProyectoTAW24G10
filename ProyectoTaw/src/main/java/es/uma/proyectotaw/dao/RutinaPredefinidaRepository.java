@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface RutinaPredefinidaRepository extends JpaRepository<RutinaPredefinidaEntity, Integer> {
     List<RutinaPredefinidaEntity> findByUsuario(UsuarioEntity usuario);
+
 }

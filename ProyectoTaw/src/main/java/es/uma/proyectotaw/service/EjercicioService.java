@@ -3,7 +3,9 @@ package es.uma.proyectotaw.service;
 import es.uma.proyectotaw.dao.EjercicioRepository;
 import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
 import es.uma.proyectotaw.dto.EjercicioDTO;
+import es.uma.proyectotaw.dto.TipoentrenamientoDTO;
 import es.uma.proyectotaw.entity.EjercicioEntity;
+import es.uma.proyectotaw.entity.TipoentrenamientoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +20,7 @@ public class EjercicioService extends DTOService<EjercicioDTO, EjercicioEntity>{
     protected EjercicioRepository ejercicioRepository;
 
     @Autowired
-    protected TipoentrenamientoRepository tipoentrenamientoEntity;
+    protected TipoentrenamientoRepository tipoentrenamientoRepository;
 
     public List<EjercicioDTO> listarEjercicios () {
         List<EjercicioEntity> entities = this.ejercicioRepository.findAll();
@@ -55,7 +57,7 @@ public class EjercicioService extends DTOService<EjercicioDTO, EjercicioEntity>{
         nuevoEjercicio.setNombre(nombre);
         nuevoEjercicio.setDescripcion(descripcion);
         nuevoEjercicio.setVideo(video);
-        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoEntity.findById(tipoentrenamiento).get());
+        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoRepository.findById(tipoentrenamiento).get());
 
         String[] partes = tipoejercicio.split("_");
         int idtipoejercicio = Integer.parseInt(partes[1]);
@@ -75,7 +77,7 @@ public class EjercicioService extends DTOService<EjercicioDTO, EjercicioEntity>{
         nuevoEjercicio.setNombre(nombre);
         nuevoEjercicio.setDescripcion(descripcion);
         nuevoEjercicio.setVideo(video);
-        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoEntity.findById(tipoentrenamiento).get());
+        nuevoEjercicio.setTipoEntrenamiento(tipoentrenamientoRepository.findById(tipoentrenamiento).get());
 
         String[] partes = tipoejercicio.split("_");
         int idtipoejercicio = Integer.parseInt(partes[1]);
@@ -86,5 +88,11 @@ public class EjercicioService extends DTOService<EjercicioDTO, EjercicioEntity>{
         }
 
         ejercicioRepository.save(nuevoEjercicio);
+    }
+
+    public List<EjercicioDTO> buscarPorTipoEntrenamiento(TipoentrenamientoDTO tipoEntrenamiento) {
+        TipoentrenamientoEntity tipoentrenamientoEntity = this.tipoentrenamientoRepository.findById(tipoEntrenamiento.getId()).orElse(null);
+        List<EjercicioEntity> ejercicios = this.ejercicioRepository.findByTipoEntrenamiento(tipoentrenamientoEntity);
+        return this.entidadesADTO(ejercicios);
     }
 }

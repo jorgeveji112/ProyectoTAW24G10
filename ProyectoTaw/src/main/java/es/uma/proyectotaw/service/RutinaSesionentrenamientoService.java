@@ -64,4 +64,10 @@ public class RutinaSesionentrenamientoService extends DTOService<RutinaSesionent
         rutinaSesionentrenamientoEntity.setPosicion(rutinaHasSesion.getPosicion());
         this.rutinaSesionentrenamientoRepository.save(rutinaSesionentrenamientoEntity);
     }
+
+    public List<RutinaSesionentrenamientoDTO> buscarPorSesionentrenamientoOrdenadoPorPosicion(SesionentrenamientoDTO sesion) {
+        SesionentrenamientoEntity sesionentrenamientoEntity = this.sesionentrenamientoRepository.findById(sesion.getId()).orElse(null);
+        List<RutinaSesionentrenamientoEntity> lista = this.sesionentrenamientoRepository.findBySesionEntrenamientoOrderByPosicion(sesionentrenamientoEntity);
+        return this.entidadesADTO(lista);
+    }
 }

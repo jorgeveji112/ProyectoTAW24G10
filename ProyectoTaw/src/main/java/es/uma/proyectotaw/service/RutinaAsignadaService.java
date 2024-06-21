@@ -46,4 +46,14 @@ public class RutinaAsignadaService extends DTOService<RutinaAsignadaDTO, RutinaA
         }
         return rutinaAsignada.toDTO();
     }
+
+    public void save(RutinaAsignadaDTO rutinaAsignada) {
+        RutinaAsignadaEntity rutinaAsignadaEntity = this.rutinaAsignadaRepository.findById(rutinaAsignada.getId()).orElse(null);
+        RutinaPredefinidaEntity rutinaPredefinidaEntity = this.rutinaPredefinidaRepository.findBy
+        rutinaAsignadaEntity.setRutinaPredefinida(rutinaPredefinidaEntity);
+        rutinaAsignadaEntity.setFecha(rutinaAsignada.getFecha());
+        UsuarioEntity user = this.usuarioRepository.findById(rutinaAsignada.getUsuario().getId()).orElse(null);
+        rutinaAsignadaEntity.setUsuario(user);
+
+    }
 }
