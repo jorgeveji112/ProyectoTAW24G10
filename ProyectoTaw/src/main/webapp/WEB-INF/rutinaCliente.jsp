@@ -5,19 +5,19 @@
 
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="es.uma.proyectotaw.entity.ClienteEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.UsuarioEntity" %>
-<%@ page import="es.uma.proyectotaw.entity.RutinaAsignadaEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.RutinaSesionentrenamientoEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.DayOfWeek" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaAsignadaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ClienteDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO" %>
 
 <%
-    RutinaAsignadaEntity rutinaasignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
-    ClienteEntity cliente = (ClienteEntity) request.getAttribute("cliente");
+    RutinaAsignadaDTO rutinaasignada = (RutinaAsignadaDTO) request.getAttribute("rutinaAsignada");
+    ClienteDTO cliente = (ClienteDTO) request.getAttribute("cliente");
 
-    List<RutinaSesionentrenamientoEntity> sesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("sesiones");
+    List<RutinaSesionentrenamientoDTO> sesiones = (List<RutinaSesionentrenamientoDTO>) request.getAttribute("sesiones");
 
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
@@ -56,7 +56,7 @@ if(rutinaasignada != null){
     <div class="capa-gris"></div>
     <div class="sesiones">
         <%
-            for(RutinaSesionentrenamientoEntity sesion : sesiones){
+            for(RutinaSesionentrenamientoDTO sesion : sesiones){
         %>
         <div class="session">
             <h2 ><a class="session-link" href="/clienteMain/rutina/sesion?rutinaId=<%=rutinaasignada.getId()%>&id=<%=sesion.getSesionentrenamiento().getId()%>"><%=sesion.getSesionentrenamiento().getNombre()%></a></h2>

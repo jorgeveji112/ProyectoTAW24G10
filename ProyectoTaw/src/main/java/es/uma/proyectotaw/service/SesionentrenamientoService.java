@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SesionEntrenamientoService extends DTOService<SesionentrenamientoDTO, SesionentrenamientoEntity>{
+public class SesionentrenamientoService extends DTOService<SesionentrenamientoDTO, SesionentrenamientoEntity>{
 
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;

@@ -9,12 +9,16 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.time.DayOfWeek" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionejercicioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ValoracionDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaAsignadaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %>
 
 <%
-    SesionejercicioEntity ejercicio = (SesionejercicioEntity) request.getAttribute("ejercicio");
-    List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
-    RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
-    SesionentrenamientoEntity sesionentrenamiento = (SesionentrenamientoEntity) request.getAttribute("sesionEntrenamiento");
+    SesionejercicioDTO ejercicio = (SesionejercicioDTO) request.getAttribute("ejercicio");
+    List<ValoracionDTO> valoraciones  = (List<ValoracionDTO>) request.getAttribute("valoraciones");
+    RutinaAsignadaDTO rutinaAsignada = (RutinaAsignadaDTO) request.getAttribute("rutinaAsignada");
+    SesionentrenamientoDTO sesionentrenamiento = (SesionentrenamientoDTO) request.getAttribute("sesionEntrenamiento");
 
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
@@ -72,7 +76,7 @@
             <%
             } else{
             %>
-                <label for="repeticiones" hidden="true">Repeticiones</label><input hidden="true" type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
+                <label for="repeticiones" hidden>Repeticiones</label><input hidden type="text" id="repeticiones" value="<%=ejercicio.getRepeticiones()%>" readonly>
             <%
                 }
             %>
@@ -85,7 +89,7 @@
             <%
             } else{
             %>
-                <label for="duración" hidden="true">Duración</label><input hidden="true" type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
+                <label for="duración" hidden>Duración</label><input hidden type="text" id="duración" value="<%=ejercicio.getDuracion()%>" readonly>
             <%
                 }
             %>
@@ -95,7 +99,7 @@
             <button onclick="document.getElementById('videoDialog').showModal()">Video ejercicio</button>
             <%
                 Boolean valorado = false;
-                for (ValoracionEntity val : valoraciones) {
+                for (ValoracionDTO val : valoraciones) {
                     if (val.getSesionejercicio().equals(ejercicio)) {
                         valorado = true;
                         break;
@@ -116,7 +120,7 @@
     <dialog id="ratingDialog">
         <h1>Ejercicio número 1</h1>
         <form id="ratingForm" method="post">
-            <input hidden="true" name="rutinaId" value="<%=rutinaAsignada.getId()%>">
+            <input hidden name="rutinaId" value="<%=rutinaAsignada.getId()%>">
             <div class="star-rating">
                 <span class="star" data-value="1">&#9733;</span>
                 <span class="star" data-value="2">&#9733;</span>
@@ -144,29 +148,6 @@
         </div>
     </dialog>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const stars = document.querySelectorAll('.star');
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-value');
-                document.getElementById('rating').value = rating;
-                stars.forEach((s, index) => {
-                    if (index < rating) {
-                        s.classList.add('filled');
-                    } else {
-                        s.classList.remove('filled');
-                    }
-                });
-            });
-        });
-
-        const ratingForm = document.getElementById('ratingForm');
-        ratingForm.addEventListener('submit', function(event) {
-            const filledStars = document.querySelectorAll('.star.filled').length;
-            document.getElementById('rating').value = filledStars;
-        });
-    });
-</script>
+<script src="/scripts/addValoracion.js"></script>
 </body>
 </html>

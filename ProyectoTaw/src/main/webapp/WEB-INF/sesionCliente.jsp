@@ -9,13 +9,17 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.time.DayOfWeek" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.ValoracionDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaAsignadaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoHasSesionejercicioDTO" %>
 
 <%
-    SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
+    SesionentrenamientoDTO sesion = (SesionentrenamientoDTO) request.getAttribute("sesion");
 
-    List<SesionentrenamientoHasSesionejercicioEntity> ejercicios  = (List<SesionentrenamientoHasSesionejercicioEntity>) request.getAttribute("ejercicios");
-    List<ValoracionEntity> valoraciones  = (List<ValoracionEntity>) request.getAttribute("valoraciones");
-    RutinaAsignadaEntity rutina = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    List<SesionentrenamientoHasSesionejercicioDTO> ejercicios  = (List<SesionentrenamientoHasSesionejercicioDTO>) request.getAttribute("ejercicios");
+    List<ValoracionDTO> valoraciones  = (List<ValoracionDTO>) request.getAttribute("valoraciones");
+    RutinaAsignadaDTO rutina = (RutinaAsignadaDTO) request.getAttribute("rutinaAsignada");
 
     LocalDate fecha = LocalDate.now();
     LocalDate lunes = fecha.with(DayOfWeek.MONDAY);
@@ -50,13 +54,13 @@
     <div class="capa-gris"></div>
     <div class="sesiones">
         <%
-            for(SesionentrenamientoHasSesionejercicioEntity ejercicio : ejercicios){
+            for(SesionentrenamientoHasSesionejercicioDTO ejercicio : ejercicios){
         %>
         <div class="session">
             <h2><a class="session-link" href="/clienteMain/rutina/sesion/ejercicio?rutinaId=<%=rutina.getId()%>&sesionId=<%=sesion.getId()%>&id=<%=ejercicio.getSesionejercicio().getId()%>"><%=ejercicio.getSesionejercicio().getEjercicio().getNombre()%></a></h2>
             <%
                     Boolean valorado = false;
-                    for (ValoracionEntity val : valoraciones) {
+                    for (ValoracionDTO val : valoraciones) {
                         if (val.getSesionejercicio().equals(ejercicio.getSesionejercicio())) {
                             valorado = true;
                             break;

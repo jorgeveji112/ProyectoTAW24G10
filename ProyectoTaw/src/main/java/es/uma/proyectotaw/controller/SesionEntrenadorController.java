@@ -26,7 +26,7 @@ public class SesionEntrenadorController extends BaseController{
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
     @Autowired
-    private SesionEntrenamientoService sesionEntrenamientoService;
+    private SesionentrenamientoService sesionEntrenamientoService;
 
 
     @Autowired
