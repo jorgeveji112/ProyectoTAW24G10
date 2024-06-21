@@ -3,11 +3,14 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaPredefinidaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    RutinaPredefinidaEntity rutina = (RutinaPredefinidaEntity) request.getAttribute("rutina");
-    List<RutinaSesionentrenamientoEntity> listaRutinaHasSesion = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("listaRutinaHasSesion");
-    List<SesionentrenamientoEntity> listaSesiones = (List<SesionentrenamientoEntity>) request.getAttribute("listaSesiones");
+    RutinaPredefinidaDTO rutina = (RutinaPredefinidaDTO) request.getAttribute("rutina");
+    List<RutinaSesionentrenamientoDTO> listaRutinaHasSesion = (List<RutinaSesionentrenamientoDTO>) request.getAttribute("listaRutinaHasSesion");
+    List<SesionentrenamientoDTO> listaSesiones = (List<SesionentrenamientoDTO>) request.getAttribute("listaSesiones");
     boolean esEditar = (rutina.getId() != -1);
     String nombre = "", objetivos = "";
 
@@ -45,7 +48,7 @@
             <!-- Lista de Sesiones -->
             <h2>Lista de Sesiones de Entrenamiento</h2>
             <div class="lista-sesiones-modal">
-                <% for (SesionentrenamientoEntity sesion : listaSesiones) { %>
+                <% for (SesionentrenamientoDTO sesion : listaSesiones) { %>
                 <div class="sesion-modal">
                     <p><%= sesion.getNombre() %></p>
                     <button onclick="addSesion(<%= sesion.getId() %>, '<%= sesion.getNombre() %>')">Añadir</button>
@@ -72,7 +75,7 @@
 
                     <div id="lista-sesiones">
                         <%
-                            for (RutinaSesionentrenamientoEntity rutinaHasSesion : listaRutinaHasSesion) {
+                            for (RutinaSesionentrenamientoDTO rutinaHasSesion : listaRutinaHasSesion) {
                         %>
                         <div class="sesion">
                             <p class="nombre-sesion"><%=rutinaHasSesion.getSesionentrenamiento().getNombre()%></p>

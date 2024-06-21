@@ -15,4 +15,6 @@ public interface RutinaSesionentrenamientoRepository extends JpaRepository<Rutin
     List<RutinaSesionentrenamientoEntity> findByRutinaPredefinidaOrderByPosicion(RutinaPredefinidaEntity rutina);
 
     List<RutinaSesionentrenamientoEntity> findBySesionentrenamientoOrderByPosicion(SesionentrenamientoEntity sesion);
+
+    RutinaSesionentrenamientoEntity findBySesionentrenamientoAndRutinaPredefinida(SesionentrenamientoEntity sesion, RutinaPredefinidaEntity rutina);
 }

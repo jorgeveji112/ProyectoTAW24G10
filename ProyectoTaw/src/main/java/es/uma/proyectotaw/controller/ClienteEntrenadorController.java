@@ -48,8 +48,9 @@ public class ClienteEntrenadorController extends  BaseController{
 
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
+
     @Autowired
-    private SesionEntrenamientoService sesionEntrenamientoService;
+    private SesionentrenamientoService sesionEntrenamientoService;
 
     @Autowired
     private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
