@@ -3,7 +3,6 @@ import es.uma.proyectotaw.dao.RutinaAsignadaRepository;
 import es.uma.proyectotaw.dao.RutinaPredefinidaRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
-import es.uma.proyectotaw.dto.RutinaPredefinidaDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.RutinaAsignadaEntity;
 import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
@@ -41,7 +40,9 @@ public class RutinaAsignadaService extends DTOService<RutinaAsignadaDTO, RutinaA
     public RutinaAsignadaDTO buscarPorUsuarioYFecha(UsuarioDTO usuarioDTO, Date fecha){
         UsuarioEntity usuario = this.usuarioRepository.findById(usuarioDTO.getId()).get();
         RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fecha);
-
+        if(rutinaAsignada == null){
+            return null;
+        }
         return rutinaAsignada.toDTO();
     }
 }

@@ -32,11 +32,6 @@ public class RutinaSesionentrenamientoService extends DTOService<RutinaSesionent
         return this.entidadesADTO(lista);
     }
 
-    public List<RutinaSesionentrenamientoDTO> findByRutinaPredefinidaOrderByPosicion(RutinaPredefinidaDTO rutina) {
-        RutinaPredefinidaEntity rutinaEntity = this.rutinaPredefinidaRepository.findById(rutina.getId()).orElse(null);
-        return this.entidadesADTO(this.rutinaSesionentrenamientoRepository.findByRutinaPredefinidaOrderByPosicion(rutinaEntity));
-    }
-
     public void delete(RutinaSesionentrenamientoDTO rutinaSesion) {
         RutinaPredefinidaEntity rutinaPredefinida = this.rutinaPredefinidaRepository.findById(rutinaSesion.getRutinaPredefinida().getId()).get();
         SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(rutinaSesion.getSesionentrenamiento().getId()).get();

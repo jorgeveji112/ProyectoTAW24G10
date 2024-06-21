@@ -6,10 +6,7 @@ package es.uma.proyectotaw.controller;
 import es.uma.proyectotaw.dto.*;
 import es.uma.proyectotaw.entity.*;
 import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.service.RutinaAsignadaService;
-import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
-import es.uma.proyectotaw.service.SesionentrenamientoService;
-import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +22,7 @@ import java.util.*;
 public class DesarrolloClienteController extends BaseController {
 
     @Autowired
-    protected UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @Autowired
     private RutinaAsignadaService rutinaAsignadaService;
@@ -37,40 +34,40 @@ public class DesarrolloClienteController extends BaseController {
     private SesionentrenamientoService sesionEntrenamientoService;
 
     @Autowired
-    private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+    private SesionentrenamientoHasSesionejercicioService sesionentrenamientoHasSesionejercicioService;
 
     @Autowired
-    private ValoracionRepository valoracionRepository;
+    private ValoracionService valoracionService;
 
     @GetMapping("/clienteMain/desarrollo")
     public String doDesarrollo(@RequestParam("fecha") String fecha, Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
         ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
-        UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
+        UsuarioDTO usuario = this.usuarioService.buscarUsuario(cliente.getId());
 
         model.addAttribute("usuario", usuario);
         Date fechaDate = Date.valueOf(fecha);
         LocalDate fechaLocal = fechaDate.toLocalDate();
         model.addAttribute("semana", fechaLocal);
-        RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorUsuarioYFecha(usuario,fechaDate);
+        RutinaAsignadaDTO rutinaAsignada = this.rutinaAsignadaService.buscarPorUsuarioYFecha(usuario,fechaDate);
 
         if (rutinaAsignada!=null) {
             model.addAttribute("rutinaAsignada", rutinaAsignada);
             List<RutinaSesionentrenamientoDTO> rutinasSesiones = this.rutinaSesionentrenamientoService.buscarPorRutinaPredefinidaOrdenadaPorPosicion(rutinaAsignada.getRutinaPredefinida());
-            List<ValoracionEntity> valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaOrderBySesionejercicio(usuario, rutinaAsignada);
+            List<ValoracionDTO> valoraciones = this.valoracionService.buscarPorUsuarioYRutinaAsignadaOrdenadoPorSesionejercicio(usuario.getId(),rutinaAsignada.getId());
             Map<Integer, Double> mediasValoraciones = new HashMap<>();
             List<Integer> sesionesSinValoracion = new ArrayList<>();
             for (RutinaSesionentrenamientoDTO rutinaSesion : rutinasSesiones) {
-                List<SesionejercicioEntity> ejerciciosSesion = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(rutinaSesion.getSesionentrenamiento())
-                        .stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
-                List<ValoracionEntity> valoracionesSesion = valoraciones.stream()
+                List<SesionejercicioDTO> ejerciciosSesion = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(rutinaSesion.getSesionentrenamiento().getId())
+                        .stream().map(SesionentrenamientoHasSesionejercicioDTO::getSesionejercicio).toList();
+                List<ValoracionDTO> valoracionesSesion = valoraciones.stream()
                         .filter(val -> ejerciciosSesion.contains(val.getSesionejercicio()))
                         .toList();
                 if (valoracionesSesion.isEmpty()) {
                     sesionesSinValoracion.add(rutinaSesion.getSesionentrenamiento().getId());
                 } else {
-                    double media = valoracionesSesion.stream().mapToDouble(ValoracionEntity::getPuntuacion).average().orElse(0.0);
+                    double media = valoracionesSesion.stream().mapToDouble(ValoracionDTO::getPuntuacion).average().orElse(0.0);
                     mediasValoraciones.put(rutinaSesion.getSesionentrenamiento().getId(), media);
                 }
             }
@@ -90,9 +87,9 @@ public class DesarrolloClienteController extends BaseController {
         UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
         SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(sesionId);
         RutinaAsignadaDTO rutinaAsignada = rutinaAsignadaService.buscarPorId(rutinaId);
-        List<SesionentrenamientoHasSesionejercicioEntity> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioRepository.findBySesionentrenamientoOrderByPosicion(sesion);
-        List<SesionejercicioEntity> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioEntity::getSesionejercicio).toList();
-        List<ValoracionEntity>  valoraciones = valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicioIn(usuario,rutinaAsignada, sesionesEjercicio);
+        List<SesionentrenamientoHasSesionejercicioDTO> sesionesHasSesionesEjercicios = sesionentrenamientoHasSesionejercicioService.buscarPorSesionentrenamientoOrdenadoPorPosicion(sesion.getId());
+        List<SesionejercicioDTO> sesionesEjercicio = sesionesHasSesionesEjercicios.stream().map(SesionentrenamientoHasSesionejercicioDTO::getSesionejercicio).toList();
+        List<ValoracionDTO>  valoraciones = valoracionService.buscarPorUsuarioYRutinaAsignadaYSesionejercicioDentro(usuario.getId(),rutinaAsignada.getId(), sesionesEjercicio);
         LocalDate fechaLocal = rutinaAsignada.getFecha().toLocalDate();
         model.addAttribute("rutinaAsignada", rutinaAsignada);
         model.addAttribute("semana", fechaLocal);
