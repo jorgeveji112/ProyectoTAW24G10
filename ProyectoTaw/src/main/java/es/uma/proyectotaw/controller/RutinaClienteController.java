@@ -4,8 +4,6 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +124,7 @@ public class RutinaClienteController extends BaseController {
         valoracion.setUsuario(usuario);
         valoracion.setSesionejercicio(sesionejercicio);
 
-        this.valoracionRepository.save(valoracion);
+        valoracionService.crearValoracion(valoracion);
 
         return "redirect:/clienteMain/rutina/sesion?rutinaId=" + rutinaId + "&id=" + sesionId; // Retorna el nombre de la vista de cliente
     }

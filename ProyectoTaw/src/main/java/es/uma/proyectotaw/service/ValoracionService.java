@@ -52,5 +52,20 @@ public class ValoracionService extends DTOService<ValoracionDTO, ValoracionEntit
         return this.entidadesADTO(valoraciones);
     }
 
+    public void crearValoracion(ValoracionDTO valoracionDTO){
+        UsuarioEntity usuario = this.usuarioRepository.findById(valoracionDTO.getUsuario().getId()).get();
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(valoracionDTO.getRutinaAsignada().getId()).get();
+        SesionejercicioEntity sesionejercicio = this.sesionejercicioRepository.findById(valoracionDTO.getSesionejercicio().getId()).get();
+
+        ValoracionEntity valoracion = new ValoracionEntity();
+        valoracion.setPuntuacion(valoracionDTO.getPuntuacion());
+        valoracion.setDescripcion(valoracionDTO.getDescripcion());
+        valoracion.setUsuario(usuario);
+        valoracion.setRutinaAsignada(rutinaAsignada);
+        valoracion.setSesionejercicio(sesionejercicio);
+
+        valoracionRepository.save(valoracion);
+    }
+
 
 }

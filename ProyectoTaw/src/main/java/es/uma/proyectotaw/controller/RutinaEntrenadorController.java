@@ -1,8 +1,6 @@
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.*;
 import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ public class RutinaEntrenadorController extends BaseController{
     private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
 
     @Autowired
-    private SesionEntrenamientoService sesionEntrenamientoService;
+    private SesionentrenamientoService sesionEntrenamientoService;
 
     @Autowired
     private RutinaAsignadaService rutinaAsignadaService;

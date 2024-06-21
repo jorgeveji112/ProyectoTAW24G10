@@ -3,6 +3,7 @@ import es.uma.proyectotaw.dao.RutinaAsignadaRepository;
 import es.uma.proyectotaw.dao.RutinaPredefinidaRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
+import es.uma.proyectotaw.dto.RutinaPredefinidaDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.RutinaAsignadaEntity;
 import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
