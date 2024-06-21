@@ -53,4 +53,18 @@ public class ValoracionService extends DTOService<ValoracionDTO, ValoracionEntit
     }
 
 
+    public List<ValoracionDTO> buscarPorRutinaAsignada(RutinaAsignadaDTO rutinaAsignadaDTO) {
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(rutinaAsignadaDTO.getId()).get();
+        List<ValoracionEntity> valoraciones = this.valoracionRepository.findByRutinaAsignada(rutinaAsignada);
+        return this.entidadesADTO(valoraciones);
+    }
+
+    public void delete(ValoracionDTO valoracion) {
+        UsuarioEntity usuario = this.usuarioRepository.findById(valoracion.getUsuario().getId()).orElse(null);
+        RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findById(valoracion.getRutinaAsignada().getId()).orElse(null);
+        SesionejercicioEntity sesion = this.sesionejercicioRepository.findById(valoracion.getSesionejercicio().getId()).orElse(null);
+
+        ValoracionEntity valoracionEntity = this.valoracionRepository.findByUsuarioAndRutinaAsignadaAndSesionejercicio(usuario, rutinaAsignada, sesion);
+        this.valoracionRepository.delete(valoracionEntity);
+    }
 }

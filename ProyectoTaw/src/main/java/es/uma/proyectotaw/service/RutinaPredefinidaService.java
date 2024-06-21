@@ -1,12 +1,14 @@
 package es.uma.proyectotaw.service;
 
 import es.uma.proyectotaw.dao.RutinaPredefinidaRepository;
+import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import es.uma.proyectotaw.dto.RutinaPredefinidaDTO;
 import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
 import es.uma.proyectotaw.dto.UsuarioDTO;
 import es.uma.proyectotaw.entity.RutinaPredefinidaEntity;
 import es.uma.proyectotaw.entity.SesionentrenamientoEntity;
+import es.uma.proyectotaw.entity.TipoentrenamientoEntity;
 import es.uma.proyectotaw.entity.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class RutinaPredefinidaService extends DTOService<RutinaPredefinidaDTO, R
 
     @Autowired
     private RutinaPredefinidaRepository rutinaPredefinidaRepository;
+
+    @Autowired
+    private TipoentrenamientoRepository tipoentrenamientoRepository;
 
 
     public List<RutinaPredefinidaDTO> findByUsuario(UsuarioDTO usuario) {
@@ -49,6 +54,11 @@ public class RutinaPredefinidaService extends DTOService<RutinaPredefinidaDTO, R
         RutinaPredefinidaEntity r = new RutinaPredefinidaEntity();
         r.setNombre(rutina.getNombre());
         r.setObjetivos(rutina.getObjetivos());
+
+        UsuarioEntity usuario = this.usuarioRepository.findById(rutina.getUsuario().getId()).orElse(null);
+        r.setUsuario(usuario);
+        TipoentrenamientoEntity t = this.tipoentrenamientoRepository.findById(rutina.getTipoentrenamiento().getId()).orElse(null);
+        r.setTipoEntrenamiento(t);
         this.rutinaPredefinidaRepository.save(r);
 
     }

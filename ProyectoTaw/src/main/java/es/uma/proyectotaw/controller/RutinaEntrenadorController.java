@@ -35,6 +35,8 @@ public class RutinaEntrenadorController extends BaseController{
     @Autowired
     private ValoracionService valoracionService;
 
+
+
     @GetMapping("/entrenadorMain")
     public String doEntrenadorMain(Model model, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
@@ -103,7 +105,7 @@ public class RutinaEntrenadorController extends BaseController{
         if (rutina == null) return "redirect:/entrenadorMain/rutinas"; // Rutina no encontrada
 
         // Obtener las sesiones de entrenamiento asociadas a la rutina
-        List<RutinaSesionentrenamientoDTO> rutinasSesiones = rutinaSesionentrenamientoService.findByRutinaPredefinidaOrderByPosicion(rutina);
+        List<RutinaSesionentrenamientoDTO> rutinasSesiones = rutinaSesionentrenamientoService.buscarPorRutinaPredefinidaOrdenadaPorPosicion(rutina);
 
         // Obtener las rutinas asignadas asociadas a la rutina
         List<RutinaAsignadaDTO> rutinasAsignadas = rutinaAsignadaService.findByRutinaPredefinida(rutina);
@@ -116,7 +118,7 @@ public class RutinaEntrenadorController extends BaseController{
         // Eliminar las rutinas asignadas
         for (RutinaAsignadaDTO rutinaAsignada : rutinasAsignadas) {
             // Eliminar todas las valoraciones asociadas a la rutina asignada
-            List<ValoracionDTO> valoraciones = valoracionService.findByRutinaAsignada(rutinaAsignada);
+            List<ValoracionDTO> valoraciones = valoracionService.buscarPorRutinaAsignada(rutinaAsignada);
             for (ValoracionDTO valoracion : valoraciones) {
                 valoracionService.delete(valoracion);
             }
@@ -133,7 +135,7 @@ public class RutinaEntrenadorController extends BaseController{
     public String doVerRutina(Model model, HttpSession session, @RequestParam("id") Integer id) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         RutinaPredefinidaDTO rutina = rutinaPredefinidaService.findById(id);
-        List<RutinaSesionentrenamientoDTO> listaRutinaHasSesion = rutinaSesionentrenamientoService.findByRutinaPredefinidaOrderByPosicion(rutina);
+        List<RutinaSesionentrenamientoDTO> listaRutinaHasSesion = rutinaSesionentrenamientoService.buscarPorRutinaPredefinidaOrdenadaPorPosicion(rutina);
 
         model.addAttribute("listaRutinaHasSesion", listaRutinaHasSesion);
         model.addAttribute("rutina", rutina);
@@ -155,7 +157,7 @@ public class RutinaEntrenadorController extends BaseController{
         rutina.setObjetivos(objetivos);
         rutinaPredefinidaService.save(rutina);
 
-        List<RutinaSesionentrenamientoDTO> rutinasHasSesiones = rutinaSesionentrenamientoService.findByRutinaPredefinidaOrderByPosicion(rutina);
+        List<RutinaSesionentrenamientoDTO> rutinasHasSesiones = rutinaSesionentrenamientoService.buscarPorRutinaPredefinidaOrdenadaPorPosicion(rutina);
         for (RutinaSesionentrenamientoDTO rutinaHasSesion : rutinasHasSesiones) {
             rutinaSesionentrenamientoService.delete(rutinaHasSesion);
         }
