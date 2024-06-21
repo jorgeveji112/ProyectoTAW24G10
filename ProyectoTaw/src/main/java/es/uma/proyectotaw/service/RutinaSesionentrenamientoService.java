@@ -32,6 +32,21 @@ public class RutinaSesionentrenamientoService extends DTOService<RutinaSesionent
         return this.entidadesADTO(lista);
     }
 
+    public void delete(RutinaSesionentrenamientoDTO rutinaSesion) {
+        RutinaPredefinidaEntity rutinaPredefinida = this.rutinaPredefinidaRepository.findById(rutinaSesion.getRutinaPredefinida().getId()).get();
+        SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(rutinaSesion.getSesionentrenamiento().getId()).get();
+        RutinaSesionentrenamientoEntity rutina = this.rutinaSesionentrenamientoRepository.findBySesionentrenamientoAndRutinaPredefinida(sesionentrenamiento, rutinaPredefinida);
+        this.rutinaSesionentrenamientoRepository.delete(rutina);
+    }
+
+    public void save(RutinaSesionentrenamientoDTO rutinaHasSesion) {
+        RutinaPredefinidaEntity rutinaPredefinida = this.rutinaPredefinidaRepository.findById(rutinaHasSesion.getRutinaPredefinida().getId()).get();
+        SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(rutinaHasSesion.getSesionentrenamiento().getId()).get();
+        RutinaSesionentrenamientoEntity rutina = this.rutinaSesionentrenamientoRepository.findBySesionentrenamientoAndRutinaPredefinida(sesionentrenamiento, rutinaPredefinida);
+
+        this.rutinaSesionentrenamientoRepository.save(rutina);
+    }
+
     public RutinaSesionentrenamientoDTO buscarPorRutinaPredefinidaYSesion(RutinaPredefinidaDTO rutinaPredefinidaDTO, SesionentrenamientoDTO sesionentrenamientoDTO){
         RutinaPredefinidaEntity rutinaPredefinida = this.rutinaPredefinidaRepository.findById(rutinaPredefinidaDTO.getId()).get();
         SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(sesionentrenamientoDTO.getId()).get();
@@ -40,4 +55,13 @@ public class RutinaSesionentrenamientoService extends DTOService<RutinaSesionent
         return  rutinaSesionentrenamiento.toDTO();
     }
 
+    public void saveNew(RutinaSesionentrenamientoDTO rutinaHasSesion) {
+        RutinaSesionentrenamientoEntity rutinaSesionentrenamientoEntity = new RutinaSesionentrenamientoEntity();
+        RutinaPredefinidaEntity rutinaPredefinida = this.rutinaPredefinidaRepository.findById(rutinaHasSesion.getRutinaPredefinida().getId()).get();
+        SesionentrenamientoEntity sesionentrenamiento = this.sesionentrenamientoRepository.findById(rutinaHasSesion.getSesionentrenamiento().getId()).get();
+        rutinaSesionentrenamientoEntity.setSesionentrenamiento(sesionentrenamiento);
+        rutinaSesionentrenamientoEntity.setRutinaPredefinida(rutinaPredefinida);
+        rutinaSesionentrenamientoEntity.setPosicion(rutinaHasSesion.getPosicion());
+        this.rutinaSesionentrenamientoRepository.save(rutinaSesionentrenamientoEntity);
+    }
 }

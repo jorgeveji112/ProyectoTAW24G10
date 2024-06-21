@@ -1,6 +1,7 @@
 <%@ page import="es.uma.proyectotaw.entity.RutinaPredefinidaEntity" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaPredefinidaDTO" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -8,7 +9,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    List<RutinaPredefinidaEntity> listaRutinas = (List<RutinaPredefinidaEntity>) request.getAttribute("rutinas");
+    List<RutinaPredefinidaDTO> listaRutinas = (List<RutinaPredefinidaDTO>) request.getAttribute("rutinas");
     String filtro = (String) request.getAttribute("filtro");
     if(filtro == null ){
         filtro = "";

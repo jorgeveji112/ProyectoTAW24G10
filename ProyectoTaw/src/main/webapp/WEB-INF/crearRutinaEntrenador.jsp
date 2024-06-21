@@ -10,11 +10,13 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaPredefinidaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%-- Pablo Pardo 100% --%>
 <%
-    RutinaPredefinidaEntity rutina = (RutinaPredefinidaEntity) request.getAttribute("rutina");
-    List<SesionentrenamientoEntity> listaSesiones = (List<SesionentrenamientoEntity>) request.getAttribute("listaSesiones");
+    RutinaPredefinidaDTO rutina = (RutinaPredefinidaDTO) request.getAttribute("rutina");
+    List<SesionentrenamientoDTO> listaSesiones = (List<SesionentrenamientoDTO>) request.getAttribute("listaSesiones");
 %>
 <html>
 <head>
@@ -44,7 +46,7 @@
             <!-- Lista de Sesiones -->
             <h2>Lista de Sesiones de Entrenamiento</h2>
             <div class="lista-sesiones-modal">
-                <% for (SesionentrenamientoEntity sesion : listaSesiones) { %>
+                <% for (SesionentrenamientoDTO sesion : listaSesiones) { %>
                 <div class="sesion-modal">
                     <p><%= sesion.getNombre() %></p>
                     <button onclick="addSesion(<%= sesion.getId() %>, '<%= sesion.getNombre() %>')">Añadir</button>

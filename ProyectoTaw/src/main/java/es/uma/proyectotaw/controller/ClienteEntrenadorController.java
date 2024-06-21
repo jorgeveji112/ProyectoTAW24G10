@@ -4,6 +4,7 @@ package es.uma.proyectotaw.controller;
 import es.uma.proyectotaw.entity.*;
 
 import es.uma.proyectotaw.dao.*;
+import es.uma.proyectotaw.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,34 +16,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
-// Pablo Pardo Fernández 80% (Listar CLientes, Asignar Rutina, Ver Rutina Asignada, Ver Valoraciones de una Sesion)
-//Alba Ruiz Gutiérrez
+// Pablo Pardo Fernández 60% (Listar CLientes, Asignar Rutina, Ver Rutina Asignada, Ver Valoraciones de una Sesion primera version)
+//Alba Ruiz Gutiérrez 40% (Filtros primera version y segunda version entera + refactor)
 @Controller
 public class ClienteEntrenadorController extends  BaseController{
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private ClienteService clienteService;
 
     @Autowired
     private RutinaPredefinidaRepository rutinaPredefinidaRepository;
+    @Autowired
+    private RutinaPredefinidaService rutinaPredefinidaService;
 
     @Autowired
     private RutinaAsignadaRepository rutinaAsignadaRepository;
+    @Autowired
+    private RutinaAsignadaService rutinaAsignadaService;
 
     @Autowired
     private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
+    @Autowired
+    private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
 
     @Autowired
     private SesionentrenamientoRepository sesionentrenamientoRepository;
 
     @Autowired
+    private SesionentrenamientoService sesionEntrenamientoService;
+
+    @Autowired
     private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
+    @Autowired
+    private SesionentrenamientoHasSesionejercicioService sesionentrenamientoHasSesionejercicioService;
 
     @Autowired
     private ValoracionRepository valoracionRepository;
+    @Autowired
+    private ValoracionService valoracionService;
 
     //Listado de clientes de un entrenador
     @GetMapping("/entrenadorMain/clientes")
