@@ -1,13 +1,17 @@
 package es.uma.proyectotaw.entity;
 
+import es.uma.proyectotaw.dto.DTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.ValoracionDTO;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "valoracion", schema = "bdgym", catalog = "")
 @IdClass(ValoracionEntityPK.class)
-public class ValoracionEntity {
+public class ValoracionEntity implements Serializable, DTO<ValoracionDTO> {
     @Basic
     @Column(name = "puntuacion")
     private Integer puntuacion;
@@ -81,5 +85,16 @@ public class ValoracionEntity {
     @Override
     public int hashCode() {
         return Objects.hash(getPuntuacion(), getDescripcion(), getUsuario(), getSesionejercicio(), getRutinaAsignada());
+    }
+
+    @Override
+    public ValoracionDTO toDTO() {
+        ValoracionDTO dto = new ValoracionDTO();
+        dto.setPuntuacion(getPuntuacion());
+        dto.setDescripcion(getDescripcion());
+        dto.setUsuario(getUsuario().toDTO());
+        dto.setSesionejercicio(getSesionejercicio().toDTO());
+        dto.setRutinaAsignada(getRutinaAsignada().toDTO());
+        return dto;
     }
 }

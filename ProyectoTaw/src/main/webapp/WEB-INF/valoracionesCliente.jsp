@@ -9,7 +9,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.DayOfWeek" %><%--
+<%@ page import="java.time.DayOfWeek" %>
+<%@ page import="es.uma.proyectotaw.dto.*" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -17,13 +18,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("usuario");
-    RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    UsuarioDTO cliente = (UsuarioDTO) request.getAttribute("usuario");
+    RutinaAsignadaDTO rutinaAsignada = (RutinaAsignadaDTO) request.getAttribute("rutinaAsignada");
     LocalDate semana = (LocalDate) request.getAttribute("semana");
     String semanaString = semana.toString();
-    SesionentrenamientoEntity sesion = (SesionentrenamientoEntity) request.getAttribute("sesion");
-    List<SesionejercicioEntity> sesionesEjercicio = (List<SesionejercicioEntity>) request.getAttribute("sesionesEjercicio");
-    List<ValoracionEntity> valoraciones = (List<ValoracionEntity>) request.getAttribute("valoraciones");
+    SesionentrenamientoDTO sesion = (SesionentrenamientoDTO) request.getAttribute("sesion");
+    List<SesionejercicioDTO> sesionesEjercicio = (List<SesionejercicioDTO>) request.getAttribute("sesionesEjercicio");
+    List<ValoracionDTO> valoraciones = (List<ValoracionDTO>) request.getAttribute("valoraciones");
 
     LocalDate semanaAnterior = semana.minusDays(7);
     String semanaAnteriorString = semanaAnterior.toString();
@@ -75,8 +76,8 @@
 
                     <div id="lista-sesiones">
                         <%
-                            for (SesionejercicioEntity sesionEjercicio : sesionesEjercicio) {
-                                ValoracionEntity valoracion = valoraciones.stream()
+                            for (SesionejercicioDTO sesionEjercicio : sesionesEjercicio) {
+                                ValoracionDTO valoracion = valoraciones.stream()
                                         .filter(val -> val.getSesionejercicio().equals(sesionEjercicio))
                                         .findFirst()
                                         .orElse(null);

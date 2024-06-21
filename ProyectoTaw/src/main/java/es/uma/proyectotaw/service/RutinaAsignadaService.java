@@ -29,7 +29,9 @@ public class RutinaAsignadaService extends DTOService<RutinaAsignadaDTO, RutinaA
     public RutinaAsignadaDTO buscarPorUsuarioYFecha(UsuarioDTO usuarioDTO, Date fecha){
         UsuarioEntity usuario = this.usuarioRepository.findById(usuarioDTO.getId()).get();
         RutinaAsignadaEntity rutinaAsignada = this.rutinaAsignadaRepository.findByUsuarioAndFecha(usuario, fecha);
-
+        if(rutinaAsignada == null){
+            return null;
+        }
         return rutinaAsignada.toDTO();
     }
 }

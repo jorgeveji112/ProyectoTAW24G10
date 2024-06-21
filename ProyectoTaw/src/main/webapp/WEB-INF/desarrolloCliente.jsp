@@ -10,7 +10,10 @@
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.DayOfWeek" %>
-<%@ page import="java.util.Map" %><%--
+<%@ page import="java.util.Map" %>
+<%@ page import="es.uma.proyectotaw.dto.UsuarioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaAsignadaDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO" %><%--
   Created by IntelliJ IDEA.
   User: BEEP
   Date: 30/04/2024
@@ -18,8 +21,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    UsuarioEntity cliente = (UsuarioEntity) request.getAttribute("usuario");
-    RutinaAsignadaEntity rutinaAsignada = (RutinaAsignadaEntity) request.getAttribute("rutinaAsignada");
+    UsuarioDTO cliente = (UsuarioDTO) request.getAttribute("usuario");
+    RutinaAsignadaDTO rutinaAsignada = (RutinaAsignadaDTO) request.getAttribute("rutinaAsignada");
     LocalDate semana = (LocalDate) request.getAttribute("semana");
     String semanaString = semana.toString();
 
@@ -27,7 +30,7 @@
     String semanaAnteriorString = semanaAnterior.toString();
     LocalDate semanaSiguiente = semana.plusDays(7);
     String semanaSiguienteString = semanaSiguiente.toString();
-    List<RutinaSesionentrenamientoEntity> rutinasSesiones = (List<RutinaSesionentrenamientoEntity>) request.getAttribute("rutinasSesiones");
+    List<RutinaSesionentrenamientoDTO> rutinasSesiones = (List<RutinaSesionentrenamientoDTO>) request.getAttribute("rutinasSesiones");
     Map<Integer, Double> mediasValoraciones = (Map<Integer, Double>) request.getAttribute("mediasValoraciones");
     List<Integer> sesionesSinValoracion = (List<Integer>) request.getAttribute("sesionesSinValoracion");
 
@@ -84,7 +87,7 @@
                     <div id="lista-sesiones">
                         <%
                             int sesionId;
-                            for (RutinaSesionentrenamientoEntity rutinaHasSesion : rutinasSesiones) {
+                            for (RutinaSesionentrenamientoDTO rutinaHasSesion : rutinasSesiones) {
                                 sesionId = rutinaHasSesion.getSesionentrenamiento().getId();
                                 double mediaValoracion = mediasValoraciones.getOrDefault(sesionId, 0.0);
                                 int estrellasAmarillas = (int) Math.round(mediaValoracion);
