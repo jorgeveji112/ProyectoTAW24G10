@@ -1,11 +1,5 @@
-<%--
-  Creador: Jorge Velázquez Jiménez
---%>
-
-
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%--Creador: Jorge Velázquez Jiménez--%>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.proyectotaw.entity.*" %>
 <%@ page import="java.time.LocalDate" %>

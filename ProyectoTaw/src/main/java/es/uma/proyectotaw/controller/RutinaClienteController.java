@@ -1,6 +1,4 @@
-/*
-        Creador: Jorge Velázquez Jiménez
-*/
+
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dto.*;
@@ -18,7 +16,7 @@ import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
-
+// Realizado por Jorge Velázquez Jiménez
 @Controller
 public class RutinaClienteController extends BaseController {
 

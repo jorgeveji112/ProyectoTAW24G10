@@ -1,6 +1,4 @@
-/*
-        Creador: Jorge Velázquez Jiménez
-*/
+
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dto.ClienteDTO;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import es.uma.proyectotaw.dao.UsuarioRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+// Realizado por Jorge Velázquez Jiménez
 @Controller
 public class clientePerfilController extends BaseController{
 

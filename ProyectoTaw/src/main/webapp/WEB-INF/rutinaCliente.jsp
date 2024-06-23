@@ -1,9 +1,4 @@
-<%--
-  Creador: Jorge Velázquez Jiménez
---%>
-
-
-
+<%--Creador: Jorge Velázquez Jiménez--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="es.uma.proyectotaw.entity.RutinaSesionentrenamientoEntity" %>
 <%@ page import="java.util.List" %>

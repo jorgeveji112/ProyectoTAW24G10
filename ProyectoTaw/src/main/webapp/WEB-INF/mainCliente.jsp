@@ -1,9 +1,4 @@
-<%--
-  Creador: Jorge Velázquez Jiménez
---%>
-
-
-
+<%--Creador: Jorge Velázquez Jiménez--%>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.DayOfWeek" %><%--
   Created by IntelliJ IDEA.

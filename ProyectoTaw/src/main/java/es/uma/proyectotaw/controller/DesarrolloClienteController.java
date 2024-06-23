@@ -1,6 +1,4 @@
-/*
-        Creador: Jorge Velázquez Jiménez
-*/
+
 package es.uma.proyectotaw.controller;
 
 import es.uma.proyectotaw.dto.*;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
-
+// Realizado por Jorge Velázquez Jiménez
 @Controller
 public class DesarrolloClienteController extends BaseController {
 
