@@ -69,6 +69,7 @@
                 <p>Sem. <%=semana.getDayOfMonth()%>/<%=semana.getMonthValue()%></p>
                 <img src="/img/flecha-derecha.png" alt="flecha derecha" class="icono" onclick="window.location.href='/clienteMain/desarrollo?fecha=<%=semanaSiguienteString%>'">
             </div>
+            <button class="btn-ver-valoraciones" onclick="window.location.href='/clienteMain/desarrollo/sesionesValoradas'">Ver todas las sesiones Valoradas</button>
             <%
                 if(rutinaAsignada != null){
             %>

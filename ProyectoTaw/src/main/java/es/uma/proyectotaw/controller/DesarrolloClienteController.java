@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
@@ -101,5 +102,39 @@ public class DesarrolloClienteController extends BaseController {
 
     }
 
+    @GetMapping("/clienteMain/desarrollo/sesionesValoradas")
+    public String listarSesionesValoradas(Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+        ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
+        UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
+        List<ValoracionDTO>  valoraciones = valoracionService.buscarTodo();
+        List<SesionejercicioDTO> ejercicios = valoraciones.stream().map(ValoracionDTO::getSesionejercicio).toList();
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("ejercicios", ejercicios);
+        model.addAttribute("valoraciones", valoraciones);
+        return "sesionesValoradas";
+    }
 
+    @PostMapping("/clienteMain/desarrollo/sesionesValoradas/filtrar")
+    public String filtrarSesionesValoradas(@RequestParam(value = "puntuacion", required = false) Integer puntuacion
+                                           ,Model model, HttpSession session) {
+        if(!estaAutenticado(session)) return "redirect:/acceso";
+
+
+        String strTo = "sesionesValoradas";
+
+        if (puntuacion == null ) {
+            strTo = "redirect:/clienteMain/desarrollo/sesionesValoradas";
+        } else {
+            List<ValoracionDTO>  valoraciones = valoracionService.buscarPorPuntuacion(puntuacion);
+            List<SesionejercicioDTO> ejercicios = valoraciones.stream().map(ValoracionDTO::getSesionejercicio).toList();
+            ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
+            UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
+            model.addAttribute("valoraciones", valoraciones);
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("ejercicios", ejercicios);
+        }
+
+        return strTo;
+    }
 }
