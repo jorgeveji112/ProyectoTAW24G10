@@ -26,8 +26,8 @@ public class SesionentrenamientoService extends DTOService<SesionentrenamientoDT
         return this.entidadesADTO(this.sesionentrenamientoRepository.findByUsuario(user));
     }
 
-    public SesionentrenamientoDTO buscarPorId(int i) {
-        SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(i).orElse(null);
+    public SesionentrenamientoDTO buscarPorId(int id) {
+        SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(id).orElse(null);
         return sesion.toDTO();
     }
 

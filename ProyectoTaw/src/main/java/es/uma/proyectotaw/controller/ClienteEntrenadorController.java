@@ -153,7 +153,7 @@ public class ClienteEntrenadorController extends  BaseController{
     public String crearRutinaAsignada(@RequestParam("rutinaId") Integer rutinaId, @RequestParam("usuarioId") Integer usuarioId,@RequestParam("fecha") LocalDate fecha, HttpSession session) {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         RutinaAsignadaDTO rutinaAsignada = new RutinaAsignadaDTO();
-        rutinaAsignada.setRutinaPredefinida(rutinaPredefinidaService.findById(rutinaId);
+        rutinaAsignada.setRutinaPredefinida(rutinaPredefinidaService.findById(rutinaId));
         rutinaAsignada.setUsuario(usuarioService.buscarUsuario(usuarioId));
         rutinaAsignada.setFecha(Date.valueOf(fecha));
         rutinaAsignadaService.save(rutinaAsignada);

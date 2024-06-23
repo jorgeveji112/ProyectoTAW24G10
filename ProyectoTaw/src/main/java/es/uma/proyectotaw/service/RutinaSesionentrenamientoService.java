@@ -67,7 +67,7 @@ public class RutinaSesionentrenamientoService extends DTOService<RutinaSesionent
 
     public List<RutinaSesionentrenamientoDTO> buscarPorSesionentrenamientoOrdenadoPorPosicion(SesionentrenamientoDTO sesion) {
         SesionentrenamientoEntity sesionentrenamientoEntity = this.sesionentrenamientoRepository.findById(sesion.getId()).orElse(null);
-        List<RutinaSesionentrenamientoEntity> lista = this.sesionentrenamientoRepository.findBySesionEntrenamientoOrderByPosicion(sesionentrenamientoEntity);
+        List<RutinaSesionentrenamientoEntity> lista = this.rutinaSesionentrenamientoRepository.findBySesionentrenamientoOrderByPosicion(sesionentrenamientoEntity);
         return this.entidadesADTO(lista);
     }
 }

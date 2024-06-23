@@ -37,6 +37,6 @@ public class SesionEjercicioService {
         sesionejercicioEntity.setSeries(sesionEjercicio.getSeries());
         sesionejercicioEntity.setRepeticiones(sesionEjercicio.getRepeticiones());
         sesionejercicioEntity.setDuracion(sesionEjercicio.getDuracion());
-        this.sesionejercicioRepository.save(sesionejercicioEntity)
+        this.sesionejercicioRepository.save(sesionejercicioEntity);
     }
 }

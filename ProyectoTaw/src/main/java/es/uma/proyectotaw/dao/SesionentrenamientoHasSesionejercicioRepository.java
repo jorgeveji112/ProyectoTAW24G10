@@ -1,5 +1,6 @@
 package es.uma.proyectotaw.dao;
 
+import es.uma.proyectotaw.entity.SesionejercicioEntity;
 import es.uma.proyectotaw.entity.SesionentrenamientoEntity;
 import es.uma.proyectotaw.entity.SesionentrenamientoHasSesionejercicioEntity;
 import es.uma.proyectotaw.entity.SesionentrenamientoHasSesionejercicioEntityPK;
@@ -13,4 +14,6 @@ public interface SesionentrenamientoHasSesionejercicioRepository extends JpaRepo
     List<SesionentrenamientoHasSesionejercicioEntity> findBySesionentrenamientoOrderByPosicion(SesionentrenamientoEntity sesionEntrenamiento);
 
     void deleteBySesionentrenamientoId(Integer id);
+
+    SesionentrenamientoHasSesionejercicioEntity findBySesionejercicioAndAndSesionentrenamiento(SesionejercicioEntity sesionejercicioEntity, SesionentrenamientoEntity sesionentrenamientoEntity);
 }

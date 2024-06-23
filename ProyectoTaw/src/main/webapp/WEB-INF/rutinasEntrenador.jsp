@@ -45,7 +45,7 @@
                 <button class="crear-rutina" onclick="window.location.href='/entrenadorMain/rutinas/crear'">Crear Rutina</button>
                 <div class="contenedor-rutinas">
                     <%
-                        for (RutinaPredefinidaEntity rutina: listaRutinas) {
+                        for (RutinaPredefinidaDTO rutina: listaRutinas) {
                     %>
                     <div class="rutina-item">
                         <p class="rutina-nombre"><%= rutina.getNombre()%></p>

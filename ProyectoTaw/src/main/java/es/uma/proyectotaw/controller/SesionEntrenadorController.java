@@ -24,34 +24,22 @@ import java.util.stream.Collectors;
 public class SesionEntrenadorController extends BaseController{
 
 
-    @Autowired
-    private SesionentrenamientoRepository sesionentrenamientoRepository;
+
     @Autowired
     private SesionentrenamientoService sesionEntrenamientoService;
 
-
-    @Autowired
-    private SesionentrenamientoHasSesionejercicioRepository sesionentrenamientoHasSesionejercicioRepository;
     @Autowired
     private SesionentrenamientoHasSesionejercicioService sesionentrenamientoHasSesionejercicioService;
 
     @Autowired
-    private EjercicioRepository ejercicioRepository;
-    @Autowired
     private EjercicioService ejercicioService;
 
-    @Autowired
-    private SesionejercicioRepository sesionejercicioRepository;
     @Autowired
     private SesionEjercicioService sesionEjercicioService;
 
     @Autowired
-    private RutinaSesionentrenamientoRepository rutinaSesionentrenamientoRepository;
-    @Autowired
     private RutinaSesionentrenamientoService rutinaSesionentrenamientoService;
 
-    @Autowired
-    private ValoracionRepository valoracionRepository;
     @Autowired
     private ValoracionService valoracionService;
 
@@ -120,7 +108,7 @@ public class SesionEntrenadorController extends BaseController{
             sesionentrenamientoHasSesionejercicioService.delete(sesionHasSesion);
 
             // Eliminar la sesión de ejercicio
-            sesionentrenamientoHasSesionejercicioService.delete(sesionEjercicio);
+            sesionEjercicioService.delete(sesionEjercicio);
         }
         sesionEntrenamientoService.deleteById(id);
         return "redirect:/entrenadorMain/sesiones";

@@ -12,9 +12,11 @@
 <%@ page import="es.uma.proyectotaw.entity.SesionentrenamientoHasSesionejercicioEntity" %>
 <%@ page import="es.uma.proyectotaw.entity.EjercicioEntity" %>
 <%@ page import="es.uma.proyectotaw.dto.EjercicioDTO" %>
+<%@ page import="es.uma.proyectotaw.dto.SesionentrenamientoDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<EjercicioDTO> listaEjercicios = (List<EjercicioDTO>) request.getAttribute("listaEjercicios");
+    SesionentrenamientoDTO sesion = (SesionentrenamientoDTO) request.getAttribute("sesion");
 %>
 <%-- Pablo Pardo 100% --%>
 <html>
@@ -72,8 +74,9 @@
 
                         <div id="lista-ejercicios"></div>
                     </div>
-                    <input type="hidden" name="id" value="${sesion.id}">
+                    <input type="hidden" name="id" value="<%=sesion.getId()%>">
                     <input type="submit" value="Guardar">
+                    <p><%=sesion.getId()%></p>
                 </form>
             </div>
         </div>
