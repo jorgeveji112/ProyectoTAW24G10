@@ -77,28 +77,32 @@ public class GymController extends BaseController{
                            @RequestParam("eMail") String eMail, @RequestParam("telefono") String telefono, @RequestParam("sexo") String sexo,
                            @RequestParam("tipoentrenamiento") TipoentrenamientoEnum tipoEntrenamiento,
                            @RequestParam("usuario") String nombre_usuario, @RequestParam("contraseña") String contraseña, Model model) throws ParseException {
-        UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setNombre(nombre);
-        usuario.setApellidos(apellidos);
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fecha = LocalDate.parse(FechaNac, formato);
-        Date fechaSql = Date.valueOf(fecha);
-        usuario.setFechaNacimiento(fechaSql);
-        usuario.setDni(DNI);
-        usuario.setCorreo(eMail);
-        usuario.setTelefono(telefono);
-        usuario.setNombreUsuario(nombre_usuario);
-        usuario.setContraseña(contraseña);
-        usuario.setGenero(sexo);
-        usuario.setRol(trolService.buscarRolPorId(3));
+        try{
+            UsuarioDTO usuario = new UsuarioDTO();
+            usuario.setNombre(nombre);
+            usuario.setApellidos(apellidos);
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fecha = LocalDate.parse(FechaNac, formato);
+            Date fechaSql = Date.valueOf(fecha);
+            usuario.setFechaNacimiento(fechaSql);
+            usuario.setDni(DNI);
+            usuario.setCorreo(eMail);
+            usuario.setTelefono(telefono);
+            usuario.setNombreUsuario(nombre_usuario);
+            usuario.setContraseña(contraseña);
+            usuario.setGenero(sexo);
+            usuario.setRol(trolService.buscarRolPorId(3));
 
-        TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
+            TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
 
-        tipoent.setTipo(tipoEntrenamiento);
-        usuario.setTipoEntrenamiento(tipoent);
-        usuarioService.crearUsuario(usuario);
+            tipoent.setTipo(tipoEntrenamiento);
+            usuario.setTipoEntrenamiento(tipoent);
+            usuarioService.crearUsuario(usuario);
+            return "redirect:/";
+        }catch (Exception e) {
 
-        return "redirect:/";
+            return "errorRegistro";
+        }
     }
 
 
@@ -131,34 +135,40 @@ public class GymController extends BaseController{
                            @RequestParam("peso") String peso, @RequestParam("sexo") String sexo,
                            @RequestParam("tipoEntrenamiento") TipoentrenamientoEnum tipoEntrenamiento, @RequestParam("objetivos") String objetivos,
                            @RequestParam("usuario") String nombre_usuario, @RequestParam("contraseña") String contraseña, Model model) throws ParseException {
-        UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setNombre(nombre);
-        usuario.setApellidos(apellidos);
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fecha = LocalDate.parse(FechaNac, formato);
-        Date fechaSql = Date.valueOf(fecha);
-        usuario.setFechaNacimiento(fechaSql);
-        usuario.setDni(DNI);
-        usuario.setCorreo(eMail);
-        usuario.setTelefono(telefono);
-        usuario.setNombreUsuario(nombre_usuario);
-        usuario.setContraseña(contraseña);
-        usuario.setGenero(sexo);
-        usuario.setRol(trolService.buscarRolPorId(2));
 
-        TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
+        try {
+            UsuarioDTO usuario = new UsuarioDTO();
+            usuario.setNombre(nombre);
+            usuario.setApellidos(apellidos);
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fecha = LocalDate.parse(FechaNac, formato);
+            Date fechaSql = Date.valueOf(fecha);
+            usuario.setFechaNacimiento(fechaSql);
+            usuario.setDni(DNI);
+            usuario.setCorreo(eMail);
+            usuario.setTelefono(telefono);
+            usuario.setNombreUsuario(nombre_usuario);
+            usuario.setContraseña(contraseña);
+            usuario.setGenero(sexo);
+            usuario.setRol(trolService.buscarRolPorId(2));
 
-        tipoent.setTipo(tipoEntrenamiento);
-        usuario.setTipoEntrenamiento(tipoent);
+            TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
 
-        ClienteDTO cliente = new ClienteDTO();
-        cliente.setAltura(Float.parseFloat(altura));
-        cliente.setPeso(Float.parseFloat(peso));
-        cliente.setObjetivos(objetivos);
-        cliente.setUsuario(usuario);
-        clienteService.crearCliente(cliente, usuario);
+            tipoent.setTipo(tipoEntrenamiento);
+            usuario.setTipoEntrenamiento(tipoent);
 
-        return "redirect:/";
+            ClienteDTO cliente = new ClienteDTO();
+            cliente.setAltura(Float.parseFloat(altura));
+            cliente.setPeso(Float.parseFloat(peso));
+            cliente.setObjetivos(objetivos);
+            cliente.setUsuario(usuario);
+            clienteService.crearCliente(cliente, usuario);
+            return "redirect:/";
+        }catch (Exception e) {
+
+            return "errorRegistro";
+        }
+
     }
 
 
