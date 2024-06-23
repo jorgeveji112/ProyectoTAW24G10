@@ -89,6 +89,7 @@
         <%
             };
         %>
+        <button class="cancel-button" onclick="window.location.href='/clienteMain/rutina?fecha=<%=fechaLunes%>'">Atrás</button>
     </div>
 </div>
 </body>
