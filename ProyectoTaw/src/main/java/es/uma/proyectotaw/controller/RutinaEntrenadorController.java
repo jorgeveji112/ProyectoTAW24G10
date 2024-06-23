@@ -90,6 +90,7 @@ public class RutinaEntrenadorController extends BaseController{
         TipoentrenamientoDTO tipoEntrenamiento = usuario.getTipoEntrenamiento();
         rutina.setTipoentrenamiento(tipoEntrenamiento);
         rutinaPredefinidaService.saveNew(rutina);
+
         model.addAttribute("rutina", rutina);
         List<SesionentrenamientoDTO> listaSesiones = sesionEntrenamientoService.findByUsuario(usuario);
         model.addAttribute("listaSesiones", listaSesiones);

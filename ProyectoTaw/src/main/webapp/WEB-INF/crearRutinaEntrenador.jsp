@@ -74,6 +74,7 @@
                     <div id="lista-sesiones"></div>
                 </div>
                 <input type="hidden" name="id" value="<%=rutina.getId()%>">
+                <p> <%= rutina.getId()%></p>
                 <input type="submit" value="Guardar">
             </form>
         </div>

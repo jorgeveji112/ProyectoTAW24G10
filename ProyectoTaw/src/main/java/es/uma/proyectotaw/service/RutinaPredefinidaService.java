@@ -45,7 +45,8 @@ public class RutinaPredefinidaService extends DTOService<RutinaPredefinidaDTO, R
     }
 
     public RutinaPredefinidaDTO findById(Integer id) {
-        return this.rutinaPredefinidaRepository.findById(id).orElse(null).toDTO();
+        RutinaPredefinidaEntity rutinaEntity = this.rutinaPredefinidaRepository.findById(id).orElse(null);
+        return rutinaEntity.toDTO();
     }
 
     public void delete(RutinaPredefinidaDTO rutina) {

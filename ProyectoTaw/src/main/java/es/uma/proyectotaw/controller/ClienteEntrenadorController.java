@@ -88,7 +88,7 @@ public class ClienteEntrenadorController extends  BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
         UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
-        UsuarioDTO cliente = usuarioService.buscarUsuario(usuario.getId());
+        UsuarioDTO cliente = usuarioService.buscarUsuario(clienteId);
 
         List<RutinaPredefinidaDTO> rutinasEntrenador = rutinaPredefinidaService.findByUsuario(usuario);
         model.addAttribute("rutinasEntrenador", rutinasEntrenador);
