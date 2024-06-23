@@ -76,6 +76,9 @@ nav {
     margin: 15px;
     width: 85%;
     height: 75%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa transparent;
 }
 
 .boton {
