@@ -20,7 +20,6 @@
 --%>
 <%
     UsuarioDTO cliente = (UsuarioDTO) request.getAttribute("usuario");
-    List<SesionejercicioDTO> sesionesEjercicio = (List<SesionejercicioDTO>) request.getAttribute("ejercicios");
     List<ValoracionDTO> valoraciones = (List<ValoracionDTO>) request.getAttribute("valoraciones");
     String puntuacion = request.getParameter("puntuacion");
     if (puntuacion == null) puntuacion = "";
@@ -58,13 +57,14 @@
             <button class="btn-ver-valoraciones" onclick="window.location.href='/clienteMain/desarrollo?fecha=<%=fechaLunes%>'">Volver a desarrollo</button>
             <form method="post" action="/clienteMain/desarrollo/sesionesValoradas/filtrar" class="filtro-form">
                 <label for="puntuacion">Puntuacion:</label>
-                <select name="puntuacion" id="puntuacion" class="filtro-select">
+                <select name="puntuacion" id="puntuacion" class="filtro-select" onselect="">
                     <option></option>
-                    <option value="1">1 estrella</option>
-                    <option value="2">2 estrellas</option>
-                    <option value="3">3 estrellas</option>
-                    <option value="4">4 estrellas</option>
-                    <option value="5">5 estrellas</option>
+                    <option value="0" <%=("0".equals(puntuacion) ? "selected" : "")%> >0 estrellas</option>
+                    <option value="1" <%=("1".equals(puntuacion) ? "selected" : "")%> >1 estrella</option>
+                    <option value="2" <%=("2".equals(puntuacion) ? "selected" : "")%> >2 estrellas</option>
+                    <option value="3" <%=("3".equals(puntuacion) ? "selected" : "")%> >3 estrellas</option>
+                    <option value="4" <%=("4".equals(puntuacion) ? "selected" : "")%> >4 estrellas</option>
+                    <option value="5" <%=("5".equals(puntuacion) ? "selected" : "")%> >5 estrellas</option>
                 </select>
                 <input type="submit" value="Filtrar" class="filtro-boton">
             </form>
@@ -75,17 +75,13 @@
                 <p class="sin-rutina">No se ha encontrado ninguna sesion de ejercicio valorada</p>
                 <%
                 }else{
-                    for (SesionejercicioDTO sesionEjercicio : sesionesEjercicio) {
-                        ValoracionDTO valoracion = valoraciones.stream()
-                                .filter(val -> val.getSesionejercicio().equals(sesionEjercicio))
-                                .findFirst()
-                                .orElse(null);
+                    for (ValoracionDTO valoracion : valoraciones) {
                         int punt = (valoracion != null) ? valoracion.getPuntuacion() : 0;
                         String comentario = (valoracion != null && valoracion.getDescripcion() != null) ? valoracion.getDescripcion() : cliente.getNombre() + " " + cliente.getApellidos() + " no ha escrito ningún comentario todavía.";
                 %>
                 <div class="valoracion">
                     <div class="sesion">
-                        <p class="nombre-sesion"><%=sesionEjercicio.getEjercicio().getNombre()%></p>
+                        <p class="nombre-sesion"><%=valoracion.getSesionejercicio().getEjercicio().getNombre()%></p>
                         <div class="contenedor-iconos">
                             <% for (int i = 0; i < punt; i++) { %>
                             <img src="/img/estrellaamarilla.png" alt="Estrella Amarilla" class="img-icono">
@@ -99,9 +95,9 @@
                     </div>
                     <div class="sesion">
                         <div class="intensidad-div">
-                            <p><input type="text" readonly value="<%= (sesionEjercicio.getSeries() != null) ? sesionEjercicio.getSeries() : "-" %>" class="intensidad" name="series"> series</p>
-                            <p><input type="text" readonly value="<%= (sesionEjercicio.getRepeticiones() != null) ? sesionEjercicio.getRepeticiones() : "-" %>" class="intensidad" name="repeticiones"> repeticiones</p>
-                            <p><input type="text" readonly value="<%= (sesionEjercicio.getDuracion() != null) ? sesionEjercicio.getDuracion() : "-" %>" class="intensidad" name="duracion"> min</p>
+                            <p><input type="text" readonly value="<%= (valoracion.getSesionejercicio().getSeries() != null) ? valoracion.getSesionejercicio().getSeries() : "-" %>" class="intensidad" name="series"> series</p>
+                            <p><input type="text" readonly value="<%= (valoracion.getSesionejercicio().getRepeticiones() != null) ? valoracion.getSesionejercicio().getRepeticiones() : "-" %>" class="intensidad" name="repeticiones"> repeticiones</p>
+                            <p><input type="text" readonly value="<%= (valoracion.getSesionejercicio().getDuracion() != null) ? valoracion.getSesionejercicio().getDuracion() : "-" %>" class="intensidad" name="duracion"> min</p>
                         </div>
                         <div class="descripcion-div">
                             Comentario:

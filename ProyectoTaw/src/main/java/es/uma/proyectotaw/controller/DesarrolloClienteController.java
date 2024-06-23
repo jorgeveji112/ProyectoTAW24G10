@@ -108,9 +108,7 @@ public class DesarrolloClienteController extends BaseController {
         ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
         List<ValoracionDTO>  valoraciones = valoracionService.buscarTodo();
-        List<SesionejercicioDTO> ejercicios = valoraciones.stream().map(ValoracionDTO::getSesionejercicio).toList();
         model.addAttribute("usuario", usuario);
-        model.addAttribute("ejercicios", ejercicios);
         model.addAttribute("valoraciones", valoraciones);
         return "sesionesValoradas";
     }
@@ -127,12 +125,10 @@ public class DesarrolloClienteController extends BaseController {
             strTo = "redirect:/clienteMain/desarrollo/sesionesValoradas";
         } else {
             List<ValoracionDTO>  valoraciones = valoracionService.buscarPorPuntuacion(puntuacion);
-            List<SesionejercicioDTO> ejercicios = valoraciones.stream().map(ValoracionDTO::getSesionejercicio).toList();
             ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
             UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
             model.addAttribute("valoraciones", valoraciones);
             model.addAttribute("usuario", usuario);
-            model.addAttribute("ejercicios", ejercicios);
         }
 
         return strTo;
