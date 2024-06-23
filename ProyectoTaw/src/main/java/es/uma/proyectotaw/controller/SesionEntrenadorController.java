@@ -83,7 +83,7 @@ public class SesionEntrenadorController extends BaseController{
         SesionentrenamientoDTO sesion = new SesionentrenamientoDTO();
         UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         sesion.setUsuario(usuario);
-        sesionEntrenamientoService.saveNew(sesion);
+        sesion = sesionEntrenamientoService.saveNew(sesion);
         model.addAttribute("sesion", sesion);
         return "crearSesionEntrenador";
     }
@@ -110,7 +110,7 @@ public class SesionEntrenadorController extends BaseController{
             // Eliminar la sesión de ejercicio
             sesionEjercicioService.delete(sesionEjercicio);
         }
-        sesionEntrenamientoService.deleteById(id);
+        sesionEntrenamientoService.delete(sesion);
         return "redirect:/entrenadorMain/sesiones";
     }
     @GetMapping("/entrenadorMain/sesiones/ver")
@@ -222,7 +222,7 @@ public class SesionEntrenadorController extends BaseController{
                 sesionEjercicio.setSeries(seriesInt.get(i));
                 sesionEjercicio.setRepeticiones(repeticionesInt.get(i));
                 sesionEjercicio.setDuracion(duracionInt.get(i));
-                sesionEjercicioService.saveNew(sesionEjercicio);
+                sesionEjercicio = sesionEjercicioService.saveNew(sesionEjercicio);
                 sesionHasSesion.setSesionejercicio(sesionEjercicio);
                 sesionHasSesion.setPosicion(i); // Establecer la posición
                 sesionentrenamientoHasSesionejercicioService.saveNew(sesionHasSesion);

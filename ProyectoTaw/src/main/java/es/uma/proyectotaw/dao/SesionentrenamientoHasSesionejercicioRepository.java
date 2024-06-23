@@ -13,7 +13,7 @@ import java.util.List;
 public interface SesionentrenamientoHasSesionejercicioRepository extends JpaRepository<SesionentrenamientoHasSesionejercicioEntity, SesionentrenamientoHasSesionejercicioEntityPK> {
     List<SesionentrenamientoHasSesionejercicioEntity> findBySesionentrenamientoOrderByPosicion(SesionentrenamientoEntity sesionEntrenamiento);
 
-    void deleteBySesionentrenamientoId(Integer id);
+    void deleteBySesionentrenamiento(SesionentrenamientoEntity sesionentrenamiento);
 
     SesionentrenamientoHasSesionejercicioEntity findBySesionejercicioAndAndSesionentrenamiento(SesionejercicioEntity sesionejercicioEntity, SesionentrenamientoEntity sesionentrenamientoEntity);
 }

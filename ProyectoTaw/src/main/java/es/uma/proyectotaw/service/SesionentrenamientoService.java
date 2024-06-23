@@ -31,15 +31,16 @@ public class SesionentrenamientoService extends DTOService<SesionentrenamientoDT
         return sesion.toDTO();
     }
 
-    public void saveNew(SesionentrenamientoDTO sesion) {
+    public SesionentrenamientoDTO saveNew(SesionentrenamientoDTO sesion) {
         SesionentrenamientoEntity sesionEntity = new SesionentrenamientoEntity();
         UsuarioEntity usuario = this.usuarioRepository.findById(sesion.getUsuario().getId()).orElse(null);
         sesionEntity.setUsuario(usuario);
         this.sesionentrenamientoRepository.save(sesionEntity);
+        return sesionEntity.toDTO();
     }
 
-    public void deleteById(Integer id) {
-        SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(id).orElse(null);
+    public void delete(SesionentrenamientoDTO sesionentrenamientoDTO) {
+        SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(sesionentrenamientoDTO.getId()).orElse(null);
         this.sesionentrenamientoRepository.delete(sesion);
     }
 
@@ -47,6 +48,8 @@ public class SesionentrenamientoService extends DTOService<SesionentrenamientoDT
         SesionentrenamientoEntity sesionEntity = this.sesionentrenamientoRepository.findById(sesion.getId()).orElse(null);
         UsuarioEntity usuario = this.usuarioRepository.findById(sesion.getUsuario().getId()).orElse(null);
         sesionEntity.setUsuario(usuario);
+        sesionEntity.setNombre(sesion.getNombre());
+        sesionEntity.setDescripcion(sesion.getDescripcion());
         this.sesionentrenamientoRepository.save(sesionEntity);
     }
 }

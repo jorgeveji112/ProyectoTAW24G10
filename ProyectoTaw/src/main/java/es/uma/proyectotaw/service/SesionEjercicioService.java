@@ -30,7 +30,7 @@ public class SesionEjercicioService {
         this.sesionejercicioRepository.delete(sesionejercicioEntity);
     }
 
-    public void saveNew(SesionejercicioDTO sesionEjercicio) {
+    public SesionejercicioDTO saveNew(SesionejercicioDTO sesionEjercicio) {
         SesionejercicioEntity sesionejercicioEntity = new SesionejercicioEntity();
         EjercicioEntity ejercicio = this.ejercicioRepository.findById(sesionEjercicio.getEjercicio().getId()).orElse(null);
         sesionejercicioEntity.setEjercicio(ejercicio);
@@ -38,5 +38,6 @@ public class SesionEjercicioService {
         sesionejercicioEntity.setRepeticiones(sesionEjercicio.getRepeticiones());
         sesionejercicioEntity.setDuracion(sesionEjercicio.getDuracion());
         this.sesionejercicioRepository.save(sesionejercicioEntity);
+        return sesionejercicioEntity.toDTO();
     }
 }
