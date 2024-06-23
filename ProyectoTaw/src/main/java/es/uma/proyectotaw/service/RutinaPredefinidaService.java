@@ -54,7 +54,7 @@ public class RutinaPredefinidaService extends DTOService<RutinaPredefinidaDTO, R
         this.rutinaPredefinidaRepository.delete(rutinaEntity);
     }
 
-    public void saveNew(RutinaPredefinidaDTO rutina) {
+    public RutinaPredefinidaDTO saveNew(RutinaPredefinidaDTO rutina) {
         RutinaPredefinidaEntity r = new RutinaPredefinidaEntity();
         r.setNombre(rutina.getNombre());
         r.setObjetivos(rutina.getObjetivos());
@@ -64,6 +64,6 @@ public class RutinaPredefinidaService extends DTOService<RutinaPredefinidaDTO, R
         TipoentrenamientoEntity t = this.tipoentrenamientoRepository.findById(rutina.getTipoentrenamiento().getId()).orElse(null);
         r.setTipoEntrenamiento(t);
         this.rutinaPredefinidaRepository.save(r);
-
+        return r.toDTO();
     }
 }

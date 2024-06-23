@@ -76,7 +76,6 @@
                     </div>
                     <input type="hidden" name="id" value="<%=sesion.getId()%>">
                     <input type="submit" value="Guardar">
-                    <p><%=sesion.getId()%></p>
                 </form>
             </div>
         </div>

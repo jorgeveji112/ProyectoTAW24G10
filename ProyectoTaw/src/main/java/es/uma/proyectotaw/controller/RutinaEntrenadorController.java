@@ -89,8 +89,7 @@ public class RutinaEntrenadorController extends BaseController{
         rutina.setUsuario(usuario);
         TipoentrenamientoDTO tipoEntrenamiento = usuario.getTipoEntrenamiento();
         rutina.setTipoentrenamiento(tipoEntrenamiento);
-        rutinaPredefinidaService.saveNew(rutina);
-
+        rutina = rutinaPredefinidaService.saveNew(rutina);
         model.addAttribute("rutina", rutina);
         List<SesionentrenamientoDTO> listaSesiones = sesionEntrenamientoService.findByUsuario(usuario);
         model.addAttribute("listaSesiones", listaSesiones);
@@ -166,7 +165,7 @@ public class RutinaEntrenadorController extends BaseController{
             RutinaSesionentrenamientoDTO rutinaHasSesion = new RutinaSesionentrenamientoDTO();
             rutinaHasSesion.setRutinaPredefinida(rutina);
 
-            SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(i);
+            SesionentrenamientoDTO sesion = sesionEntrenamientoService.buscarPorId(sesiones.get(i));
 
             rutinaHasSesion.setSesionentrenamiento(sesion);
             rutinaHasSesion.setPosicion(i);

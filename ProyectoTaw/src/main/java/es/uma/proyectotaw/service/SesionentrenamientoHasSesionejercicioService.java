@@ -35,8 +35,8 @@ public class SesionentrenamientoHasSesionejercicioService extends DTOService<Ses
     }
 
     public void delete(SesionentrenamientoHasSesionejercicioDTO sesionHasSesion) {
-        SesionentrenamientoEntity sesion = this.sesionentrenamientoRepository.findById(sesionHasSesion.getSesionentrenamiento().getId()).orElse(null);
-        this.sesionentrenamientoHasSesionejercicioRepository.deleteBySesionentrenamientoId(sesion.getId());
+        SesionentrenamientoEntity sesionentrenamientoEntity = this.sesionentrenamientoRepository.findById(sesionHasSesion.getSesionejercicio().getId()).orElse(null);
+        this.sesionentrenamientoHasSesionejercicioRepository.deleteBySesionentrenamiento(sesionentrenamientoEntity);
     }
 
     public void save(SesionentrenamientoHasSesionejercicioDTO sesionHasSesion) {
@@ -52,12 +52,11 @@ public class SesionentrenamientoHasSesionejercicioService extends DTOService<Ses
 
     public void saveNew(SesionentrenamientoHasSesionejercicioDTO sesionHasSesion) {
         SesionentrenamientoHasSesionejercicioEntity s = new SesionentrenamientoHasSesionejercicioEntity();
-        EjercicioEntity ejc = this.ejercicioRepository.findById(sesionHasSesion.getSesionejercicio().getEjercicio().getId()).orElse(null);
-        s.getSesionejercicio().setEjercicio(ejc);
-        s.getSesionejercicio().setSeries(sesionHasSesion.getSesionejercicio().getSeries());
-        s.getSesionejercicio().setRepeticiones(sesionHasSesion.getSesionejercicio().getRepeticiones());
-        s.getSesionejercicio().setDuracion(sesionHasSesion.getSesionejercicio().getDuracion());
+        SesionentrenamientoEntity sesionentrenamientoEntity = this.sesionentrenamientoRepository.findById(sesionHasSesion.getSesionentrenamiento().getId()).orElse(null);
+        SesionejercicioEntity sesionejercicioEntity = this.sesionEjercicioRepository.findById(sesionHasSesion.getSesionejercicio().getId()).orElse(null);
+        s.setSesionejercicio(sesionejercicioEntity);
         s.setPosicion(sesionHasSesion.getPosicion());
+        s.setSesionentrenamiento(sesionentrenamientoEntity);
         this.sesionentrenamientoHasSesionejercicioRepository.save(s);
 
     }
