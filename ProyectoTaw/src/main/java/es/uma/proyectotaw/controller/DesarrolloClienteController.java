@@ -105,7 +105,7 @@ public class DesarrolloClienteController extends BaseController {
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
-        List<ValoracionDTO>  valoraciones = valoracionService.buscarTodo();
+        List<ValoracionDTO>  valoraciones = valoracionService.buscarPorUsuario(usuario);
         model.addAttribute("usuario", usuario);
         model.addAttribute("valoraciones", valoraciones);
         return "sesionesValoradas";
@@ -122,9 +122,9 @@ public class DesarrolloClienteController extends BaseController {
         if (puntuacion == null ) {
             strTo = "redirect:/clienteMain/desarrollo/sesionesValoradas";
         } else {
-            List<ValoracionDTO>  valoraciones = valoracionService.buscarPorPuntuacion(puntuacion);
             ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
             UsuarioDTO usuario = usuarioService.buscarUsuario(cliente.getId());
+            List<ValoracionDTO>  valoraciones = valoracionService.buscarPorPuntuacionYUsuario(puntuacion,usuario);
             model.addAttribute("valoraciones", valoraciones);
             model.addAttribute("usuario", usuario);
         }

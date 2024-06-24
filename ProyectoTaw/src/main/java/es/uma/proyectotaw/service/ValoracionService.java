@@ -89,13 +89,15 @@ public class ValoracionService extends DTOService<ValoracionDTO, ValoracionEntit
         return this.entidadesADTO(valoraciones);
     }
 
-    public List<ValoracionDTO> buscarTodo() {
-        List<ValoracionEntity> valoraciones = this.valoracionRepository.findAll();
+    public List<ValoracionDTO> buscarPorUsuario(UsuarioDTO usuario) {
+        UsuarioEntity usuarioEntity = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+        List<ValoracionEntity> valoraciones = this.valoracionRepository.findByUsuario(usuarioEntity);
         return this.entidadesADTO(valoraciones);
     }
 
-    public List<ValoracionDTO> buscarPorPuntuacion(Integer puntuacion) {
-        List<ValoracionEntity> valoraciones = this.valoracionRepository.findByPuntuacion(puntuacion);
+    public List<ValoracionDTO> buscarPorPuntuacionYUsuario(Integer puntuacion, UsuarioDTO usuario) {
+        UsuarioEntity usuarioEntity = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+        List<ValoracionEntity> valoraciones = this.valoracionRepository.findByPuntuacionAndUsuario(puntuacion,usuarioEntity);
         return this.entidadesADTO(valoraciones);
     }
 }

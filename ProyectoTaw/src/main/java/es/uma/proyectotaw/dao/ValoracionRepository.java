@@ -18,5 +18,7 @@ public interface ValoracionRepository extends JpaRepository<ValoracionEntity, Va
 
     ValoracionEntity findByUsuarioAndRutinaAsignadaAndSesionejercicio(UsuarioEntity usuario, RutinaAsignadaEntity rutinaAsignada, SesionejercicioEntity sesion);
 
-    List<ValoracionEntity> findByPuntuacion(Integer puntuacion);
+    List<ValoracionEntity> findByPuntuacionAndUsuario(Integer puntuacion, UsuarioEntity usuario);
+
+    List<ValoracionEntity> findByUsuario(UsuarioEntity usuario);
 }
