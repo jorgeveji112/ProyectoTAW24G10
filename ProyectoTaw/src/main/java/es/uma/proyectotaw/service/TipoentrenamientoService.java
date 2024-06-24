@@ -18,4 +18,11 @@ public class TipoentrenamientoService extends DTOService<TipoentrenamientoDTO, T
         List<TipoentrenamientoEntity> entities = this.tipoentrenamientoRepository.findAll();
         return this.entidadesADTO(entities);
     }
+
+    public TipoentrenamientoDTO crearTipoentrenamiento (TipoentrenamientoDTO tipoentrenamientoDTO) {
+        TipoentrenamientoEntity entity = new TipoentrenamientoEntity();
+        entity.setTipo(tipoentrenamientoDTO.getTipo());
+        this.tipoentrenamientoRepository.save(entity);
+        return entity.toDTO();
+    }
 }

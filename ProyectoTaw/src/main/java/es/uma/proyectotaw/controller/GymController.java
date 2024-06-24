@@ -94,7 +94,7 @@ public class GymController extends BaseController{
             usuario.setRol(trolService.buscarRolPorId(3));
 
             TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
-
+            tipoent = tipoentrenamientoService.crearTipoentrenamiento(tipoent);
             tipoent.setTipo(tipoEntrenamiento);
             usuario.setTipoEntrenamiento(tipoent);
             usuarioService.crearUsuario(usuario);
@@ -109,22 +109,26 @@ public class GymController extends BaseController{
     @PostMapping("/login")
     public String login(@ModelAttribute("usuario") Usuario user,
                         Model model, HttpSession session) {
-        UsuarioDTO usuario = usuarioService.buscarUsuarioPorUsuarioYContraseña(user.getUser(),user.getPassword());
-        if (usuario != null) {
-            RolEnum rol = usuario.getRol().getRol();
-            session.setAttribute("usuario", usuario);
-            if(rol == RolEnum.admin) {
-                return "redirect:/adminMain";
-            }else if(rol == RolEnum.entrenador) {
-                return "redirect:/entrenadorMain";
-            }else if(rol == RolEnum.cliente){
-                ClienteDTO cliente = clienteService.buscarCliente(usuario.getId());
-                session.setAttribute("cliente", cliente);
+        try{
+            UsuarioDTO usuario = usuarioService.buscarUsuarioPorUsuarioYContraseña(user.getUser(),user.getPassword());
+            if (usuario != null) {
+                RolEnum rol = usuario.getRol().getRol();
+                session.setAttribute("usuario", usuario);
+                if(rol == RolEnum.admin) {
+                    return "redirect:/adminMain";
+                }else if(rol == RolEnum.entrenador) {
+                    return "redirect:/entrenadorMain";
+                }else if(rol == RolEnum.cliente){
+                    ClienteDTO cliente = clienteService.buscarCliente(usuario.getId());
+                    session.setAttribute("cliente", cliente);
                     return "redirect:/clienteMain";
+                }
             }
+        }catch (Exception e) {
+            model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
+            return "acceso"; // Reenvía al mismo formulario de inicio de sesión
         }
-        model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
-        return "acceso"; // Reenvía al mismo formulario de inicio de sesión
+        return "";
     }
 
 
@@ -155,6 +159,7 @@ public class GymController extends BaseController{
             TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
 
             tipoent.setTipo(tipoEntrenamiento);
+            tipoent = tipoentrenamientoService.crearTipoentrenamiento(tipoent);
             usuario.setTipoEntrenamiento(tipoent);
 
             ClienteDTO cliente = new ClienteDTO();
