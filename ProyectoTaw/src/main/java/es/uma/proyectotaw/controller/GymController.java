@@ -94,8 +94,8 @@ public class GymController extends BaseController{
             usuario.setRol(trolService.buscarRolPorId(3));
 
             TipoentrenamientoDTO tipoent = new TipoentrenamientoDTO();
-            tipoent = tipoentrenamientoService.crearTipoentrenamiento(tipoent);
             tipoent.setTipo(tipoEntrenamiento);
+            tipoent = tipoentrenamientoService.crearTipoentrenamiento(tipoent);
             usuario.setTipoEntrenamiento(tipoent);
             usuarioService.crearUsuario(usuario);
             return "redirect:/";
