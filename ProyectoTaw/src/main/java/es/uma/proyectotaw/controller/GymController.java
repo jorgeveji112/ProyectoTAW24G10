@@ -1,18 +1,11 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.TipoentrenamientoDTO;
-import es.uma.proyectotaw.dto.UsuarioDTO;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.ClienteRepository;
-import es.uma.proyectotaw.dao.TipoentrenamientoRepository;
-import es.uma.proyectotaw.dao.TrolRepository;
-import es.uma.proyectotaw.service.ClienteService;
-import es.uma.proyectotaw.service.TRolService;
-import es.uma.proyectotaw.service.TipoentrenamientoService;
-import es.uma.proyectotaw.service.UsuarioService;
-import es.uma.proyectotaw.ui.Usuario;
-import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,15 +14,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-//Alba Ruiz -> registro entrenadores
-//Jorge Velazquez -> registro cliente y refactorizacion
-//Pablo Pardo -> login
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.TipoentrenamientoDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.entity.RolEnum;
+import es.uma.proyectotaw.entity.TipoentrenamientoEnum;
+import es.uma.proyectotaw.service.ClienteService;
+import es.uma.proyectotaw.service.TRolService;
+import es.uma.proyectotaw.service.TipoentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.ui.Usuario;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class GymController extends BaseController{
@@ -180,7 +175,7 @@ public class GymController extends BaseController{
     @GetMapping("/adminMain")
     public String doAdminMain() {
         // Aquí puedes agregar lógica para obtener datos necesarios para la vista de administrador
-        return "mainAdmin"; // Retorna el nombre de la vista de administrador
+        return "admin/mainAdmin"; // Retorna el nombre de la vista de administrador
     }
 
 

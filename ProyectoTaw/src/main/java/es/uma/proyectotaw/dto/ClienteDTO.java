@@ -4,7 +4,6 @@ import es.uma.proyectotaw.entity.UsuarioEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-// Realizado por Carlos Gálvez Bravo
 @Data
 public class ClienteDTO {
     private Integer id;

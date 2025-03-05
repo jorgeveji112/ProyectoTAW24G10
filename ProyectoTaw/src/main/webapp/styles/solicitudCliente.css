@@ -137,3 +137,23 @@ h1 {
     color: #fff;
     white-space: nowrap;
 }
+.filtrar {
+    background: linear-gradient(#B10028, #D55005);
+    display: flex;
+    justify-content: center;
+    padding: 7px 12px;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: none;
+    border: none;
+    font-size: 1.1em;
+}
+
+.filtrar:hover {
+    background: linear-gradient(#A00017, #C44004);
+}

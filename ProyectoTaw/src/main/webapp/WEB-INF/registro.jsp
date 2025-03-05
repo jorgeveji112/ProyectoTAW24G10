@@ -1,13 +1,9 @@
-<%--Creador: Jorge Velázquez Jiménez--%>
+
 <%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEnum" %><%-- Created by IntelliJ IDEA. User: BEEP Date: 26/04/2024 Time: 12:16 To change
-this template use File | Settings | File Templates. --%> <%@ page
+<%@ page import="es.uma.proyectotaw.entity.TipoentrenamientoEnum" %><%@ page
 contentType="text/html;charset=UTF-8" language="java" %>
-<%
 
-
-%>
 
 <html>
     <head>

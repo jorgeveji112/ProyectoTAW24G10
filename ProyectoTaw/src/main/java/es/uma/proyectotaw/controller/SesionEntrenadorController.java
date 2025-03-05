@@ -1,10 +1,10 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.service.*;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -13,13 +13,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import es.uma.proyectotaw.dto.EjercicioDTO;
+import es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionejercicioDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoHasSesionejercicioDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.ValoracionDTO;
+import es.uma.proyectotaw.service.EjercicioService;
+import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
+import es.uma.proyectotaw.service.SesionEjercicioService;
+import es.uma.proyectotaw.service.SesionentrenamientoHasSesionejercicioService;
+import es.uma.proyectotaw.service.SesionentrenamientoService;
+import es.uma.proyectotaw.service.ValoracionService;
+import jakarta.servlet.http.HttpSession;
 
-// Pablo Pardo Fernández - 50% (Listar/ Crear/Borrar/Ver/Guardar Sesiones primera version)
-//Alba Ruiz Gutiérrez 50% (Filtros, ver ejercicio primera version y segunda version entera + refactor)
 @Controller
 public class SesionEntrenadorController extends BaseController{
 
@@ -49,7 +57,7 @@ public class SesionEntrenadorController extends BaseController{
         UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         List<SesionentrenamientoDTO> sesiones = sesionEntrenamientoService.findByUsuario(usuario);
         model.addAttribute("sesiones", sesiones);
-        return "sesionesEntrenador";
+        return "entrenador/sesionesEntrenador";
     }
 
     @PostMapping("/entrenadorMain/sesiones/filtrar")
@@ -72,7 +80,7 @@ public class SesionEntrenadorController extends BaseController{
         model.addAttribute("filtro", filtro);
         model.addAttribute("sesiones", listaFiltrada);
         model.addAttribute("entrenador", usuario);
-        return "sesionesEntrenador";
+        return "entrenador/sesionesEntrenador";
     }
 
     @GetMapping("/entrenadorMain/sesiones/crear")
@@ -85,7 +93,7 @@ public class SesionEntrenadorController extends BaseController{
         sesion.setUsuario(usuario);
         sesion = sesionEntrenamientoService.saveNew(sesion);
         model.addAttribute("sesion", sesion);
-        return "crearSesionEntrenador";
+        return "entrenador/crearSesionEntrenador";
     }
 
     //Borrar Sesion
@@ -123,7 +131,7 @@ public class SesionEntrenadorController extends BaseController{
         List<EjercicioDTO> listaEjercicios = ejercicioService.buscarPorTipoEntrenamiento(sesion.getUsuario().getTipoEntrenamiento());
         model.addAttribute("listaEjercicios", listaEjercicios);
 
-        return "verSesionEntrenador";
+        return "entrenador/verSesionEntrenador";
     }
 
 
@@ -133,7 +141,7 @@ public class SesionEntrenadorController extends BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
         EjercicioDTO ejercicio = ejercicioService.buscarEjercicio(id);
         model.addAttribute("ejercicio", ejercicio);
-        return "verEjercicioEntrenador";
+        return "entrenador/verEjercicioEntrenador";
     }
 
     private List<Integer> convertirAEnteros(List<String> valores) {

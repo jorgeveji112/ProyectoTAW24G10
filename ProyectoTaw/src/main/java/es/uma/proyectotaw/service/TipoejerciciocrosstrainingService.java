@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// Realizado por Carlos Gálvez Bravo
 
 @Service
 public class TipoejerciciocrosstrainingService extends DTOService<TipoejerciciocrosstrainingDTO, TipoejerciciocrosstrainingEntity>{

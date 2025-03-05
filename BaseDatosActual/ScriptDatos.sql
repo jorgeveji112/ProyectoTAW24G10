@@ -9,13 +9,6 @@ INSERT INTO tipoejerciciocrosstraining (tipo) VALUES
 ('estabilidad'),
 ('movilidad');
 
-INSERT INTO tipoejerciciocrosstraining (tipo) VALUES 
-('fuerza/resistencia'),
-('capacidad aeróbica'),
-('velocidad/potencia'),
-('estabilidad'),
-('movilidad');
-
 INSERT INTO tipoejerciciobodybuilding (tipo) VALUES 
 ('pierna'),
 ('hombro'),

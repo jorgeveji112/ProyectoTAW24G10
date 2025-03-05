@@ -1,8 +1,8 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.service.*;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
+import es.uma.proyectotaw.dto.RutinaPredefinidaDTO;
+import es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.TipoentrenamientoDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.ValoracionDTO;
+import es.uma.proyectotaw.service.RutinaAsignadaService;
+import es.uma.proyectotaw.service.RutinaPredefinidaService;
+import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
+import es.uma.proyectotaw.service.SesionentrenamientoService;
+import es.uma.proyectotaw.service.ValoracionService;
+import jakarta.servlet.http.HttpSession;
 
-// Pablo Pardo Fernández - 50% (Listar/ Crear/Borrar/Ver/Guardar rutinas primera version)
-//Alba Ruiz Gutiérrez 50% (Filtros primera version y segunda version entera + refactor)
 @Controller
 public class RutinaEntrenadorController extends BaseController{
 
@@ -45,7 +54,7 @@ public class RutinaEntrenadorController extends BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
         UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         model.addAttribute("usuario", usuario);
-        return "mainEntrenador";
+        return "entrenador/mainEntrenador";
     }
 
     @GetMapping("/entrenadorMain/rutinas")
@@ -54,7 +63,7 @@ public class RutinaEntrenadorController extends BaseController{
         UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         List<RutinaPredefinidaDTO> rutinas = rutinaPredefinidaService.findByUsuario(usuario);
         model.addAttribute("rutinas", rutinas);
-        return "rutinasEntrenador";
+        return "entrenador/rutinasEntrenador";
     }
 
     @PostMapping("/entrenadorMain/rutinas/filtrar")
@@ -78,7 +87,7 @@ public class RutinaEntrenadorController extends BaseController{
         model.addAttribute("filtro", filtro);
         model.addAttribute("rutinas", listaFiltrada);
         model.addAttribute("entrenador", usuario);
-        return "rutinasEntrenador";
+        return "entrenador/rutinasEntrenador";
     }
 
     @GetMapping("/entrenadorMain/rutinas/crear")
@@ -93,7 +102,7 @@ public class RutinaEntrenadorController extends BaseController{
         model.addAttribute("rutina", rutina);
         List<SesionentrenamientoDTO> listaSesiones = sesionEntrenamientoService.findByUsuario(usuario);
         model.addAttribute("listaSesiones", listaSesiones);
-        return "crearRutinaEntrenador";
+        return "entrenador/crearRutinaEntrenador";
     }
 
     @GetMapping("/entrenadorMain/rutinas/borrar")
@@ -140,7 +149,7 @@ public class RutinaEntrenadorController extends BaseController{
         List<SesionentrenamientoDTO> listaSesiones = sesionEntrenamientoService.findByUsuario(rutina.getUsuario());
         model.addAttribute("listaSesiones", listaSesiones);
 
-        return "verRutinaEntrenador";
+        return "entrenador/verRutinaEntrenador";
     }
 
     @PostMapping("/entrenadorMain/rutinas/guardar")

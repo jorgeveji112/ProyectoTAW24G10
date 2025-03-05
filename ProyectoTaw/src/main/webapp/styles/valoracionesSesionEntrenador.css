@@ -349,9 +349,7 @@ input.intensidad{
     font-size: 20px;
     width: 50%;
 }
-#label-nombre span{
 
-}
 .label{
     width: fit-content;
     white-space: nowrap;
@@ -390,6 +388,7 @@ input.intensidad{
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+
 
 .filtro-boton {
     font-size: 16px;

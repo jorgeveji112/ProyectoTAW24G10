@@ -3,7 +3,6 @@ package es.uma.proyectotaw.dto;
 import es.uma.proyectotaw.entity.TipoentrenamientoEntity;
 import lombok.Data;
 
-//Realizado por Carlos Gálvez Bravo
 @Data
 public class EjercicioDTO {
     private int id;

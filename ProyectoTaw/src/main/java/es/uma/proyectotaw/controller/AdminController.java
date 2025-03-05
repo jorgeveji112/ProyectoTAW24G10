@@ -1,8 +1,7 @@
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.service.*;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +9,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.List;
 
-// Realizado por Carlos Gálvez Bravo
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.EjercicioDTO;
+import es.uma.proyectotaw.dto.TipoejerciciobodybuildingDTO;
+import es.uma.proyectotaw.dto.TipoejerciciocrosstrainingDTO;
+import es.uma.proyectotaw.dto.TipoentrenamientoDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.service.ClienteService;
+import es.uma.proyectotaw.service.EjercicioService;
+import es.uma.proyectotaw.service.TipoejerciciobodybuildingService;
+import es.uma.proyectotaw.service.TipoejerciciocrosstrainingService;
+import es.uma.proyectotaw.service.TipoentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class AdminController extends BaseController{
 
@@ -36,7 +47,7 @@ public class AdminController extends BaseController{
 
     @GetMapping("/adminMain/inicio")
     public String doAdminMain() {
-        return "mainAdmin";
+        return "admin/mainAdmin";
     }
 
     // RAMA DE LISTA DE ENTRENADORES //////////////////////////////////////////////////////////////////
@@ -46,12 +57,12 @@ public class AdminController extends BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
         List<UsuarioDTO> entrenadoresBodyBuilding = usuarioService.listarEntrenadoresBodyBuilding();
-        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTrainig();
+        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTraining();
 
         model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
         model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
 
-        return "listaEntrenadores";
+        return "admin/listaEntrenadores";
     }
 
     @GetMapping("/adminMain/borrarEntrenador/{id}")
@@ -70,7 +81,7 @@ public class AdminController extends BaseController{
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaClientes);
 
-        return "clientesAsignadosEntrenador";
+        return "admin/clientesAsignadosEntrenador";
     }
 
     @GetMapping("/adminMain/entrenador/desasignarCliente/{id}")
@@ -89,12 +100,12 @@ public class AdminController extends BaseController{
 
         UsuarioDTO entrenador = usuarioService.buscarUsuario(idEntrenador);
         // si la lista filtrada está vacía, se mostrará la lista completa
-        List<UsuarioDTO> listaFiltrada = usuarioService.fliltrarClientesAsignadosEntrenador(idEntrenador, filtro);
+        List<UsuarioDTO> listaFiltrada = usuarioService.filtrarClientesAsignadosEntrenador(idEntrenador, filtro);
 
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaFiltrada);
 
-        return "clientesAsignadosEntrenador";
+        return "admin/clientesAsignadosEntrenador";
     }
 
     @GetMapping("/adminMain/nuevosClientesEntrenador/{id}")
@@ -107,7 +118,7 @@ public class AdminController extends BaseController{
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaClientes);
 
-        return "clientesSinEntrenador";
+        return "admin/clientesSinEntrenador";
     }
 
     @GetMapping("/adminMain/asignarClienteEntrenador")
@@ -129,7 +140,7 @@ public class AdminController extends BaseController{
 
         model.addAttribute("entrenador", entrenador);
         model.addAttribute("listaClientes", listaFiltrada);
-        return "clientesSinEntrenador";
+        return "admin/clientesSinEntrenador";
     }
 
     // RAMA DE LISTA DE CLIENTES //////////////////////////////////////////////////////////////////////
@@ -140,12 +151,14 @@ public class AdminController extends BaseController{
 
         List<UsuarioDTO> listaClientes = usuarioService.listarUsuariosPorRol("cliente");
         List<UsuarioDTO> entrenadoresBodyBuilding = usuarioService.listarEntrenadoresBodyBuilding();
-        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTrainig();
+        System.out.println(entrenadoresBodyBuilding);
+        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTraining();
+        System.out.println(entrenadoresCrossTraining);
 
         model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
         model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
         model.addAttribute("listaClientes", listaClientes);
-        return "listaClientes";
+        return "admin/listaClientes";
     }
 
     @PostMapping("/adminMain/editarCliente")
@@ -168,13 +181,13 @@ public class AdminController extends BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
 
         List<UsuarioDTO> entrenadoresBodyBuilding = usuarioService.listarEntrenadoresBodyBuilding();
-        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTrainig();
+        List<UsuarioDTO> entrenadoresCrossTraining = usuarioService.listarEntrenadoresCrossTraining();
         List<UsuarioDTO> listaFiltrada = usuarioService.filtrarClientes(filtro);
 
         model.addAttribute("entrenadoresBodyBuilding", entrenadoresBodyBuilding);
         model.addAttribute("entrenadoresCrossTraining", entrenadoresCrossTraining);
         model.addAttribute("listaClientes", listaFiltrada);
-        return "listaClientes";
+        return "admin/listaClientes";
     }
 
     // RAMA DE LISTA DE SOLICITUDES /////////////////////////////////////////////////////////////////
@@ -188,7 +201,7 @@ public class AdminController extends BaseController{
 
         model.addAttribute("listaEntrenadores", listaEntrenadores);
         model.addAttribute("listaClientes", listaClientes);
-        return "listaSolicitudes";
+        return "admin/listaSolicitudes";
     }
 
     @GetMapping("/adminMain/solicitud/aceptar/{id}")
@@ -210,7 +223,7 @@ public class AdminController extends BaseController{
         UsuarioDTO usuario = usuarioService.buscarUsuario(id);
 
         model.addAttribute("usuario", usuario);
-        return "solicitudEntrenador";
+        return "admin/solicitudEntrenador";
     }
 
     @GetMapping("/adminMain/solicitud/cliente/{id}")
@@ -222,7 +235,7 @@ public class AdminController extends BaseController{
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("cliente", cliente);
-        return "solicitudCliente";
+        return "admin/solicitudCliente";
     }
 
 
@@ -236,7 +249,7 @@ public class AdminController extends BaseController{
         List<EjercicioDTO> listaEjercicios = ejercicioService.listarEjercicios();
 
         model.addAttribute("listaEjercicios", listaEjercicios);
-        return "listaEjercicios";
+        return "admin/listaEjercicios";
     }
 
     @PostMapping("/adminMain/filtrar/ejercicios")
@@ -246,7 +259,7 @@ public class AdminController extends BaseController{
         List<EjercicioDTO> listaFiltrada = ejercicioService.filtrarEjercicios(filtro);
 
         model.addAttribute("listaEjercicios", listaFiltrada);
-        return "listaEjercicios";
+        return "admin/listaEjercicios";
     }
 
     @GetMapping("/adminMain/borrarEjercicio/{id}")
@@ -266,7 +279,7 @@ public class AdminController extends BaseController{
         model.addAttribute("listaTiposEntrenamiento", listaTiposEntrenamiento);
         model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);
         model.addAttribute("listaTiposEjercicioCrossTraining", listaTiposEjercicioCrossTraining);
-        return "nuevoEjercicio";
+        return "admin/nuevoEjercicio";
     }
 
     @GetMapping("/adminMain/datosEjercicio/{id}")
@@ -282,7 +295,7 @@ public class AdminController extends BaseController{
         model.addAttribute("listaTiposEntrenamiento", listaTiposEntrenamiento);
         model.addAttribute("listaTiposEjercicioBodyBuilding", listaTiposEjercicioBodyBuilding);
         model.addAttribute("listaTiposEjercicioCrossTraining", listaTiposEjercicioCrossTraining);
-        return "datosEjercicio";
+        return "admin/datosEjercicio";
     }
 
     @PostMapping("/adminMain/editarEjercicio")

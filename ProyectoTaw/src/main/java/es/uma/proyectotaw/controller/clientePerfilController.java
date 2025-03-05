@@ -1,21 +1,19 @@
 
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.ClienteDTO;
-import es.uma.proyectotaw.dto.UsuarioDTO;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.ClienteRepository;
-import es.uma.proyectotaw.service.ClienteService;
-import es.uma.proyectotaw.service.UsuarioService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import es.uma.proyectotaw.dao.UsuarioRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-// Realizado por Jorge Velázquez Jiménez
+
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.service.ClienteService;
+import es.uma.proyectotaw.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class clientePerfilController extends BaseController{
 
@@ -38,7 +36,7 @@ public class clientePerfilController extends BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         model.addAttribute("cliente", cliente);
-        return "mainCliente";
+        return "cliente/mainCliente";
     }
 
     @GetMapping("/clienteMain/perfil")
@@ -46,7 +44,7 @@ public class clientePerfilController extends BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteDTO cliente = (ClienteDTO) session.getAttribute("cliente");
         model.addAttribute("cliente", cliente);
-        return "perfilCliente";
+        return "cliente/perfilCliente";
     }
 
     @PostMapping("/clienteMain/perfil")
@@ -67,7 +65,7 @@ public class clientePerfilController extends BaseController{
         clienteService.actualizarCliente(cliente);
 
         model.addAttribute("cliente", cliente);
-        return "mainCliente";
+        return "cliente/mainCliente";
     }
 
 }

@@ -1,12 +1,11 @@
 package es.uma.proyectotaw.controller;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-
-import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.entity.*;
-
-import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.service.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +13,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.*;
-// Pablo Pardo Fernández 50% (Listar CLientes, Asignar Rutina, Ver Rutina Asignada, Ver Valoraciones de una Sesion primera version)
-//Alba Ruiz Gutiérrez 50% (Filtros primera version y segunda version entera + refactor)
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
+import es.uma.proyectotaw.dto.RutinaPredefinidaDTO;
+import es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionejercicioDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoHasSesionejercicioDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.ValoracionDTO;
+import es.uma.proyectotaw.service.ClienteService;
+import es.uma.proyectotaw.service.RutinaAsignadaService;
+import es.uma.proyectotaw.service.RutinaPredefinidaService;
+import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
+import es.uma.proyectotaw.service.SesionentrenamientoHasSesionejercicioService;
+import es.uma.proyectotaw.service.SesionentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.ValoracionService;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class ClienteEntrenadorController extends  BaseController{
 
@@ -54,7 +67,7 @@ public class ClienteEntrenadorController extends  BaseController{
         UsuarioDTO usuario = (UsuarioDTO) session.getAttribute("usuario");
         List<UsuarioDTO> clientes = usuarioService.buscarClientesPorEntrenador(usuario.getId());
         model.addAttribute("clientes", clientes);
-        return "clientesEntrenador";
+        return "entrenador/clientesEntrenador";
     }
 
     @PostMapping("/entrenadorMain/clientes/filtrar")
@@ -79,7 +92,7 @@ public class ClienteEntrenadorController extends  BaseController{
         model.addAttribute("filtro", filtro);
         model.addAttribute("clientes", listaFiltrada);
         model.addAttribute("entrenador", usuario);
-        return "clientesEntrenador";
+        return "entrenador/clientesEntrenador";
     }
 
 
@@ -124,7 +137,7 @@ public class ClienteEntrenadorController extends  BaseController{
                 model.addAttribute("rutinaAsignada", null);
             }
 
-            return "asignarRutinaEntrenador";
+            return "entrenador/asignarRutinaEntrenador";
         }
 
 
@@ -145,7 +158,7 @@ public class ClienteEntrenadorController extends  BaseController{
         model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("sesionesEjercicio", sesionesEjercicio);
         model.addAttribute("cliente", cliente);
-        return "valoracionesSesionEntrenador";
+        return "entrenador/valoracionesSesionEntrenador";
 
     }
 
@@ -165,6 +178,6 @@ public class ClienteEntrenadorController extends  BaseController{
         if(!estaAutenticado(session)) return "redirect:/acceso";
         ClienteDTO cliente = clienteService.buscarCliente(clienteId);
         model.addAttribute("cliente", cliente);
-        return "perfilClienteEntrenador";
+        return "entrenador/perfilClienteEntrenador";
     }
 }

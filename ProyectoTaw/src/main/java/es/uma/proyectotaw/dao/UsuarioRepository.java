@@ -1,7 +1,5 @@
 package es.uma.proyectotaw.dao;
 
-
-// Realizado por Carlos Gálvez Bravo y Pablo Pardo Fernández
 import es.uma.proyectotaw.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,11 +1,13 @@
 
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.entity.*;
-import es.uma.proyectotaw.dao.*;
-import es.uma.proyectotaw.service.*;
-import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.*;
-// Realizado por Jorge Velázquez Jiménez
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
+import es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionejercicioDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoHasSesionejercicioDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.ValoracionDTO;
+import es.uma.proyectotaw.service.RutinaAsignadaService;
+import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
+import es.uma.proyectotaw.service.SesionentrenamientoHasSesionejercicioService;
+import es.uma.proyectotaw.service.SesionentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.ValoracionService;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class DesarrolloClienteController extends BaseController {
 
@@ -77,7 +91,7 @@ public class DesarrolloClienteController extends BaseController {
             model.addAttribute("rutinaAsignada", null);
         }
 
-        return "desarrolloCliente";
+        return "cliente/desarrolloCliente";
     }
     @GetMapping("/clienteMain/desarrollo/sesion")
     public String verSesion(@RequestParam("rutina") Integer rutinaId ,@RequestParam("sesion") Integer sesionId,Model model, HttpSession session) {
@@ -96,7 +110,7 @@ public class DesarrolloClienteController extends BaseController {
         model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("sesionesEjercicio", sesionesEjercicio);
         model.addAttribute("usuario", usuario);
-        return "valoracionesCliente";
+        return "cliente/valoracionesCliente";
 
     }
 
@@ -108,7 +122,7 @@ public class DesarrolloClienteController extends BaseController {
         List<ValoracionDTO>  valoraciones = valoracionService.buscarPorUsuario(usuario);
         model.addAttribute("usuario", usuario);
         model.addAttribute("valoraciones", valoraciones);
-        return "sesionesValoradas";
+        return "cliente/sesionesValoradas";
     }
 
     @PostMapping("/clienteMain/desarrollo/sesionesValoradas/filtrar")

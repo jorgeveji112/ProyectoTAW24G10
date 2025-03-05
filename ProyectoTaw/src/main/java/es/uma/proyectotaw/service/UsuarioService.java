@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-//Realizado por Carlos Gálvez Bravo
 
 @Service
 public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
@@ -37,7 +36,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
         return this.entidadesADTO(lista);
     }
 
-    public List<UsuarioDTO> listarEntrenadoresCrossTrainig(){
+    public List<UsuarioDTO> listarEntrenadoresCrossTraining(){
         List<UsuarioEntity> lista = usuarioRepository.findUsuariosByRolAndTipoEntrenamiento("entrenador", "cross_training");
         return this.entidadesADTO(lista);
     }
@@ -97,7 +96,7 @@ public class UsuarioService extends DTOService<UsuarioDTO, UsuarioEntity>{
         usuarioRepository.save(cliente);
     }
 
-    public List<UsuarioDTO> fliltrarClientesAsignadosEntrenador(int id, String filtro){
+    public List<UsuarioDTO> filtrarClientesAsignadosEntrenador(int id, String filtro){
         List<UsuarioEntity> listaClientes = usuarioRepository.findClientesByEntrenadorId(id);
 
         List<UsuarioDTO> listaFiltrada = new ArrayList<>();

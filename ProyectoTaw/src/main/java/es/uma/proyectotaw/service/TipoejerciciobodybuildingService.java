@@ -5,10 +5,8 @@ import es.uma.proyectotaw.dto.TipoejerciciobodybuildingDTO;
 import es.uma.proyectotaw.entity.TipoejerciciobodybuildingEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-// Realizado por Carlos Gálvez Bravo
 
 @Service
 public class TipoejerciciobodybuildingService extends DTOService<TipoejerciciobodybuildingDTO, TipoejerciciobodybuildingEntity> {

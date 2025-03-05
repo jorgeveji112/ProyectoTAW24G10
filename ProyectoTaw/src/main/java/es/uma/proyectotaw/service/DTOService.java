@@ -5,8 +5,6 @@ import es.uma.proyectotaw.dto.DTO;
 import java.util.ArrayList;
 import java.util.List;
 
-
-// Realizado por Carlos Gálvez Bravo
 public abstract class DTOService<DTOClass, EntityClass> {
 
     protected List<DTOClass> entidadesADTO (List<EntityClass> entidades) {

@@ -7,7 +7,6 @@ import lombok.Data;
 
 import java.sql.Date;
 
-// Realizado por Carlos Gálvez Bravo
 
 @Data
 public class UsuarioDTO {

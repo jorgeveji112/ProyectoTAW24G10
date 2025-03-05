@@ -1,9 +1,11 @@
 
 package es.uma.proyectotaw.controller;
 
-import es.uma.proyectotaw.dto.*;
-import es.uma.proyectotaw.service.*;
-import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +14,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.util.List;
-// Realizado por Jorge Velázquez Jiménez
+import es.uma.proyectotaw.dto.ClienteDTO;
+import es.uma.proyectotaw.dto.RutinaAsignadaDTO;
+import es.uma.proyectotaw.dto.RutinaSesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionejercicioDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoDTO;
+import es.uma.proyectotaw.dto.SesionentrenamientoHasSesionejercicioDTO;
+import es.uma.proyectotaw.dto.UsuarioDTO;
+import es.uma.proyectotaw.dto.ValoracionDTO;
+import es.uma.proyectotaw.service.RutinaAsignadaService;
+import es.uma.proyectotaw.service.RutinaSesionentrenamientoService;
+import es.uma.proyectotaw.service.SesionEjercicioService;
+import es.uma.proyectotaw.service.SesionentrenamientoHasSesionejercicioService;
+import es.uma.proyectotaw.service.SesionentrenamientoService;
+import es.uma.proyectotaw.service.UsuarioService;
+import es.uma.proyectotaw.service.ValoracionService;
+import jakarta.servlet.http.HttpSession;
 @Controller
 public class RutinaClienteController extends BaseController {
 
@@ -61,7 +74,7 @@ public class RutinaClienteController extends BaseController {
         }
 
 
-        return "rutinaCliente"; // Retorna el nombre de la vista de cliente
+        return "cliente/rutinaCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @GetMapping("/clienteMain/rutina/sesion")
@@ -78,7 +91,7 @@ public class RutinaClienteController extends BaseController {
         model.addAttribute("sesion", sesionentrenamiento);
         model.addAttribute("rutinaAsignada", rutinaAsignada);
 
-        return "sesionCliente"; // Retorna el nombre de la vista de cliente
+        return "cliente/sesionCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @GetMapping("/clienteMain/rutina/sesion/ejercicio")
@@ -95,7 +108,7 @@ public class RutinaClienteController extends BaseController {
         model.addAttribute("valoraciones", valoraciones);
         model.addAttribute("rutinaAsignada",rutinaAsignada);
         model.addAttribute("sesionEntrenamiento",sesionentrenamiento);
-        return "ejercicioCliente"; // Retorna el nombre de la vista de cliente
+        return "cliente/ejercicioCliente"; // Retorna el nombre de la vista de cliente
     }
 
     @PostMapping("/clienteMain/rutina/sesion/ejercicio")

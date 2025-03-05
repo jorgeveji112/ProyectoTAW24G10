@@ -6,7 +6,7 @@ import es.uma.proyectotaw.dto.TrolDTO;
 import es.uma.proyectotaw.entity.TrolEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-//Realizado por Jorge Velázquez Jiménez
+
 @Service
 public class TRolService extends DTOService<TrolDTO,TrolEntity>{
 
